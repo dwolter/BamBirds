@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['calculatebrierscoreloss',['calculateBrierScoreLoss',['../classlevel__selection_1_1_error_calculation.html#a3cb887aff4a7babbce458c6f36858eea',1,'level_selection::ErrorCalculation']]],
+  ['calculateimprovementprediction',['calculateImprovementPrediction',['../classlevel__selection_1_1_decision.html#a6b4c053401f3dca2bfa3e8172de05127',1,'level_selection::Decision']]],
+  ['calculateprobabilitydistribution',['calculateProbabilityDistribution',['../classlevel__selection_1_1_decision.html#af55f189306aba594717bac6a45fa2251',1,'level_selection::Decision']]],
+  ['calculatescalingfactorandupdate',['calculateScalingFactorAndUpdate',['../classshot_1_1_shot_planner.html#ad278768edf1fcc5e55cee915cc8062fc',1,'shot::ShotPlanner']]],
+  ['calculatescoreerror',['calculateScoreError',['../classlevel__selection_1_1_error_calculation.html#a8f49b13f3e91d33c6116ce9f38267b45',1,'level_selection::ErrorCalculation']]],
+  ['circle',['Circle',['../classab_1_1vision_1_1real_1_1shape_1_1_circle.html',1,'ab::vision::real::shape']]],
+  ['circlesize',['CircleSize',['../classdatabase_1_1_screen_scale_1_1_circle_size.html',1,'database::ScreenScale']]],
+  ['classifiermodel',['ClassifierModel',['../interfacelevel__selection_1_1model_1_1_classifier_model.html',1,'level_selection::model']]],
+  ['classifiertype',['ClassifierType',['../enumlevel__selection_1_1_prediction_1_1_classifier_type.html',1,'level_selection::Prediction']]],
+  ['clientactionrobot',['ClientActionRobot',['../classab_1_1demo_1_1other_1_1_client_action_robot.html',1,'ab::demo::other']]],
+  ['clientactionrobotjava',['ClientActionRobotJava',['../classab_1_1demo_1_1other_1_1_client_action_robot_java.html',1,'ab::demo::other']]],
+  ['clientmessageencoder',['ClientMessageEncoder',['../classexternal_1_1_client_message_encoder.html',1,'external']]],
+  ['clientmessagetable',['ClientMessageTable',['../enumexternal_1_1_client_message_table.html',1,'external']]],
+  ['clientnaiveagent',['ClientNaiveAgent',['../classab_1_1demo_1_1_client_naive_agent.html',1,'ab.demo.ClientNaiveAgent'],['../classab_1_1demo_1_1_client_naive_agent.html#a8bade1b4333b6da90d4fbc7d37bf01db',1,'ab.demo.ClientNaiveAgent.ClientNaiveAgent()'],['../classab_1_1demo_1_1_client_naive_agent.html#a962570cbf5f42201874c013f973ac907',1,'ab.demo.ClientNaiveAgent.ClientNaiveAgent(String ip)']]],
+  ['clippedpolygon',['clippedPolygon',['../classshot_1_1_shot_planner.html#addae861624c5bd7381c94263e5fffc2e',1,'shot::ShotPlanner']]],
+  ['comparescreenshotsreplacecurrentnode',['compareScreenshotsReplaceCurrentNode',['../classplanner_1_1_decision_tree.html#a718294296bf49c73f2e452e07e71a42c',1,'planner::DecisionTree']]],
+  ['connectedcomponent',['ConnectedComponent',['../classab_1_1vision_1_1real_1_1_connected_component.html',1,'ab::vision::real']]],
+  ['constants',['Constants',['../classhelper_1_1_constants.html',1,'helper']]],
+  ['costs',['costs',['../classmeta_1_1_level.html#a5e92127921f4ab3c7c17a5689c22e194',1,'meta::Level']]],
+  ['createchildnodesfromtargetlist',['createChildNodesFromTargetList',['../classplanner_1_1_decision_tree.html#abc055aa8c54439f6fdd91335c0cc08bc',1,'planner::DecisionTree']]],
+  ['createshotevaluationforallbirds',['createShotEvaluationForAllBirds',['../classtester_1_1_parabola_tester.html#a95022f2b1fdbee302924f0e2ae9b8780',1,'tester::ParabolaTester']]],
+  ['currentiteration',['currentIteration',['../classlevel__selection_1_1_level_selection.html#a6a7695478ce91a43bbf4646380810019',1,'level_selection::LevelSelection']]],
+  ['currentscore',['currentScore',['../classmeta_1_1_level.html#a070cc3cb3d6153ed37e58b5587eec86f',1,'meta::Level']]],
+  ['customlogger',['CustomLogger',['../classhelper_1_1_custom_logger.html',1,'helper']]]
+];

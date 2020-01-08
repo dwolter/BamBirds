@@ -1,0 +1,28 @@
+var classtester_1_1_parabola_tester =
+[
+    [ "createShotEvaluationForAllBirds", "classtester_1_1_parabola_tester.html#a95022f2b1fdbee302924f0e2ae9b8780", null ],
+    [ "findAccuratePivotPoint", "classtester_1_1_parabola_tester.html#a13e1fefe3c1508414f8ecc300544b67b", null ],
+    [ "findYellowBirdEstimation", "classtester_1_1_parabola_tester.html#a2f5abe08ecf2678bff02d1b96e086e21", null ],
+    [ "loadLevel", "classtester_1_1_parabola_tester.html#a1bd0a64411895f92290d1fc64d4773ef", null ],
+    [ "runTests", "classtester_1_1_parabola_tester.html#a77a22479fcad964784785e249e049793", null ],
+    [ "shoot", "classtester_1_1_parabola_tester.html#a96d30276014af10f41dded7afe87e75d", null ],
+    [ "shootAndGetParabola", "classtester_1_1_parabola_tester.html#a6ddbb9a3678d1d3950f2ed2c5cd9a055", null ],
+    [ "shootAndGetYellowParabola", "classtester_1_1_parabola_tester.html#ad3220b0878e92af1f3255be9becd7893", null ],
+    [ "shootAngleRange", "classtester_1_1_parabola_tester.html#a106cc09d1be4cdc36a9d546eebb324e4", null ],
+    [ "shootRandomPoints", "classtester_1_1_parabola_tester.html#a7d0af6cc3284e6c507b75fd8321a771e", null ],
+    [ "shootRandomPointsYellowTap", "classtester_1_1_parabola_tester.html#a9a4f38c7923af96f1fa4e10fa2265648", null ],
+    [ "shootWholeRange", "classtester_1_1_parabola_tester.html#a96d3c2a2c6a09a277b95f1d5a3636d73", null ],
+    [ "shootYellow", "classtester_1_1_parabola_tester.html#a4d750bc49cc267683c00dc77c0a17510", null ],
+    [ "shootYellowFixedImpact", "classtester_1_1_parabola_tester.html#af9e2be0aec91157236f6d95a7b281de1", null ],
+    [ "shootYellowFixedTime", "classtester_1_1_parabola_tester.html#ad4b7778ce22950a032abdf271345ba40", null ],
+    [ "shootYellowNear", "classtester_1_1_parabola_tester.html#ada319ef7dd4f1f5795f0458cd31d63f4", null ],
+    [ "shootYellowWithTap", "classtester_1_1_parabola_tester.html#abcccd624f02d1ae555220aca86541453", null ],
+    [ "start", "classtester_1_1_parabola_tester.html#aa67b6899e9b43c0eb70cb1b6bae12a10", null ],
+    [ "writeOutput", "classtester_1_1_parabola_tester.html#a19cf511447a68ac91f545b088d12eaff", null ],
+    [ "writeOutputYellowTap", "classtester_1_1_parabola_tester.html#a1bd0be251df836e018bc51f87a53dd57", null ],
+    [ "birdType", "classtester_1_1_parabola_tester.html#a226d6dfcad67358fe3e1f420b31b61f4", null ],
+    [ "clickableArea", "classtester_1_1_parabola_tester.html#a50d9032be75141315f7aefcf2dfb2c60", null ],
+    [ "DBG", "classtester_1_1_parabola_tester.html#a0e7aef51d550ee0c5f9c5b2e21e08c54", null ],
+    [ "scaling", "classtester_1_1_parabola_tester.html#a0234aba55b9bfaffd1c45ae8680be39e", null ],
+    [ "sling", "classtester_1_1_parabola_tester.html#a7457a2dc70ba067a6e3fb941404b027a", null ]
+];

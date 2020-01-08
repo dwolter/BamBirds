@@ -1,0 +1,5 @@
+<map id="planner.PrologPlanner" name="planner.PrologPlanner">
+<area shape="rect" id="node2" href="$interfacemeta_1_1_strategy.html" title="meta.Strategy" alt="" coords="5,109,109,136"/>
+<area shape="rect" id="node3" href="$classplanner_1_1_prolog_plan_parser.html" title="planner.PrologPlanParser" alt="" coords="134,109,303,136"/>
+<area shape="rect" id="node4" href="$classmain_1_1_s_w_i_connector.html" title="main.SWIConnector" alt="" coords="327,109,467,136"/>
+</map>

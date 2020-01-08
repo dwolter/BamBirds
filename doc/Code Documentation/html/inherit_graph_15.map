@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$interfaceab_1_1server_1_1_proxy_message.html" title="ab.server.ProxyMessage\&lt; T \&gt;" alt="" coords="5,111,204,138"/>
+<area shape="rect" id="node2" href="$classab_1_1server_1_1proxy_1_1message_1_1_proxy_click_message.html" title="ab.server.proxy.message.\lProxyClickMessage" alt="" coords="258,5,431,47"/>
+<area shape="rect" id="node3" href="$classab_1_1server_1_1proxy_1_1message_1_1_proxy_drag_message.html" title="ab.server.proxy.message.\lProxyDragMessage" alt="" coords="258,71,431,112"/>
+<area shape="rect" id="node4" href="$classab_1_1server_1_1proxy_1_1message_1_1_proxy_mouse_wheel_message.html" title="ab.server.proxy.message.\lProxyMouseWheelMessage" alt="" coords="252,136,437,177"/>
+<area shape="rect" id="node5" href="$classab_1_1server_1_1proxy_1_1message_1_1_proxy_screenshot_message.html" title="ab.server.proxy.message.\lProxyScreenshotMessage" alt="" coords="257,201,432,243"/>
+</map>

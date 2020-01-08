@@ -1,0 +1,4 @@
+*.pkl
+*.dot
+*.txt
+predictions/*.csv
