@@ -46,6 +46,7 @@ This needs to be done every time you want to start the ABServer:
 2. Start a local webserver on port 80 :
  - `php -S 127.0.0.1:80`
  - `python -m SimpleHTTPServer 80`
+ - `python3 -m http.server 80`
  - alternatively use a graphical interface like [XAMPP](https://www.apachefriends.org/de/index.html) or [MAMP](https://www.mamp.info/en/)
 3. If you get a permission denied error message you have to re-run the command with administrative privileges (Unix: `sudo !!`).
 4. Open a new Chrome tab on `chrome.angrybirds.com` and make sure the game is running.
@@ -57,7 +58,7 @@ This needs to be done only once or after clearing the cache of your chrome insta
 
 1. Quit Chrome. 
 2. Open the following path in your systems file explorer. Replace `$user$` with your user name and `$chrome$` with your version of Chrome (e.g. `google-chrome` for Chrome on Linux).  Windows: `C:\\Users\$user$\AppData\Local\Google\$chrome$\User Data\Default`, OS X: `/Users/$user$/Library/Application Support/Google/$chrome$/Default`, Linux: `/home/$user$/.config/$chrome$/Default`.
-3. Unzip `Application Cache.zip` (it should be contained in the software you [get from the organizers](#game-and-abserver)). Copy the resulting folder `Application Cache` to the directory you've opened. By doing this you probably replace an existing folder.
+3. Unzip `Application Cache.zip` (it should be contained in the software you [get by the organizers](#game-and-abserver)). Copy the resulting folder `Application Cache` to the directory you've opened. By doing this you probably replace an existing folder.
 4. Open Chrome and visit `chrome.angrybirds.com`. Angry Birds should be loading.
 
 

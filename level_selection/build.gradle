@@ -1,0 +1,10 @@
+
+plugins {
+    // Apply the application plugin to add support for building a CLI application.
+    id 'java-library'
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.jpmml/pmml-evaluator
+    implementation group: 'org.jpmml', name: 'pmml-evaluator', version: '1.4.15'
+}

@@ -1,0 +1,32 @@
+plugins {
+    // Apply the application plugin to add support for building a CLI application.
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+}
+
+dependencies {
+    implementation 'gov.nist.math:jama:1.0.2'
+
+    // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+    // https://mvnrepository.com/artifact/commons-codec/commons-codec
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.14'
+
+
+    // https://mvnrepository.com/artifact/org.java-websocket/Java-WebSocket
+    implementation group: 'org.java-websocket', name: 'Java-WebSocket', version: '1.4.0'
+
+    // https://mvnrepository.com/artifact/org.springframework.shell/spring-shell
+    implementation group: 'org.springframework.shell', name: 'spring-shell-starter', version: '2.0.1.RELEASE'
+
+    // // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot
+    // implementation group: 'org.springframework.boot', name: 'spring-boot', version: '2.2.6.RELEASE'
+
+    // // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-autoconfigure
+    // implementation group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '2.2.6.RELEASE'
+
+    // // https://mvnrepository.com/artifact/org.jline/jline
+    // implementation group: 'org.jline', name: 'jline', version: '3.14.0'
+
+}

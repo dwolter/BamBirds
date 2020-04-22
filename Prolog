@@ -1,1 +1,1 @@
-src/Prolog
+planner/src/main/prolog/

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
+	<Header>
+		<Application name="JPMML-SkLearn" version="1.5.31"/>
+		<Timestamp>2020-03-04T17:00:28Z</Timestamp>
+	</Header>
+	<MiningBuildTask>
+		<Extension>PMMLPipeline(steps=[('linear_model', LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None, normalize=False))])</Extension>
+	</MiningBuildTask>
+	<DataDictionary>
+		<DataField name="num_score" optype="continuous" dataType="double"/>
+		<DataField name="max_score" optype="continuous" dataType="double"/>
+		<DataField name="num_birds" optype="continuous" dataType="double"/>
+		<DataField name="num_destroyable_objects" optype="continuous" dataType="double"/>
+		<DataField name="num_generated_shots" optype="continuous" dataType="double"/>
+		<DataField name="num_line_segments_hills" optype="continuous" dataType="double"/>
+		<DataField name="num_pigs" optype="continuous" dataType="double"/>
+		<DataField name="num_strategies" optype="continuous" dataType="double"/>
+		<DataField name="num_times_played" optype="continuous" dataType="double"/>
+		<DataField name="numerical_strategies" optype="continuous" dataType="double"/>
+	</DataDictionary>
+	<RegressionModel functionName="regression">
+		<MiningSchema>
+			<MiningField name="num_score" usageType="target"/>
+			<MiningField name="max_score"/>
+			<MiningField name="num_birds"/>
+			<MiningField name="num_destroyable_objects"/>
+			<MiningField name="num_generated_shots"/>
+			<MiningField name="num_line_segments_hills"/>
+			<MiningField name="num_pigs"/>
+			<MiningField name="num_strategies"/>
+			<MiningField name="num_times_played"/>
+			<MiningField name="numerical_strategies"/>
+		</MiningSchema>
+		<RegressionTable intercept="901.6952319790289">
+			<NumericPredictor name="max_score" coefficient="0.15227064867354118"/>
+			<NumericPredictor name="num_birds" coefficient="1228.8277953467418"/>
+			<NumericPredictor name="num_destroyable_objects" coefficient="553.922782507118"/>
+			<NumericPredictor name="num_generated_shots" coefficient="-9.337737050159149"/>
+			<NumericPredictor name="num_line_segments_hills" coefficient="69.21711280060023"/>
+			<NumericPredictor name="num_pigs" coefficient="3942.138205168483"/>
+			<NumericPredictor name="num_strategies" coefficient="97.56351211741341"/>
+			<NumericPredictor name="num_times_played" coefficient="-1082.353703529682"/>
+			<NumericPredictor name="numerical_strategies" coefficient="-18.638669603379356"/>
+		</RegressionTable>
+	</RegressionModel>
+</PMML>

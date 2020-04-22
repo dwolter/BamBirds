@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
+	<Header>
+		<Application name="JPMML-SkLearn" version="1.5.31"/>
+		<Timestamp>2020-03-04T17:00:29Z</Timestamp>
+	</Header>
+	<MiningBuildTask>
+		<Extension>PMMLPipeline(steps=[('classifier', LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+                   intercept_scaling=1, l1_ratio=None, max_iter=1000,
+                   multi_class='ovr', n_jobs=None, penalty='l2',
+                   random_state=None, solver='lbfgs', tol=0.0001, verbose=0,
+                   warm_start=False))])</Extension>
+	</MiningBuildTask>
+	<DataDictionary>
+		<DataField name="game_won" optype="categorical" dataType="string">
+			<Value value="lost"/>
+			<Value value="won"/>
+		</DataField>
+		<DataField name="max_score" optype="continuous" dataType="double"/>
+		<DataField name="num_birds" optype="continuous" dataType="double"/>
+		<DataField name="num_destroyable_objects" optype="continuous" dataType="double"/>
+		<DataField name="num_generated_shots" optype="continuous" dataType="double"/>
+		<DataField name="num_line_segments_hills" optype="continuous" dataType="double"/>
+		<DataField name="num_pigs" optype="continuous" dataType="double"/>
+		<DataField name="num_strategies" optype="continuous" dataType="double"/>
+		<DataField name="num_times_played" optype="continuous" dataType="double"/>
+		<DataField name="numerical_strategies" optype="continuous" dataType="double"/>
+	</DataDictionary>
+	<RegressionModel functionName="classification" normalizationMethod="logit">
+		<MiningSchema>
+			<MiningField name="game_won" usageType="target"/>
+			<MiningField name="max_score"/>
+			<MiningField name="num_birds"/>
+			<MiningField name="num_destroyable_objects"/>
+			<MiningField name="num_generated_shots"/>
+			<MiningField name="num_line_segments_hills"/>
+			<MiningField name="num_pigs"/>
+			<MiningField name="num_strategies"/>
+			<MiningField name="num_times_played"/>
+			<MiningField name="numerical_strategies"/>
+		</MiningSchema>
+		<Output>
+			<OutputField name="probability(lost)" optype="continuous" dataType="double" feature="probability" value="lost"/>
+			<OutputField name="probability(won)" optype="continuous" dataType="double" feature="probability" value="won"/>
+		</Output>
+		<RegressionTable intercept="0.11874706613967329" targetCategory="won">
+			<NumericPredictor name="max_score" coefficient="3.858046593071083E-5"/>
+			<NumericPredictor name="num_birds" coefficient="0.310968023601505"/>
+			<NumericPredictor name="num_destroyable_objects" coefficient="-0.02870733364495148"/>
+			<NumericPredictor name="num_generated_shots" coefficient="-0.0012227045636294524"/>
+			<NumericPredictor name="num_line_segments_hills" coefficient="0.008443972727696425"/>
+			<NumericPredictor name="num_pigs" coefficient="-0.21033492401847947"/>
+			<NumericPredictor name="num_strategies" coefficient="0.002683821992477466"/>
+			<NumericPredictor name="num_times_played" coefficient="-0.13174314660390077"/>
+			<NumericPredictor name="numerical_strategies" coefficient="0.006856898241267594"/>
+		</RegressionTable>
+		<RegressionTable intercept="0.0" targetCategory="lost"/>
+	</RegressionModel>
+</PMML>
