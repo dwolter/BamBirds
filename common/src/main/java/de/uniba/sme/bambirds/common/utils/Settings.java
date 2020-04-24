@@ -245,6 +245,9 @@ public class Settings {
 						prop.setProperty("ROUNDS", Integer.toString(Settings.rounds));
 						prop.setProperty("SERVER_TYPE", Settings.serverType.toString());
 						prop.setProperty("GAME_MODE", Settings.GAME_MODE.toString());
+						prop.setProperty("PATH_TO_SWIPL", Settings.pathToSwipl);
+						prop.setProperty("HOST", Settings.serverHost);
+						prop.setProperty("TEAM_ID", Integer.toString(Settings.teamID));
 
 						// save properties to project root folder
 						prop.store(output, null);
@@ -277,13 +280,33 @@ public class Settings {
 				System.exit(0);
 			}
 
-			// Get cli only settings
-			Settings.serverHost = cli.getOptionValue('h', "localhost");
-			Settings.teamID = Integer.parseInt(cli.getOptionValue('t', "1"));
-			Settings.pathToSwipl = cli.getOptionValue('p', "/usr/bin/swipl");
-
 			// Get Options that can be set in cli or config.properties
 			// cli options have priority
+
+			if (cli.hasOption("host")) {
+				Settings.serverHost = cli.getOptionValue("host", "localhost");
+			} else if (appSettings.containsKey("HOST")) {
+				Settings.serverHost = (String) appSettings.get("HOST");
+			} else {
+				Settings.serverHost = "localhost";
+			}
+
+			if (cli.hasOption("team")) {
+				Settings.teamID = Integer.parseInt(cli.getOptionValue("team", "1"));
+			} else if (appSettings.containsKey("TEAM_ID")) {
+				Settings.teamID = Integer.parseInt((String) appSettings.get("TEAM_ID"));
+			} else {
+				Settings.teamID = 1;
+			}
+
+			if (cli.hasOption("swipl")) {
+				Settings.pathToSwipl = cli.getOptionValue("swipl", "/usr/bin/swipl");
+			} else if (appSettings.containsKey("PATH_TO_SWIPL")) {
+				Settings.pathToSwipl = (String) appSettings.get("PATH_TO_SWIPL");
+			} else {
+				Settings.pathToSwipl = "/usr/bin/swipl";
+			}
+
 
 			if (cli.hasOption("start-level")) {
 				Settings.startLevel = Integer.parseInt(cli.getOptionValue("start-level", "1"));
