@@ -129,7 +129,7 @@ public class Settings {
 	public static final String PROLOG_FILE_EXTENSION = ".pl";
 	public static final String PROLOG_FUNCTIONS = (Paths.get("Prolog/planner/old/functions.pl")).toAbsolutePath().normalize()
 			.toString();
-	public static final String NEW_PROLOG_FUNCTIONS = (Paths.get("Prolog/planner/new/ShotCandidatePlanner.pl")).toAbsolutePath()
+	public static final String NEW_PROLOG_FUNCTIONS = (Paths.get("Prolog/planner/ShotCandidatePlanner.pl")).toAbsolutePath()
 			.normalize().toString();
 
 	private static void loadParameters() {
