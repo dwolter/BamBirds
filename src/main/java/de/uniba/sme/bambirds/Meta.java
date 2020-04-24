@@ -65,7 +65,7 @@ public class Meta implements ShotExecutor.ShotExecutorCallback {
 	public List<Target> prologGetTargets(Level level, String basename) throws IllegalArgumentException {
 		Path file = new Knowledge().buildModel(level, basename);
 		PrologPlanner planner = new PrologPlanner(connector, file.toString(), new NewPrologPlanParser());
-		return planner.planSynchronously(5000); // 20 seconds at most for planning...
+		return planner.planSynchronously(20000); // 20 seconds at most for planning...
 	}
 
 	private void selectNextLevel() throws ServerException {
