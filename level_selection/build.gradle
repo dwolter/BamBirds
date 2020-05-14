@@ -7,4 +7,7 @@ plugins {
 dependencies {
     // https://mvnrepository.com/artifact/org.jpmml/pmml-evaluator
     implementation group: 'org.jpmml', name: 'pmml-evaluator', version: '1.4.15'
+
+    // https://eclipse-ee4j.github.io/jaxb-ri/
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.3'
 }
