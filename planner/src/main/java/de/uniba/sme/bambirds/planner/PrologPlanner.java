@@ -24,7 +24,7 @@ public class PrologPlanner implements Strategy {
 	@Override
 	public void plan(StrategyConsumer consumer, long timeOut) {
 		// TODO: Try to not receive all plans at once; get them as soon as they can be returned and post them to consumer
-		connector.sendCommand("'" + knowledgeBaseFilename + "'.");
+		connector.sendCommand("\"" + knowledgeBaseFilename + "\".");
 		String result = connector.getResult(timeOut);
 		List<Target> targets = parser.parsePlans(result);
 		consumer.post(targets);
@@ -32,7 +32,7 @@ public class PrologPlanner implements Strategy {
 	}
 
 	public List<Target> planSynchronously(long timeOut) {
-		connector.sendCommand("'" + knowledgeBaseFilename + "'.");
+		connector.sendCommand("\"" + knowledgeBaseFilename + "\".");
 		String result = connector.getResult(timeOut);
 		return parser.parsePlans(result);
 	}

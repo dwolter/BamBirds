@@ -1,6 +1,7 @@
 package de.uniba.sme.bambirds.common.utils;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
@@ -44,8 +45,8 @@ public class SWIConnector implements Runnable {
 
 	private void startProcess() {
 		log.info("Starting SWIPL (" + pathToSwipl + ") ...");
-		String command = pathToSwipl + " -O -g consult('" + replacePathDelimiters(pathToFunctionsPL) + "').";
-		log.info("" + command);
+		String[] command = new String[]{pathToSwipl, "-O", "-g", "consult(\\\"" + replacePathDelimiters(pathToFunctionsPL) + "\\\")."};
+		log.info(Arrays.toString(command));
 		try {
 			process = Runtime.getRuntime().exec(command);
 		} catch (IOException e) {
