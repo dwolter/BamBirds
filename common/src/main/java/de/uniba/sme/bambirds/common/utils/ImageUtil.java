@@ -53,7 +53,7 @@ public class ImageUtil {
 		g2d.fillRect(0, 0, 205, 70); // pause, retry, eagle button
 		g2d.fillRect(630, 18, 205, 70); // high score
 		if (cutoffX > 0)
-			g2d.fillRect(0, 0, cutoffX, 480); // everything left of slingshot
+			g2d.fillRect(0, 0, cutoffX, Settings.IMAGE_HEIGHT); // everything left of slingshot
 		else
 			g2d.fillRect(17, 374, 21, 84); // zoom buttons
 

@@ -39,6 +39,10 @@ public class Settings {
 	public static int teamID = 1;
 	public static String pathToSwipl = "/usr/bin/swipl";
 
+	// Image specifications
+	public static final int IMAGE_HEIGHT = 480;
+	public static final int IMAGE_WIDTH = 840;
+
 	/**
 	 * 0 for AB and 1 for SB
 	 */

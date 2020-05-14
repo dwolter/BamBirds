@@ -12,6 +12,7 @@ package de.uniba.sme.bambirds.vision;
 import Jama.Matrix;
 import de.uniba.sme.bambirds.common.objects.ab.ABObject;
 import de.uniba.sme.bambirds.common.objects.ab.ABType;
+import de.uniba.sme.bambirds.common.utils.Settings;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -1143,8 +1144,8 @@ public class VisionMBR {
 		// extract width and height
 		_nHeight = screenshot.getHeight();
 		_nWidth = screenshot.getWidth();
-		if ((_nHeight != 480) && (_nWidth != 840)) {
-			log.error("ERROR: expecting 840-by-480 image, got " + _nWidth + "x" + _nHeight);
+		if ((_nHeight != Settings.IMAGE_HEIGHT) && (_nWidth != Settings.IMAGE_WIDTH)) {
+			log.error("ERROR: expecting {}-by-{} image, got {}-by-{}", Settings.IMAGE_WIDTH, Settings.IMAGE_HEIGHT, _nWidth, _nHeight);
 			System.exit(1);
 		}
 

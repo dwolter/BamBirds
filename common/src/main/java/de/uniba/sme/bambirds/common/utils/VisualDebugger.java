@@ -29,7 +29,7 @@ public class VisualDebugger {
 
 	public VisualDebugger(String windowName) {
 		_windowName = windowName;
-		clearBuffer(840, 480);
+		clearBuffer(Settings.IMAGE_WIDTH, Settings.IMAGE_HEIGHT);
 	}
 
 	public void enableDebug(boolean visual, boolean file) {
@@ -50,7 +50,7 @@ public class VisualDebugger {
 		_bounds.height = h - 1;
 	}
 
-	public void setBlack() { _fn(()->{ clearBuffer(840, 480); }); }
+	public void setBlack() { _fn(()->{ clearBuffer(Settings.IMAGE_WIDTH, Settings.IMAGE_HEIGHT); }); }
 	public void setBlack(int w, int h) { _fn(()->{ clearBuffer(w, h); }); }
 
 	private void _fn(Runnable func) {
