@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['remainingtime',['remainingTime',['../classlevel__selection_1_1_level_selection.html#a6acf9ee0367f51ee115d30f183fb254c',1,'level_selection::LevelSelection']]],
-  ['reward',['reward',['../classmeta_1_1_level.html#a0ef08d8fbdafc46cf6c5b25547259d30',1,'meta::Level']]],
-  ['roundinfo',['roundInfo',['../classmain_1_1_bam_bird.html#a084bc50d4d74ca7d7bf990ddf6cc8df6',1,'main::BamBird']]]
+  ['remainingtime_613',['remainingTime',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_level_selection.html#affdc6a8f933fef6c2aa3e125ad612c67',1,'de::uniba::sme::bambirds::level_selection::LevelSelection']]],
+  ['reward_614',['reward',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_level.html#a3683a9b692964f6ad120bb3b183d0bd9',1,'de::uniba::sme::bambirds::common::objects::Level']]],
+  ['roundinfo_615',['roundInfo',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1_bam_birds.html#a78910d74d33e42f4a9c25e270353072f',1,'de::uniba::sme::bambirds::BamBirds']]]
 ];

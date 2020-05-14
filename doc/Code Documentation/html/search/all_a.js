@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['kill',['kill',['../interfacemeta_1_1_strategy.html#a8d090a8f4c85d6d9dff609075397710d',1,'meta.Strategy.kill()'],['../classplanner_1_1_prolog_planner.html#a0b5c67cb8fba395309608c89b3751e3b',1,'planner.PrologPlanner.kill()']]],
-  ['knowledge',['Knowledge',['../classknowledge_1_1_knowledge.html',1,'knowledge']]]
+  ['kill_123',['kill',['../interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1_strategy.html#a5e2f5cf067635b70c2bd38f681713233',1,'de.uniba.sme.bambirds.common.Strategy.kill()'],['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1_prolog_planner.html#a1a3b3fef49afbae0330575e892dfda83',1,'de.uniba.sme.bambirds.planner.PrologPlanner.kill()']]],
+  ['knowledge_124',['Knowledge',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1knowledge_1_1_knowledge.html',1,'de::uniba::sme::bambirds::planner::knowledge']]]
 ];

@@ -1,4 +1,11 @@
 var searchData=
 [
-  ['buildmodel',['buildModel',['../classknowledge_1_1_knowledge.html#a784126eff41b42cefdc92a48d4b7b389',1,'knowledge::Knowledge']]]
+  ['action_430',['Action',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_action.html#a039864368df85952a1efb09843bd5ce9',1,'de.uniba.sme.bambirds.level_selection.Action.Action(double epsilon, Strategy strategy, long timeLimit, int startLevel, int numberOfLevels)'],['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_action.html#a0cff26e32f93fb6e93c92db07695b9d4',1,'de.uniba.sme.bambirds.level_selection.Action.Action(double epsilon, Strategy strategy, long timeLimit, int startLevel, int numberOfLevels, long seed)']]],
+  ['actualtolaunch_431',['actualToLaunch',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_shot_helper.html#a9cfb503f514c791fd73fc89f07ab0a69',1,'de.uniba.sme.bambirds.common.utils.ShotHelper.actualToLaunch()'],['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_trajectory_planner.html#a7a1bd9a742b9227e76049aa2d3b02c3d',1,'de.uniba.sme.bambirds.planner.shot.TrajectoryPlanner.actualToLaunch()']]],
+  ['adddefaultpredicates_432',['addDefaultPredicates',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1knowledge_1_1_knowledge.html#ae9e56610d3f4d4f3c54ef0bdc7644038',1,'de::uniba::sme::bambirds::planner::knowledge::Knowledge']]],
+  ['adjustscale_433',['adjustScale',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_trajectory_planner.html#a662640abcef83b887267c127844fd411',1,'de::uniba::sme::bambirds::planner::shot::TrajectoryPlanner']]],
+  ['adjusttrajectory_434',['adjustTrajectory',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_trajectory_planner.html#a9c4f0945878bfa1adca29461fc4f949f',1,'de::uniba::sme::bambirds::planner::shot::TrajectoryPlanner']]],
+  ['angletoparabola_435',['angleToParabola',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_shot_helper.html#a8803ea7b2006c550cb7daf7a5cd836c4',1,'de::uniba::sme::bambirds::common::utils::ShotHelper']]],
+  ['angletoreleasepoint_436',['angleToReleasePoint',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_shot_helper.html#aff06d2f6de903fe18386ac2ad5086d5a',1,'de::uniba::sme::bambirds::common::utils::ShotHelper']]],
+  ['angletovelocity_437',['angleToVelocity',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_shot_helper.html#a4803c0c43166d95e20648597c36b3afd',1,'de::uniba::sme::bambirds::common::utils::ShotHelper']]]
 ];

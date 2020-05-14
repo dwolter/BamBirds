@@ -1,13 +1,38 @@
+/*
+ @licstart  The following is the entire license notice for the JavaScript code in this file.
+
+ The MIT License (MIT)
+
+ Copyright (C) 1997-2020 by Dimitri van Heesch
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ and associated documentation files (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in all copies or
+ substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ @licend  The above is the entire license notice for the JavaScript code in this file
+*/
 var NAVTREE =
 [
   [ "BamBirds", "index.html", [
+    [ "BamBirds", "md__home_felix__documents_uni__bam_bird_2017_src_main_dist__r_e_a_d_m_e.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
-        [ "Functions", "functions_func.html", null ],
+        [ "Functions", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", null ]
       ] ]
     ] ]
@@ -17,23 +42,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"classab_1_1utils_1_1_image_seg_frame.html#a4a520e61e1abdafc1da538228f023d92",
-"classab_1_1vision_1_1real_1_1_image_segmenter.html#a13426c39686bfc5503e0e02f72941c1a",
-"classfeatures_1_1_visual_debugger.html#acf6c5d3030a42da5f3a53b74ae3be307",
-"classlevel__selection_1_1model__representation_1_1_random_forest_classifier.html#a057734adf5b9b7d53722aa4aad137356",
-"classlevel__selection_1_1model__representation_1_1_random_forest_classifier.html#a2e68af1cfad7e9ee2b9464d061b4660b",
-"classlevel__selection_1_1model__representation_1_1_random_forest_classifier.html#a5a5b22be3d16cd8c5820a0ac9dd1977a",
-"classlevel__selection_1_1model__representation_1_1_random_forest_classifier.html#a853948ec91fbef2b5d716397a6d8347d",
-"classlevel__selection_1_1model__representation_1_1_random_forest_classifier.html#aab5f8e4580d22699df0ad62605c82e88",
-"classlevel__selection_1_1model__representation_1_1_random_forest_classifier.html#ada4275096f8c045d6aed0bf5c2ae5ae9",
-"classlevel__selection_1_1model__representation_1_1_random_forest_regressor.html#a039c5ae7abc9a2bbad3cb1ea266681a0",
-"classlevel__selection_1_1model__representation_1_1_random_forest_regressor.html#a2f46c81f7cab484a68ba6ffd21f85d71",
-"classlevel__selection_1_1model__representation_1_1_random_forest_regressor.html#a5b3cec12f26466ae3fe0bd2aaed57a95",
-"classlevel__selection_1_1model__representation_1_1_random_forest_regressor.html#a83ebec6567af34b75dfbd0eb59efbbad",
-"classlevel__selection_1_1model__representation_1_1_random_forest_regressor.html#ab0542cf73e1bb347798308b2c7e86885",
-"classlevel__selection_1_1model__representation_1_1_random_forest_regressor.html#ad9902835ba5d09f872e5140d4eceb29a",
-"classmain_1_1_bam_bird_paths.html#a12e8d6dc00cc468443dac4f2248ec87c",
-"classshot_1_1_shot_helper.html#a49266f3a9d4da16deba3cc9f14aee9a4"
+"classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_level.html#a2abb6696c87261b49ca3baa3ee9f8483",
+"classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_line_segment.html#ad50693aa657bbc8fe35575ec1d5f3ffe",
+"classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_visual_debugger.html#ac91fc7df42b6948fccbfb6e309daa493",
+"classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1_prolog_planner.html#afe1bc6382f3af9c39f9b7ca3c3170bde",
+"classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_real_shape.html#a7b69a80eba04dad74f07b8acd3a8fcbe",
+"enumde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_action_1_1_strategy.html#a277885daeecb0d03c96da21b19aa8dbe"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,10 +1,9 @@
 var searchData=
 [
-  ['velocitycomponentstoangle',['velocityComponentsToAngle',['../classhelper_1_1_parabola_math.html#a6661eef88344e699cc74a81f21db449c',1,'helper::ParabolaMath']]],
-  ['velocitycomponentstoparabola',['velocityComponentsToParabola',['../classhelper_1_1_parabola_math.html#a07a68fd44d83ea345f97c3bdca5e23b6',1,'helper::ParabolaMath']]],
-  ['velocitycomponentstovelocity',['velocityComponentsToVelocity',['../classhelper_1_1_parabola_math.html#af188ace30cd47b406f49c1271ae1563f',1,'helper::ParabolaMath']]],
-  ['velocitytoparabola',['velocityToParabola',['../classhelper_1_1_parabola_math.html#a7600c02b19d5d75a964b0a114979a45a',1,'helper::ParabolaMath']]],
-  ['velocitytovelocitycomponents',['velocityToVelocityComponents',['../classhelper_1_1_parabola_math.html#a985e008d562439eae50c942e4184b6bd',1,'helper::ParabolaMath']]],
-  ['visionsling',['VisionSling',['../classfeatures_1_1_vision_sling.html#aa021e505fa64d55d269bd39dd335dadd',1,'features::VisionSling']]],
-  ['visiontraj',['VisionTraj',['../classshot_1_1_vision_traj.html#aa613fdfd5558d7ae046396a94fa3fd23',1,'shot::VisionTraj']]]
+  ['tangent_581',['tangent',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#ae1b2ad7b9904c8511d3fb12348d46c92',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
+  ['tangenttox_582',['tangentToX',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#ad7648cc9af91f27f19e19ee134bafe4c',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
+  ['targettoangles_583',['targetToAngles',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#a76d9ccfd1dae6e9d9e92f61d81a07c36',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
+  ['threshold_584',['threshold',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_helper_1_1_fill_processing.html#a574af9d9c86cd6105989c715cb4a313a',1,'de::uniba::sme::bambirds::vision::VisionHelper::FillProcessing']]],
+  ['timetopoint_585',['timeToPoint',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#a99877a773b0a981d05b05a466a7c9570',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
+  ['trajectoryplanner_586',['TrajectoryPlanner',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_trajectory_planner.html#a627ae5e13820b5968dd4994de3cb12cb',1,'de::uniba::sme::bambirds::planner::shot::TrajectoryPlanner']]]
 ];

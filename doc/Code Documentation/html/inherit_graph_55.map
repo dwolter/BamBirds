@@ -1,7 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$classknowledge_1_1sort_structures_by_x.html" title="knowledge.sortStructuresByX" alt="" coords="150,5,345,32"/>
-<area shape="rect" id="node3" href="$classknowledge_1_1_x_comparator.html" title="knowledge.XComparator" alt="" coords="165,56,330,83"/>
-<area shape="rect" id="node4" href="$classknowledge_1_1_x_right_comparator.html" title="knowledge.XRightComparator" alt="" coords="149,107,345,133"/>
-<area shape="rect" id="node5" href="$classknowledge_1_1_y_bottom_comparator.html" title="knowledge.YBottomComparator" alt="" coords="144,157,351,184"/>
-<area shape="rect" id="node6" href="$classknowledge_1_1_y_comparator.html" title="knowledge.YComparator" alt="" coords="165,208,330,235"/>
+<area shape="rect" id="node1" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1proxy_1_1_proxy_message.html" title=" " alt="" coords="5,104,296,145"/>
+<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1proxy_1_1message_1_1_proxy_click_message.html" title=" " alt="" coords="344,5,697,47"/>
+<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1proxy_1_1message_1_1_proxy_drag_message.html" title=" " alt="" coords="344,71,697,112"/>
+<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1proxy_1_1message_1_1_proxy_mouse_wheel_message.html" title=" " alt="" coords="344,136,697,177"/>
+<area shape="rect" id="node5" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1proxy_1_1message_1_1_proxy_screenshot_message.html" title=" " alt="" coords="344,201,697,243"/>
 </map>

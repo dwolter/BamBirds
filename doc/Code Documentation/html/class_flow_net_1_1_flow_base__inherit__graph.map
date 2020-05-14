@@ -1,0 +1,5 @@
+<map id="FlowNet.FlowBase" name="FlowNet.FlowBase">
+<area shape="rect" id="node1" title=" " alt="" coords="118,5,261,32"/>
+<area shape="rect" id="node2" href="$class_flow_net_1_1_flow_prediction.html" title=" " alt="" coords="5,80,181,107"/>
+<area shape="rect" id="node3" href="$class_flow_net_1_1_flow_training.html" title=" " alt="" coords="205,80,368,107"/>
+</map>

@@ -1,18 +1,10 @@
 var searchData=
 [
-  ['f',['f',['../classhelper_1_1_parabola_math.html#a25ca20163b1bac24c60283e65e34225a',1,'helper::ParabolaMath']]],
-  ['fchangeangle',['fChangeAngle',['../classshot_1_1_shot_helper.html#a29fcb20ff7b29a325fd3282c30db7588',1,'shot::ShotHelper']]],
-  ['fill',['fill',['../classhelper_1_1_vision_helper.html#a3ae991a21e1dafa1bb5888f265d43473',1,'helper::VisionHelper']]],
-  ['filteredtrajectory',['filteredTrajectory',['../classshot_1_1_vision_traj.html#a86ba069b9179d7bd5489a3a24783b2de',1,'shot::VisionTraj']]],
-  ['findaccuratepivotpoint',['findAccuratePivotPoint',['../classtester_1_1_parabola_tester.html#a13e1fefe3c1508414f8ecc300544b67b',1,'tester::ParabolaTester']]],
-  ['findactivebird',['findActiveBird',['../classab_1_1planner_1_1_trajectory_planner.html#a026c4694660db2b36d1304f94fdf20c0',1,'ab::planner::TrajectoryPlanner']]],
-  ['findblocksmbr',['findBlocksMBR',['../classab_1_1vision_1_1_vision.html#aeb6da0c92b6ea69a767c4554cb819822',1,'ab::vision::Vision']]],
-  ['findblocksrealshape',['findBlocksRealShape',['../classab_1_1vision_1_1_vision.html#acca20d326fab55715073d4da97c7b866',1,'ab::vision::Vision']]],
-  ['findobjectwithid',['findObjectWithID',['../classfeatures_1_1_scene.html#add665bd694f3602e9fc954a967d5b459',1,'features::Scene']]],
-  ['findreleasepoint',['findReleasePoint',['../classab_1_1planner_1_1_trajectory_planner.html#ace8ebff83b550c7b72b1f9bcce9af1eb',1,'ab.planner.TrajectoryPlanner.findReleasePoint(Rectangle sling, double theta)'],['../classab_1_1planner_1_1_trajectory_planner.html#a7701240543da856115195eaa99e8616d',1,'ab.planner.TrajectoryPlanner.findReleasePoint(Rectangle sling, double theta, double v)']]],
-  ['findslingshot',['findSlingshot',['../classfeatures_1_1_vision_sling.html#a789b2ce6aa05fa685820e28b1cb7b5d3',1,'features.VisionSling.findSlingshot()'],['../classfeatures_1_1_vision_sling.html#a20edd5714969272a6d81a6d71531f5b7',1,'features.VisionSling.findSlingshot(Rectangle crop, int threshold, int minPoints, float pxPercentage)']]],
-  ['findtrajectory',['findTrajectory',['../classshot_1_1_vision_traj.html#a63c14491214247855127677b3b336270',1,'shot::VisionTraj']]],
-  ['findyellowbirdestimation',['findYellowBirdEstimation',['../classtester_1_1_parabola_tester.html#a2f5abe08ecf2678bff02d1b96e086e21',1,'tester::ParabolaTester']]],
-  ['flaunchvelocity',['fLaunchVelocity',['../classshot_1_1_shot_helper.html#a45410558c28c6a9752b466d5ae07ca78',1,'shot::ShotHelper']]],
-  ['floodfill',['floodFill',['../classknowledge_1_1_knowledge.html#ab3e1acdcb3c9aaf8ac098eed1b8121ec',1,'knowledge::Knowledge']]]
+  ['epsilonadaptiveselection_452',['epsilonAdaptiveSelection',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_action.html#ac9aefb7dbd915cfd0d6d793e8d508d82',1,'de::uniba::sme::bambirds::level_selection::Action']]],
+  ['epsilongreedyselection_453',['epsilonGreedySelection',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_action.html#acbd9fd04eacc935bddf531d618aa16aa',1,'de::uniba::sme::bambirds::level_selection::Action']]],
+  ['equalscreenshot_454',['equalScreenshot',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_node.html#a4dafcfa8a7d09ccfb936510d60b5e4ce',1,'de::uniba::sme::bambirds::common::objects::Node']]],
+  ['err_455',['err',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_shot_helper.html#aae65e6cd223e40dca0ee9d566d8279d8',1,'de::uniba::sme::bambirds::common::utils::ShotHelper']]],
+  ['errortotargetpoint_456',['errorToTargetPoint',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#a9b8043b5c75ed1e7ba72912bad3187b9',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
+  ['estimatelaunchpoint_457',['estimateLaunchPoint',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_shot_helper.html#afa48746a954c8e4bccadcec5ae8eab1f',1,'de.uniba.sme.bambirds.common.utils.ShotHelper.estimateLaunchPoint()'],['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_trajectory_planner.html#ac261641da86773f5af389d0e9f25a210',1,'de.uniba.sme.bambirds.planner.shot.TrajectoryPlanner.estimateLaunchPoint()']]],
+  ['evaluatepreviousshot_458',['evaluatePreviousShot',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1_meta.html#a096200efc3a7b5d3385de92c030c7726',1,'de::uniba::sme::bambirds::Meta']]]
 ];

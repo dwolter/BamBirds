@@ -1,5 +1,14 @@
 var searchData=
 [
-  ['decision',['Decision',['../classlevel__selection_1_1_decision.html#a4d76a8687468e096202b2c9a58d624af',1,'level_selection::Decision']]],
-  ['doscreenshot',['doScreenShot',['../classab_1_1planner_1_1ab_trajectory.html#a2059cfd1efb4563c4b8023d321b6e7ba',1,'ab::planner::abTrajectory']]]
+  ['calculatebrierscoreloss_439',['calculateBrierScoreLoss',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_error_calculation.html#a004d9371648c023826960a588bd45904',1,'de::uniba::sme::bambirds::level_selection::ErrorCalculation']]],
+  ['calculateimprovementprediction_440',['calculateImprovementPrediction',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_decision.html#a1b63e72a9d48fcb7954a1636eab98171',1,'de::uniba::sme::bambirds::level_selection::Decision']]],
+  ['calculateprobabilitydistribution_441',['calculateProbabilityDistribution',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_decision.html#ae11f0ddafdae002ed81ed8e318b7618a',1,'de::uniba::sme::bambirds::level_selection::Decision']]],
+  ['calculatescalingfactor_442',['calculateScalingFactor',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_helper.html#aad67e9d7fd87b4fe3a531c60e57301c1',1,'de::uniba::sme::bambirds::vision::VisionHelper']]],
+  ['calculatescoreerror_443',['calculateScoreError',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_error_calculation.html#a816cc161f9f7e524bd616bda8a4b07c9',1,'de::uniba::sme::bambirds::level_selection::ErrorCalculation']]],
+  ['circle_444',['Circle',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_circle.html#ac5ebc3d056c46d77d2c3fcad695a3991',1,'de::uniba::sme::bambirds::common::objects::ab::shape::Circle']]],
+  ['clippedpolygon_445',['clippedPolygon',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_shot_planner.html#a5b5b8bd5fd136bd565f7d25c3e069549',1,'de::uniba::sme::bambirds::planner::shot::ShotPlanner']]],
+  ['comparescreenshotsreplacecurrentnode_446',['compareScreenshotsReplaceCurrentNode',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_decision_tree.html#ab7855ae556daffb08c3d56d16d63110d',1,'de::uniba::sme::bambirds::common::objects::DecisionTree']]],
+  ['configure_447',['configure',['../interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_action_robot.html#a301b2f0fbca74462a5c6cc0a033cb61d',1,'de.uniba.sme.bambirds.common.utils.ActionRobot.configure()'],['../classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_a_b_action_robot.html#a706587f2d8bfe75964e83a12a20b3e99',1,'de.uniba.sme.bambirds.client.ABActionRobot.configure()'],['../classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_s_b_action_robot_java.html#a8178d36f6d52ee46a2d426ac657f5bb6',1,'de.uniba.sme.bambirds.client.SBActionRobotJava.configure()']]],
+  ['createchildnodesfromtargetlist_448',['createChildNodesFromTargetList',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_decision_tree.html#ad40ee038fd6e389f1dacd59d6ecf8957',1,'de::uniba::sme::bambirds::common::objects::DecisionTree']]],
+  ['createshotevaluationforallbirds_449',['createShotEvaluationForAllBirds',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#a50eeaf7eac368957e5e846f6d2c958ba',1,'de::uniba::sme::bambirds::debugging::ParabolaTester']]]
 ];

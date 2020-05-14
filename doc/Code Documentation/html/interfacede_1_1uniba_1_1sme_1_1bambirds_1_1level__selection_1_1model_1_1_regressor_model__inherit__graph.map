@@ -1,0 +1,7 @@
+<map id="de.uniba.sme.bambirds.level_selection.model.RegressorModel" name="de.uniba.sme.bambirds.level_selection.model.RegressorModel">
+<area shape="rect" id="node1" title=" " alt="" coords="264,71,507,112"/>
+<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_decision_tree_regressor_model.html" title=" " alt="" coords="560,5,885,47"/>
+<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_linear_regressor_model.html" title=" " alt="" coords="581,71,864,112"/>
+<area shape="rect" id="node5" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_random_forest_regressor_model.html" title=" " alt="" coords="555,136,891,177"/>
+<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_model.html" title=" " alt="" coords="5,71,216,112"/>
+</map>

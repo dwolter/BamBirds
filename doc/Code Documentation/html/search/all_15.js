@@ -1,16 +1,17 @@
 var searchData=
 [
-  ['velocitycomponentstoangle',['velocityComponentsToAngle',['../classhelper_1_1_parabola_math.html#a6661eef88344e699cc74a81f21db449c',1,'helper::ParabolaMath']]],
-  ['velocitycomponentstoparabola',['velocityComponentsToParabola',['../classhelper_1_1_parabola_math.html#a07a68fd44d83ea345f97c3bdca5e23b6',1,'helper::ParabolaMath']]],
-  ['velocitycomponentstovelocity',['velocityComponentsToVelocity',['../classhelper_1_1_parabola_math.html#af188ace30cd47b406f49c1271ae1563f',1,'helper::ParabolaMath']]],
-  ['velocitytoparabola',['velocityToParabola',['../classhelper_1_1_parabola_math.html#a7600c02b19d5d75a964b0a114979a45a',1,'helper::ParabolaMath']]],
-  ['velocitytovelocitycomponents',['velocityToVelocityComponents',['../classhelper_1_1_parabola_math.html#a985e008d562439eae50c942e4184b6bd',1,'helper::ParabolaMath']]],
-  ['vision',['Vision',['../classab_1_1vision_1_1_vision.html',1,'ab::vision']]],
-  ['visionhelper',['VisionHelper',['../classhelper_1_1_vision_helper.html',1,'helper']]],
-  ['visionmbr',['VisionMBR',['../classab_1_1vision_1_1_vision_m_b_r.html',1,'ab::vision']]],
-  ['visionrealshape',['VisionRealShape',['../classab_1_1vision_1_1_vision_real_shape.html',1,'ab::vision']]],
-  ['visionsling',['VisionSling',['../classfeatures_1_1_vision_sling.html',1,'features.VisionSling'],['../classfeatures_1_1_vision_sling.html#aa021e505fa64d55d269bd39dd335dadd',1,'features.VisionSling.VisionSling()']]],
-  ['visiontraj',['VisionTraj',['../classshot_1_1_vision_traj.html',1,'shot.VisionTraj'],['../classshot_1_1_vision_traj.html#aa613fdfd5558d7ae046396a94fa3fd23',1,'shot.VisionTraj.VisionTraj()']]],
-  ['visionutils',['VisionUtils',['../classab_1_1vision_1_1_vision_utils.html',1,'ab::vision']]],
-  ['visualdebugger',['VisualDebugger',['../classfeatures_1_1_visual_debugger.html',1,'features']]]
+  ['values_279',['Values',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_values.html',1,'de::uniba::sme::bambirds::debugging']]],
+  ['velocitycomponentstoangle_280',['velocityComponentsToAngle',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#a21fc5d2ec5081438629b1c54250519c7',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
+  ['velocitycomponentstoparabola_281',['velocityComponentsToParabola',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#afe8e20d56c2f67923a4b6760d7ee32db',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
+  ['velocitycomponentstovelocity_282',['velocityComponentsToVelocity',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#a27dbe41297fc6612e8f7a6c48963a757',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
+  ['velocitytoparabola_283',['velocityToParabola',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#ab159566e4fe6ca096063c9243f2b901b',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
+  ['velocitytovelocitycomponents_284',['velocityToVelocityComponents',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#a1dbe1c961aba4e405990b045f2260aed',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
+  ['vision_285',['Vision',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision.html',1,'de::uniba::sme::bambirds::vision']]],
+  ['visionhelper_286',['VisionHelper',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_helper.html',1,'de::uniba::sme::bambirds::vision']]],
+  ['visionmbr_287',['VisionMBR',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_m_b_r.html',1,'de::uniba::sme::bambirds::vision']]],
+  ['visionrealshape_288',['VisionRealShape',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_real_shape.html',1,'de::uniba::sme::bambirds::vision']]],
+  ['visionsling_289',['VisionSling',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_sling.html',1,'de.uniba.sme.bambirds.vision.VisionSling'],['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_sling.html#a5dcfa6ddde046d78513123463fdd9233',1,'de.uniba.sme.bambirds.vision.VisionSling.VisionSling()']]],
+  ['visiontraj_290',['VisionTraj',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_traj.html',1,'de.uniba.sme.bambirds.vision.VisionTraj'],['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_traj.html#a53e8aed1e46c072db652a4a7985c608e',1,'de.uniba.sme.bambirds.vision.VisionTraj.VisionTraj()']]],
+  ['visionutils_291',['VisionUtils',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_utils.html',1,'de::uniba::sme::bambirds::vision']]],
+  ['visualdebugger_292',['VisualDebugger',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_visual_debugger.html',1,'de::uniba::sme::bambirds::common::utils']]]
 ];

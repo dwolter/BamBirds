@@ -1,0 +1,10 @@
+<map id="de.uniba.sme.bambirds.planner.PrologPlanner" name="de.uniba.sme.bambirds.planner.PrologPlanner">
+<area shape="rect" id="node1" title=" " alt="" coords="581,74,813,115"/>
+<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1_strategy.html" title=" " alt="" coords="208,9,448,50"/>
+<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_s_w_i_connector.html" title=" " alt="" coords="192,74,464,115"/>
+<area shape="rect" id="node4" title=" " alt="" coords="21,5,103,32"/>
+<area shape="rect" id="node5" title=" " alt="" coords="11,56,113,83"/>
+<area shape="rect" id="node6" title=" " alt="" coords="29,107,95,133"/>
+<area shape="rect" id="node7" title=" " alt="" coords="5,157,119,184"/>
+<area shape="rect" id="node8" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1_prolog_plan_parser.html" title=" " alt="" coords="212,139,444,181"/>
+</map>

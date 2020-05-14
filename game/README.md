@@ -23,8 +23,10 @@ You will need to ask the Organizers for the AngryBirds application
 2. The ABServer can be downloaded [here](http://aibirds.org/Software/AngryBirds/abV1.32.zip) and should be extracted in the current folder.
 
 
-### Setting up Chrome
-1. See [Organizers information](http://aibirds.org/basic-game-playing-software/offline-chrome.html) on which version to use.
+### Setting up Chromium
+1. See [Organizers information](http://aibirds.org/basic-game-playing-software/offline-chrome.html) on which version to use. The game used to work with Chrome (Canary),
+    but likely requires some Chromium browser to be installed. Here we refer to
+    the browser as simply as Chrome
 2. Install the AIBirds Chrome extension: Open Chrome and navigate to [chrome://extensions/](chrome://extensions/). Check the `Developer mode` box, click `Load unpacked extension...` and choose the folder `abVx.xx/plugin`.
 
 ### Modify DNS records

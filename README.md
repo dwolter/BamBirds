@@ -3,13 +3,14 @@
 	- [Team Description](#team-description)
 	- [Repository structure](#repository-structure)
 	- [Prerequisities](#prerequisities)
-		- [Using AngryBirds (via Chrome)](#using-angrybirds-via-chrome)
+		- [Using AngryBirds (via Chromium)](#using-angrybirds-via-chromium)
 		- [Using ScienceBirds](#using-sciencebirds)
 	- [Run from distribution](#run-from-distribution)
 	- [Run from source](#run-from-source)
 		- [With AngryBirds](#with-angrybirds)
 		- [With ScienceBirds](#with-sciencebirds)
 		- [Using Gradle](#using-gradle)
+		- [Troubleshooting](#troubleshooting)
 		- [Debugging](#debugging)
 
 ## [Team Description](doc/team_description_2019.md)
@@ -45,7 +46,7 @@ Additional Resources and Information can be found here:
 * Install Java 8
 * [Install Prolog](https://www.swi-prolog.org/Download.html)
 
-### Using AngryBirds (via Chrome)
+### Using AngryBirds (via Chromium)
 
 * Setup **AngryBirds** and **ABServer** according to [game/README.md](game/README.md)
 
@@ -84,7 +85,7 @@ directory this very file is located in).
 
 ### With AngryBirds
 
-1. Open this url in Chrome: [chrome.angrybirds.com](http://chrome.angrybirds.com)
+1. Open this url in Chromium: [chrome.angrybirds.com](http://chrome.angrybirds.com)
 
 	Make sure [System is correctly configured](game/README.md#setup). You have
 	to select *SD* mode of the Angry Birds game, otherwise the Agent won't
@@ -179,7 +180,7 @@ Use one of the following tasks:
 
 	> ***Note:***
 	>
-	> The Planner expects the Prolog files to be in a directory called `./Prolog/` (relative to the current working directory, i.e. the directory you are currently in). If they are missing the planning will not work. There is already a symbolic link pointing to `planner/src/main/prolog/planner` in the project root, but if your system does not support linux symlinks you need to create a new one.	
+	> The Planner expects the Prolog files to be in a directory called `./Prolog/` (relative to the current working directory, i.e. the directory you are currently in). If they are missing the planning will not work. There is already a symbolic link pointing to `planner/src/main/prolog/` in the project root, but if your system does not support linux symlinks you need to create a new one.
 
 	Configuration should be done via the `config.properties` file.
 
@@ -211,6 +212,12 @@ Use one of the following tasks:
 
 - `<subproject>:<task>`
 	Execute a Task for a subproject
+
+### Troubleshooting
+
+- Verify that Gradle picks the correct Java version by running `./gradlew --version`.
+
+- Verify that the top-level directory `Prolog` is a symbolic directory link pointing to `planner/src/main/prolog/`. [[Windows](https://github.com/git-for-windows/git/wiki/Symbolic-Links)]
 
 ### Debugging
 
