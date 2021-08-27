@@ -2,9 +2,8 @@ package de.uniba.sme.bambirds.common.objects;
 
 import de.uniba.sme.bambirds.common.objects.ab.Slingshot;
 import de.uniba.sme.bambirds.common.objects.ab.shape.Poly;
+import de.uniba.sme.bambirds.common.utils.FileUtil;
 import de.uniba.sme.bambirds.common.utils.Settings;
-
-import static de.uniba.sme.bambirds.common.utils.Settings.PERFORMANCE_MEASUREMENT_ENABLED;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -31,6 +30,8 @@ public class Level {
 	public int levelId;
 	private int maximalPointsWithoutPigs = 0;
 	private int _bestScore = 0;
+	private List<Integer> scores = new ArrayList<>();
+
 	/** The (pending) current score at a point of time in the level */
 	public int currentScore = 0;
 	public int numberOfTimesPlayed = 0;
@@ -41,10 +42,11 @@ public class Level {
 
 	private boolean safetyMeasuresEnabled = false;
 	private boolean isDangerous = false;
+	public int numFailedShots = 0;
 
 	private State _state = State.OPEN;
-	public List<Target> initialTargets = null;
-	transient public List<Triplet<Shot, Target, Integer>> executedShots = new ArrayList<>();
+	public List<Plan> initialPlans = null;
+	transient public List<Triplet<Shot, Plan, Integer>> executedShots = new ArrayList<>();
 
 	private AbstractScene initialScene = null;
 	transient public AbstractScene currentScene = null;
@@ -90,6 +92,10 @@ public class Level {
 		return _bestScore;
 	}
 
+	public List<Integer> getScores() {
+		return Collections.unmodifiableList(scores);
+	}
+
 	public int getEstimatedMaximalPoints() {
 		return this.maximalPointsWithoutPigs + (numOfBirds - 1) * 10000;
 	}
@@ -105,7 +111,7 @@ public class Level {
 
 	public void ditchInitialScene() {
 		setInitialScene(null);
-		initialTargets = null;
+		initialPlans = null;
 		numOfBirds = 0;
 		numOfBirdsConfident = false;
 		slingshot = null;
@@ -121,6 +127,7 @@ public class Level {
 
 		// First put in the old best Score for the first round
 		this.featureMap.put("max_score", this._bestScore);
+		this.scores.add(score);
 
 		if (state == GameState.WON) {
 			this.currentScore = score;
@@ -150,16 +157,16 @@ public class Level {
 		// update costs of level
 		this.setCosts(delta / 1000);
 
-		log.info("Level reward: " + this.getReward() + ", Costs: " + this.getCosts() + " seconds");
+		log.debug("Level reward: " + this.getReward() + ", Costs: " + this.getCosts() + " seconds");
 
-		if (PERFORMANCE_MEASUREMENT_ENABLED) {
-			log.info("Writing feature vector to csv file...");
+		if (Settings.EXPORT_LEVEL_STATS) {
+			log.debug("Writing feature vector to csv file...");
 			String featureVectorString = this.featureMap.entrySet().stream().map(Map.Entry::toString).map(String::valueOf)
 					.collect(Collectors.joining(","));
 
-			log.info("featureVector = " + String.format("[%s]", featureVectorString));
+			log.debug("featureVector = " + String.format("[%s]", featureVectorString));
 			String strategyTagsString = this.strategyTags.stream().collect(Collectors.joining(","));
-			log.info("strategyTags = " + String.format("[%s]", strategyTagsString));
+			log.debug("strategyTags = " + String.format("[%s]", strategyTagsString));
 
 			this.writeCsvFile("featureList.csv", state);
 		}
@@ -215,11 +222,12 @@ public class Level {
 		this.currentScene = this.initialScene;
 		this.executedShots = new ArrayList<>();
 		this.tree.resetToRootNode();
+		this.numFailedShots = 0;
 	}
 
-	public void addExecutedShot(Shot executedShot, Target target, int damagePoints) {
-		executedShots.add(new Triplet<>(executedShot, target, damagePoints));
-		log.info("Level " + levelId + ": shot " + executedShots.size() + " added with " + damagePoints
+	public void addExecutedShot(Shot executedShot, Plan plan, int damagePoints) {
+		executedShots.add(new Triplet<>(executedShot, plan, damagePoints));
+		log.debug("Level " + levelId + ": shot " + executedShots.size() + " added with " + damagePoints
 				+ " damage points");
 	}
 
@@ -259,18 +267,7 @@ public class Level {
 
 		builder.append("," + gameState + "\n");
 
-		appendToFile(filename, builder.toString());
-	}
-
-	private void appendToFile(String filename, String string) {
-		try (FileWriter fw = new FileWriter(filename, true)) {
-			fw.write(string);
-			fw.close();
-		} catch (NullPointerException e) {
-			log.error("Could not open csv file because pathname is null!");
-		} catch (IOException e) {
-			log.error("Could not write to file " + filename + ": " + e.getMessage());
-		}
+		FileUtil.write(filename, builder.toString(), true);
 	}
 
 	public int calculateStrategiesWeightedSum() {
@@ -357,7 +354,7 @@ public class Level {
 	 * Saves or updates the current level features and targets
 	 * @param plans generated prolog plans
 	 */
-	public void updateFeatures(List<Target> plans) {
+	public void updateFeatures(List<Plan> plans) {
 		// amount of pigs
 		this.featureMap.put("num_pigs", this.currentScene.getPigs().size());
 		// amount of birds
@@ -366,7 +363,8 @@ public class Level {
 		this.featureMap.put("num_destroyable_objects", this.currentScene.getPigs().size() + this.currentScene.getHills().size()
 				+ this.currentScene.getTnts().size() + this.currentScene.getBlocks().size()); // pigs + hills + tnts + blocks
 		// amount of generated shots
-		this.featureMap.put("num_generated_shots", this.currentScene.getCountSavedShots());
+		//TODO: remove
+		this.featureMap.put("num_generated_shots", 0);
 		// amount level has been played so far
 		this.featureMap.put("num_times_played", this.numberOfTimesPlayed);
 		// amount of generated plans
@@ -381,9 +379,9 @@ public class Level {
 		// list of strings of strategies for all currently AVAILABLE targets
 		// we only care about the newest strategies, so forget the old ones
 		this.strategyTags.clear();
-		for(Target target : plans) {
-			if(target != null) {
-				this.strategyTags.add(target.getDebugInfo());
+		for(Plan plan : plans) {
+			if(plan != null) {
+				this.strategyTags.add(plan.getStrategy());
 			}
 		}
 

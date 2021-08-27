@@ -1,0 +1,5 @@
+var classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1modification_1_1ba41deb7fa109d06dda67cb3361b6c2f =
+[
+    [ "RotationRandomizer", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1modification_1_1ba41deb7fa109d06dda67cb3361b6c2f.html#a4bcf8d342a7162d3bd99237573ac7f24", null ],
+    [ "apply", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1modification_1_1ba41deb7fa109d06dda67cb3361b6c2f.html#aad2767da2e6fa2a0421482ca4bd22f96", null ]
+];

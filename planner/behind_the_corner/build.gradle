@@ -1,0 +1,70 @@
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+
+configurations {
+    prolog {
+        canBeConsumed = true
+        canBeResolved = false
+        extendsFrom runtime
+    }
+}
+
+class SwiplLibraryBuild extends DefaultTask {
+    @OutputFile
+    final RegularFileProperty outputFile = project.objects.fileProperty()
+
+    @Input
+    String srcExt = 'cpp'
+
+    @Input
+    List<String> cFlags = []
+
+    @InputFiles
+    final DirectoryProperty libDirectory = project.objects.directoryProperty()
+
+    @Input
+    List<String> libs = []
+
+    @InputFiles
+    final DirectoryProperty includeDirectory = project.objects.directoryProperty()
+
+    @InputFiles
+    final DirectoryProperty sourceDirectory = project.objects.directoryProperty()
+
+    @TaskAction
+    void produce() {
+        def sout = new StringBuilder(), serr = new StringBuilder()
+        def src = sourceDirectory.get().asFile
+        def srcFiles = []
+        src.eachFileRecurse (groovy.io.FileType.FILES) { file ->
+            if (file ==~ /.*.cpp/)
+                srcFiles << file
+        }
+        def inc = includeDirectory.get().asFile
+        def lib = libDirectory.get().asFile
+        def out = outputFile.get().asFile
+        def libString = libs.isEmpty() ? "" : '-l'+libs.join(' -l')
+        def cmd = "swipl-ld ${cFlags.join(' ')} ${libString} -I${inc} -L ${lib} -shared -o ${out} ${srcFiles.join(' ')}"
+        def proc = cmd.execute()
+        proc.consumeProcessOutput(sout, serr)
+        proc.waitFor()
+        if (proc.exitValue() != 0)
+        {
+            throw new TaskExecutionException(this, new Exception("Failed to execute ${cmd} \nstdout:\n ${sout}\nstderr:\n ${serr}"))
+        }
+    }
+}
+OperatingSystem os = DefaultNativePlatform.currentOperatingSystem;
+
+def compileSwiplLibrary = tasks.register("compileSwiplLibrary", SwiplLibraryBuild) {
+    description = "Compile Swipl foreign library"
+    group = 'build'
+    sourceDirectory = file('src')
+    includeDirectory = file('include')
+    libDirectory = file('lib')
+    cFlags = os.isWindows() ? ['-g'] : ['-g', '-cc-options,-std=c++11']
+    outputFile = project.layout.buildDirectory.file("libs/${project.name}${os.isWindows() ? '.dll' : '.so'}")
+}
+
+artifacts {
+    prolog(compileSwiplLibrary.flatMap{it.outputFile})
+}

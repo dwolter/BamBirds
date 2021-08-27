@@ -1,15 +1,9 @@
 package de.uniba.sme.bambirds.common.objects;
 
 import java.awt.image.BufferedImage;
-import java.util.List;
-import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import de.uniba.sme.bambirds.common.Strategy;
-
-import java.util.NoSuchElementException;
 
 /**
  * a class to represent a tree of possible choices for SavedShots
@@ -20,7 +14,7 @@ public class DecisionTree {
 	private Node currentNode;
 
 	public DecisionTree() {
-		root = new Node(null, null);
+		root = new Node(null);
 		setCurrentNode(root);
 	}
 
@@ -61,46 +55,6 @@ public class DecisionTree {
 	}
 
 	/**
-	 * Initialize child nodes list with available targets. Does not create
-	 * duplicates
-	 * 
-	 * @param targetList Target list from a {@link Strategy}
-	 * @param shotsList  SavedShot list from {@link AbstractScene#savedShots }
-	 */
-	public void createChildNodesFromTargetList(List<Target> targetList, List<SavedShot> shotsList) {
-		for (Target target : targetList) {
-			int impactAngle = target.getAngle();
-			String chosenTargetId = target.getTargetId();
-			String strategy = target.getDebugInfo();
-
-			if ((strategy.length() > 0) && (strategy.charAt(0) == '/')) { // handle Prolog generated shots
-				try (Scanner sc = (new Scanner(strategy)).useDelimiter("/")) {
-					Shot rawShot = new Shot(sc.nextInt(), sc.nextInt(), sc.nextInt(), sc.nextInt(), 0, sc.nextInt());
-					double[] dummyParabola = new double[] { 0.5, 0.5 };
-					SavedShot s = new SavedShot(rawShot, chosenTargetId, impactAngle, impactAngle, dummyParabola);
-					log.info("parsed shot: " + rawShot.toString());
-					if (!currentNode.containsChildWithSaveShot(s)) {
-						currentNode.addChild(new Node(target, s));
-					}
-				} catch (NoSuchElementException e) {
-					log.error("failed to parse special shot", e);
-				}
-
-			} else {
-				for (SavedShot s : shotsList) { // FIXME: use efficient search!!
-					if (s.impactAngle == impactAngle && chosenTargetId.equalsIgnoreCase(s.targetID)) {
-						// check if target is already in one of the childNodes
-						if (!currentNode.containsChildWithSaveShot(s)) {
-							currentNode.addChild(new Node(target, s));
-						}
-						break;
-					}
-				}
-			}
-		}
-	}
-
-	/**
 	 * Find matching Node even if some pixel aren't matching
 	 */
 	public void compareScreenshotsReplaceCurrentNode(BufferedImage img) {
@@ -115,7 +69,7 @@ public class DecisionTree {
 			return;
 
 		// if they don't match, check one of the other nodes' screenshots matches.
-		log.info("Screenshots don't match, comparing other childNodes ...");
+		log.debug("Screenshots don't match, comparing other childNodes ...");
 		for (Node sibling : currentNode.getSiblings()) {
 			if (sibling.equalScreenshot(img)) {
 				log.info("Found matching sibling...");
@@ -125,10 +79,14 @@ public class DecisionTree {
 			}
 		}
 
-		log.info("Didn't find matching sibling. Creating new one ...");
-		Node newbie = new Node(currentNode.target, currentNode.savedShot);
+		log.debug("Didn't find matching sibling. Creating new one ...");
+		Node newbie = new Node(currentNode.plan);
 		newbie.screenshot = img;
-		currentNode.parent.addChild(newbie);
+		if(currentNode.parent != null) {
+			currentNode.parent.addChild(newbie);
+		} else {
+			currentNode.addChild(newbie);
+		}
 		setCurrentNode(newbie);
 	}
 
@@ -136,4 +94,13 @@ public class DecisionTree {
 	public String toString() {
 		return "(DecisionTree root: " + root + ", current: " + currentNode + ")";
 	}
+
+	/**
+	 * Update the shots of all nodes because of changes in the scaling factor
+	 * @param currentScale the current scale
+	 * @param newScale the new scale
+	 */
+    public void adaptNodesToNewScalingFactor(double currentScale, double newScale) {
+		root.adaptNodesToNewScalingFactor(currentScale, newScale);
+    }
 }

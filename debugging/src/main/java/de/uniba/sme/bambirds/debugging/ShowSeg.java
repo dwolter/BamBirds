@@ -12,13 +12,16 @@ package de.uniba.sme.bambirds.debugging;
 import Jama.Matrix;
 
 import de.uniba.sme.bambirds.vision.GameStateExtractor;
+import de.uniba.sme.bambirds.vision.Scene;
 import de.uniba.sme.bambirds.vision.Vision;
 import de.uniba.sme.bambirds.vision.VisionRealShape;
 import de.uniba.sme.bambirds.vision.VisionUtils;
 import de.uniba.sme.bambirds.client.Client;
+import de.uniba.sme.bambirds.common.exceptions.SceneInitialisationException;
 import de.uniba.sme.bambirds.common.exceptions.ServerException;
 import de.uniba.sme.bambirds.common.objects.GameState;
 import de.uniba.sme.bambirds.common.utils.ImageSegFrame;
+import de.uniba.sme.bambirds.common.utils.ImageUtil;
 import de.uniba.sme.bambirds.debugging.proxy.Proxy;
 import de.uniba.sme.bambirds.debugging.proxy.message.ProxyScreenshotMessage;
 
@@ -43,7 +46,7 @@ import java.util.List;
 
 public class ShowSeg implements Runnable {
 	private static final Logger log = LogManager.getLogger(ShowSeg.class);
-	private static List<Rectangle> pigs, redBirds, blueBirds, yellowBirds, blackBirds, whiteBirds, iceBlocks, woodBlocks,
+	private static List<Rectangle> pigs, redBirds, blueBirds, yellowBirds, blackBirds, whiteBirds, iceBlocks, woodBlocks, 
 			stoneBlocks, TNTs;
 	private static List<Point> trajPoints;
 	public static boolean useRealshape = false;
@@ -55,19 +58,19 @@ public class ShowSeg implements Runnable {
 			proxy = new Proxy(port) {
 				@Override
 				public void onOpen() {
-					log.info("...connected to game proxy");
+					log.debug("...connected to game proxy");
 				}
 
 				@Override
 				public void onClose() {
-					log.info("...disconnected from game proxy");
+					log.debug("...disconnected from game proxy");
 				}
 			};
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 		proxy.start();
-		log.info("Waiting for proxy to connect...");
+		log.debug("Waiting for proxy to connect...");
 		proxy.waitForClients(1);
 
 		return proxy;
@@ -173,6 +176,29 @@ public class ShowSeg implements Runnable {
 		return screenshot;
 	}
 
+	public static BufferedImage drawScene(BufferedImage screenshot) {
+
+		// get game state
+		GameStateExtractor game = new GameStateExtractor();
+		GameState state = game.getGameState(screenshot);
+		if (state != GameState.PLAYING) {
+			screenshot = VisionUtils.convert2grey(screenshot);
+			return screenshot;
+		}
+
+		// process image
+		Scene scene;
+		try {
+			scene = new Scene(screenshot);
+			VisionUtils.drawBoundingBoxesWithID(screenshot, scene.getAllObjects(), Color.BLACK);
+		} catch (SceneInitialisationException e) {
+			log.error(e);
+		}
+
+		
+		return screenshot;
+	}
+
 	public static void main(String[] args) {
 
 		ImageSegFrame frame = null;
@@ -200,7 +226,7 @@ public class ShowSeg implements Runnable {
 
 				// Analyze and show image
 				// screenshot = drawMBRs(screenshot);
-				screenshot = drawRealshape(screenshot);
+				screenshot = drawScene(screenshot);
 				if (frame == null) {
 					frame = new ImageSegFrame("Vision", screenshot, null);
 

@@ -1,8 +1,16 @@
 <map id="de.uniba.sme.bambirds.vision.VisionMBR" name="de.uniba.sme.bambirds.vision.VisionMBR">
-<area shape="rect" id="node1" title=" " alt="" coords="101,303,324,344"/>
-<area shape="rect" id="node2" title=" " alt="" coords="507,5,574,32"/>
-<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_sling.html" title=" " alt="" coords="101,199,324,240"/>
-<area shape="rect" id="node6" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_visual_debugger.html" title=" " alt="" coords="221,95,493,136"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,5,92,32"/>
-<area shape="rect" id="node5" title=" " alt="" coords="216,5,335,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="13,511,211,552"/>
+<area shape="rect" id="node2" title=" " alt="" coords="148,102,209,129"/>
+<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_sling.html" title=" " alt="" coords="149,407,347,448"/>
+<area shape="rect" id="node5" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_visual_debugger.html" title=" " alt="" coords="232,303,475,344"/>
+<area shape="rect" id="node7" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html" title=" " alt="" coords="467,199,709,240"/>
+<area shape="rect" id="node3" title=" " alt="" coords="136,206,216,233"/>
+<area shape="rect" id="node6" title=" " alt="" coords="339,206,443,233"/>
+<area shape="rect" id="node8" title=" " alt="" coords="362,5,427,32"/>
+<area shape="rect" id="node9" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html" title=" " alt="" coords="467,95,709,136"/>
+<area shape="rect" id="node10" title=" " alt="" coords="452,5,513,32"/>
+<area shape="rect" id="node11" title=" " alt="" coords="537,5,628,32"/>
+<area shape="rect" id="node12" title=" " alt="" coords="652,5,759,32"/>
+<area shape="rect" id="node13" title=" " alt="" coords="783,5,889,32"/>
+<area shape="rect" id="node14" title=" " alt="" coords="913,5,970,32"/>
 </map>

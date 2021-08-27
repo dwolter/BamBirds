@@ -1,0 +1,15 @@
+matplotlib
+numpy
+opencv-python
+pandas
+Pillow
+scikit-image
+scikit-learn
+scipy
+six
+sklearn
+sklearn-pandas
+sklearn2pmml
+psutil
+tqdm
+iterators

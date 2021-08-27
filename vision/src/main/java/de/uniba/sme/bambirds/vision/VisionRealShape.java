@@ -138,7 +138,7 @@ public class VisionRealShape
             {
                 int bound[] = c.boundingBox();
                 
-                if (bound[0] > xMax && bound[0] > xSling)
+                if (bound[0] > xMax)
                     continue;
                 
 
@@ -147,9 +147,17 @@ public class VisionRealShape
                     break;
                 
                 // add if not overlapping with previous bird and if not to much higher/lower
-                if ((bound[0] + bound[2]) / 2 > xLast + 1 && (Math.abs(bound[1]-yLast) < BIRD_DISTANCE ))
+                if ((Math.abs(bound[1]-yLast) < BIRD_DISTANCE ))
                 {
                     Circle b = (Circle) c.getBody();
+                    if ((bound[0] + bound[2]) / 2 <= xLast + 1) {
+                        int last = _birds.size()-1;
+                        if ( _birds.get(last).area < b.area) {
+                            _birds.remove(last);
+                        } else {
+                            continue;
+                        }
+                    }
                     _birds.add(b);
                     _draw.add(c);
                     _drawShape.add(b);

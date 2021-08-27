@@ -1,6 +1,5 @@
 <map id="de.uniba.sme.bambirds.common.BamBirdModule" name="de.uniba.sme.bambirds.common.BamBirdModule">
-<area shape="rect" id="node1" title=" " alt="" coords="5,71,245,112"/>
-<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1_bam_birds.html" title=" " alt="" coords="342,5,551,47"/>
-<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1execution_1_1_shot_executor.html" title=" " alt="" coords="323,71,570,112"/>
-<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1knowledge_1_1_knowledge.html" title=" " alt="" coords="293,136,600,177"/>
+<area shape="rect" id="node1" title=" " alt="" coords="107,5,321,47"/>
+<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1_bam_birds.html" title=" " alt="" coords="5,95,193,136"/>
+<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1execution_1_1_shot_executor.html" title=" " alt="" coords="218,95,439,136"/>
 </map>

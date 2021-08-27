@@ -1,7 +1,7 @@
 <map id="de.uniba.sme.bambirds.client.ABActionRobotJava" name="de.uniba.sme.bambirds.client.ABActionRobotJava">
-<area shape="rect" id="node1" title=" " alt="" coords="645,39,864,80"/>
-<area shape="rect" id="node5" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_s_b_action_robot_java.html" title=" " alt="" coords="912,39,1131,80"/>
-<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_a_b_action_robot.html" title=" " alt="" coords="352,5,571,47"/>
-<area shape="rect" id="node3" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_action_robot.html" title=" " alt="" coords="5,39,277,80"/>
-<area shape="rect" id="node4" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_action_robot_java.html" title=" " alt="" coords="325,71,597,112"/>
+<area shape="rect" id="node1" title=" " alt="" coords="587,39,783,80"/>
+<area shape="rect" id="node5" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_s_b_action_robot_java.html" title=" " alt="" coords="831,39,1027,80"/>
+<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_a_b_action_robot.html" title=" " alt="" coords="319,5,515,47"/>
+<area shape="rect" id="node3" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_action_robot.html" title=" " alt="" coords="5,39,248,80"/>
+<area shape="rect" id="node4" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_action_robot_java.html" title=" " alt="" coords="296,71,539,112"/>
 </map>

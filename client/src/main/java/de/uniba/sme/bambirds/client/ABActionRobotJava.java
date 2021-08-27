@@ -15,6 +15,7 @@ import org.apache.commons.lang3.NotImplementedException;
 
 import de.uniba.sme.bambirds.common.utils.ActionRobotJava;
 import de.uniba.sme.bambirds.common.utils.ByteUtil;
+import de.uniba.sme.bambirds.common.utils.Settings.ServerType;
 import de.uniba.sme.bambirds.common.exceptions.ServerException;
 import de.uniba.sme.bambirds.common.objects.GameState;
 import de.uniba.sme.bambirds.common.objects.Shot;
@@ -49,17 +50,17 @@ public class ABActionRobotJava extends ABActionRobot implements ActionRobotJava 
 	// send a shot message using int values as input
 	@Override
 	public byte shootSafe(Shot shot) throws ServerException {
-		return super.shoot(ByteUtil.intToByteArray(shot.getX())/* fx */, ByteUtil.intToByteArray(shot.getY())/* fy */,
-				ByteUtil.intToByteArray(shot.getDx())/* dx */, ByteUtil.intToByteArray(shot.getDy())/* dy */,
-				ByteUtil.intToByteArray((int) shot.getT_shot())/* t1 */, ByteUtil.intToByteArray((int) shot.getT_tap())/* t2 */,
+		return shoot(ByteUtil.intToByteArray(shot.getSlingX())/* fx */, ByteUtil.intToByteArray(shot.getSlingY())/* fy */,
+				ByteUtil.intToByteArray(shot.getDragX())/* dx */, ByteUtil.intToByteArray(shot.getDragY())/* dy */,
+				ByteUtil.intToByteArray((int) shot.getShotTime())/* t1 */, ByteUtil.intToByteArray((int) shot.getTapTime())/* t2 */,
 				false);
 	}
 
 	@Override
 	public byte shootFast(Shot shot) throws ServerException {
-		return super.shootFast(ByteUtil.intToByteArray(shot.getX())/* fx */, ByteUtil.intToByteArray(shot.getY())/* fy */,
-				ByteUtil.intToByteArray(shot.getDx())/* dx */, ByteUtil.intToByteArray(shot.getDy())/* dy */,
-				ByteUtil.intToByteArray((int) shot.getT_shot())/* t1 */, ByteUtil.intToByteArray((int) shot.getT_tap())/* t2 */,
+		return shootFast(ByteUtil.intToByteArray(shot.getSlingX())/* fx */, ByteUtil.intToByteArray(shot.getSlingY())/* fy */,
+				ByteUtil.intToByteArray(shot.getDragX())/* dx */, ByteUtil.intToByteArray(shot.getDragY())/* dy */,
+				ByteUtil.intToByteArray((int) shot.getShotTime())/* t1 */, ByteUtil.intToByteArray((int) shot.getTapTime())/* t2 */,
 				false);
 	}
 
@@ -70,13 +71,13 @@ public class ABActionRobotJava extends ABActionRobot implements ActionRobotJava 
 		byte[][] byteShots = new byte[shots.size()][24];
 		int shotCount = 0;
 		for (Shot shot : shots) {
-			byteShots[shotCount] = ClientMessageEncoder.mergeArray(ByteUtil.intToByteArray(shot.getX())/* fx */,
-					ByteUtil.intToByteArray(shot.getY())/* fy */, ByteUtil.intToByteArray(shot.getDx())/* dx */,
-					ByteUtil.intToByteArray(shot.getDy())/* dy */, ByteUtil.intToByteArray((int) shot.getT_shot())/* t1 */,
-					ByteUtil.intToByteArray((int) shot.getT_tap())/* t2 */);
+			byteShots[shotCount] = ClientMessageEncoder.mergeArray(ByteUtil.intToByteArray(shot.getSlingX())/* fx */,
+					ByteUtil.intToByteArray(shot.getSlingY())/* fy */, ByteUtil.intToByteArray(shot.getDragX())/* dx */,
+					ByteUtil.intToByteArray(shot.getDragY())/* dy */, ByteUtil.intToByteArray((int) shot.getShotTime())/* t1 */,
+					ByteUtil.intToByteArray((int) shot.getTapTime())/* t2 */);
 			shotCount++;
 		}
-		return super.shootSequence(byteShots);
+		return shootSequence(byteShots);
 	}
 
 	public int[] getMyScoreInt() throws ServerException {
@@ -101,5 +102,26 @@ public class ABActionRobotJava extends ABActionRobot implements ActionRobotJava 
 	@Override
 	public byte[] shootSequenceFast(List<Shot> shots) {
 		throw new NotImplementedException("Not implemented yet");
+	}
+
+	@Override
+	public int getCurrentLevelScoreInt() throws ServerException {
+		return ByteUtil.bytesToInt(getCurrentLevelScore());
+	}
+
+	@Override
+	public int selectNextLevelInt() throws ServerException {
+		throw new UnsupportedOperationException("Not supported by ABServer");
+	}
+
+	@Override
+	public byte reportNoveltyLikelihood(float noveltyLikelihood, float nonNoveltyLikelihood, int[] novelObjectIDs,
+			int noveltyLevel, String noveltyDescription) throws ServerException {
+		throw new UnsupportedOperationException("Not supported by ABServer");
+	}
+
+	@Override
+	public ServerType getServerType() {
+		return ServerType.ANGRY_BIRDS;
 	}
 }

@@ -61,11 +61,19 @@ public interface ActionRobot {
 
 	public byte loadLevel(byte... i) throws ServerException;
 
+	public byte[] selectNextLevel() throws ServerException;
+
 	public byte restartLevel() throws ServerException;
 
 	public byte[] getGroundTruth(boolean withScreenshot, boolean noisy) throws ServerException;
 
 	public byte[] getCurrentLevelScore() throws ServerException;
+
+	public byte reportNoveltyLikelihood(byte... info) throws ServerException;
+
+	public byte[] readyForNewSet() throws ServerException;
+
+	public byte[] requestNoveltyInformation() throws ServerException;
 
 	public void close();
 

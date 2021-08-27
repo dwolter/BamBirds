@@ -13,7 +13,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
-import java.util.ArrayList;
+import java.util.List;
 
 import de.uniba.sme.bambirds.common.objects.ab.ABShape;
 import de.uniba.sme.bambirds.common.objects.ab.ABType;
@@ -26,7 +26,16 @@ public class Poly extends Body {
 	private static final long serialVersionUID = 1L;
 	public Polygon polygon = null;
 
-	public Poly(ArrayList<LineSegment> lines, int left, int top, ABType type, double xs, double ys) {
+	/**
+	 * 
+	 * @param lines that make up the polygon
+	 * @param left  offset in x direction
+	 * @param top   offset in y direction
+	 * @param type  Object Type
+	 * @param xs
+	 * @param ys    - coordinates for centerpoint
+	 */
+	public Poly(List<LineSegment> lines, int left, int top, ABType type, double xs, double ys) {
 		polygon = new Polygon();
 		shape = ABShape.Poly;
 		if (lines != null) {
@@ -50,7 +59,7 @@ public class Poly extends Body {
 
 	@Override
 	public void draw(Graphics2D g, boolean fill, Color color, double padding) {
-		//TODO: padding not so easy with polygon
+		// TODO: padding not so easy with polygon
 		g.setColor(color);
 		if (fill) {
 			g.fillPolygon(polygon);
@@ -59,8 +68,14 @@ public class Poly extends Body {
 		}
 	}
 
+	@Override
+	public Polygon getPolygon() {
+		return polygon;
+	}
+
 	public String toString() {
 		return String.format("Poly: id:%d type:%s hollow:%b %dpts at x:%3.1f y:%3.1f", globalID, type, hollow,
 				polygon.npoints, centerX, centerY);
 	}
+
 }

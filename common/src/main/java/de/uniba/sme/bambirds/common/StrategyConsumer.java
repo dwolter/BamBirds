@@ -1,6 +1,6 @@
 package de.uniba.sme.bambirds.common;
 
-import de.uniba.sme.bambirds.common.objects.Target;
+import de.uniba.sme.bambirds.common.objects.Plan;
 
 import java.util.List;
 
@@ -13,10 +13,17 @@ import java.util.List;
 public interface StrategyConsumer {
 
 	/**
-	 * Receive {@code newTargets} found by a {@code Strategy}.
+	 * Receive new {@link Plan}s found by a {@link Strategy}.
 	 *
-	 * @param newTargets targets found by a {@code Strategy}
+	 * @param newPlans targets found by a {@link Strategy}
 	 */
-	void post(List<Target> newTargets);
+	void post(List<Plan> newPlans);
+	
+	/**
+	 * Receive a new {@link Plan} found by a {@link Strategy}.
+	 *
+	 * @param newPlan found by a {@link Strategy}
+	 */
+	void post(Plan newPlan);
 
 }

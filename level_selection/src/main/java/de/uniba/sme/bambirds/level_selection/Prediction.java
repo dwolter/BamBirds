@@ -14,6 +14,7 @@ import de.uniba.sme.bambirds.level_selection.model.RandomForestClassifierModel;
 import de.uniba.sme.bambirds.level_selection.model.RandomForestRegressorModel;
 import de.uniba.sme.bambirds.level_selection.model.RegressorModel;
 import de.uniba.sme.bambirds.common.objects.Level;
+import de.uniba.sme.bambirds.common.utils.Settings;
 
 /**
  * Wrapper class for different score and win predictions
@@ -41,7 +42,6 @@ public class Prediction {
 		STRATEGY_WEIGHTS = Collections.unmodifiableMap(tmp);
 	}
 
-	private int startLevel;
 	private int levelRange;
 
 	// key: levelId, value: the feature map of the level
@@ -56,13 +56,11 @@ public class Prediction {
 	/**
 	 * Construct a Prediction instance that handles the execution of the selected Models
 	 * 
-	 * @param startLevel The startLevel, needed for evauating if input in predict() is correct
 	 * @param levelRange The range of levels we want to get predictions for
 	 * @param classifierType The selected Classifier
 	 * @param regressorType The selected Regressor
 	 */
-	public Prediction(int startLevel, int levelRange, ClassifierType classifierType, RegressorType regressorType) {
-		this.startLevel = startLevel; // e.g. 1
+	public Prediction(int levelRange, ClassifierType classifierType, RegressorType regressorType) {
 		this.levelRange = levelRange; // e.g. 21, i.e. loop from 1 - 21 (inclusive)
 		this.levelFeatures = new HashMap<Integer, Map<String, Integer>>(levelRange);
 		this.predictions = new HashMap<Integer, PredictionTuple<Integer, Double>>();
@@ -112,7 +110,7 @@ public class Prediction {
 	 */
 	private Map<Integer, PredictionTuple<Integer, Double>> predict(Map<Integer, Map<String, Integer>> levelFeatures,
 			int lastLevelId) {
-		if (lastLevelId >= startLevel && lastLevelId <= startLevel + levelRange - 1) {
+		if (lastLevelId >= Settings.START_LEVEL && lastLevelId <= Settings.START_LEVEL + levelRange - 1) {
 			this.levelFeatures.put(lastLevelId,
 					new HashMap<String, Integer>(LevelStorage.getInstance().getLevelById(lastLevelId).featureMap));
 			//TODO Implement only recalculating the possibly changed predictions 
@@ -146,7 +144,7 @@ public class Prediction {
 			this.levelFeatures.clear();
 		}
 
-		for (int levelId = this.startLevel; levelId < this.startLevel + this.levelRange; levelId++) {
+		for (int levelId = Settings.START_LEVEL; levelId < Settings.START_LEVEL + this.levelRange; levelId++) {
 			Level level = LevelStorage.getInstance().getLevelById(levelId);
 
 			if (level != null) {

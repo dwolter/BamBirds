@@ -25,7 +25,7 @@
 var NAVTREE =
 [
   [ "BamBirds", "index.html", [
-    [ "BamBirds", "md__home_felix__documents_uni__bam_bird_2017_src_main_dist__r_e_a_d_m_e.html", null ],
+    [ "BamBirds", "md__c___users_haase__documents_uni__bam_birds_1_src_main_dist__r_e_a_d_m_e.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
@@ -41,13 +41,10 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-".html",
-"classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_level.html#a2abb6696c87261b49ca3baa3ee9f8483",
-"classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_line_segment.html#ad50693aa657bbc8fe35575ec1d5f3ffe",
-"classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_visual_debugger.html#ac91fc7df42b6948fccbfb6e309daa493",
-"classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1_prolog_planner.html#afe1bc6382f3af9c39f9b7ca3c3170bde",
-"classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_real_shape.html#a7b69a80eba04dad74f07b8acd3a8fcbe",
-"enumde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_action_1_1_strategy.html#a277885daeecb0d03c96da21b19aa8dbe"
+"annotated.html",
+"classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_level_selection.html",
+"classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1preprocessing_1_1_custom_pre_processor.html",
+"interfacede_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_helper_1_1_h_s_v_filter.html#af0104281badc85e830a442e6ae1336df"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

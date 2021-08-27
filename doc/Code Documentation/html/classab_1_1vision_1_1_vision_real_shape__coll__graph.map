@@ -1,6 +1,0 @@
-<map id="ab.vision.VisionRealShape" name="ab.vision.VisionRealShape">
-<area shape="rect" id="node2" href="$classab_1_1vision_1_1_a_b_object.html" title="ab.vision.ABObject" alt="" coords="339,88,473,115"/>
-<area shape="rect" id="node4" href="$enumab_1_1vision_1_1_a_b_type.html" title="ab.vision.ABType" alt="" coords="26,61,151,88"/>
-<area shape="rect" id="node5" href="$enumab_1_1vision_1_1_a_b_shape.html" title="ab.vision.ABShape" alt="" coords="22,112,155,139"/>
-<area shape="rect" id="node6" href="$classab_1_1vision_1_1real_1_1_image_segmenter.html" title="ab.vision.real.ImageSegmenter" alt="" coords="305,183,507,209"/>
-</map>

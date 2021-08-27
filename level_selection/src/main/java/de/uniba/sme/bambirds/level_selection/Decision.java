@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import de.uniba.sme.bambirds.common.utils.SelectionAlgorithms;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,43 +50,19 @@ public class Decision {
 			Map<Integer, Level.State> levelStates, long timeLeft) {
 
 		double brierScoreLoss = ErrorCalculation.calculateBrierScoreLoss(levelStates, predictions);
-		log.info("Error classifier: " + brierScoreLoss);
+		log.debug("Error classifier: " + brierScoreLoss);
 
 		double scoresError = ErrorCalculation.calculateScoreError(maxScores, predictions);
-		log.info("Error scores: " + scoresError);
+		log.debug("Error scores: " + scoresError);
 
 		Map<Integer, Double> improvementPredictions = calculateImprovementPrediction(maxScores, costs, predictions,
 				brierScoreLoss, scoresError, levelStates, timeLeft);
-		log.info("Improvement predictions: " + improvementPredictions.toString());
+		log.debug("Improvement predictions: " + improvementPredictions.toString());
 
-		return softmax(improvementPredictions);
+		return SelectionAlgorithms.softmax(improvementPredictions);
 	}
 
-	/**
-	 * Performs a softmax agorithm to normalize the prediction values into
-	 * probabilities
-	 * 
-	 * @param improvementPredictions The values to normalize
-	 * @return The normalized probabilities
-	 */
-	private Map<Integer, Double> softmax(Map<Integer, Double> improvementPredictions) {
-		Map<Integer, Double> result = new HashMap<>();
-		double meanScore = improvementPredictions.entrySet().stream()
-				.collect(Collectors.averagingDouble(x -> Math.abs(x.getValue())));
-		double sum = 0;
 
-		// Softmax = sum{i = 1 -> K}(exp(z.i)/sum{j = 1 -> K}(exp(z.j)))
-		for (Entry<Integer, Double> improvement : improvementPredictions.entrySet()) {
-			double value = (double) improvement.getValue() / meanScore;
-			value = Math.exp(value);
-			sum += value;
-			result.put(improvement.getKey(), value);
-		}
-
-		final double sumComputed = sum;
-		result.replaceAll((key, value) -> value / sumComputed);
-		return result;
-	}
 
 	/**
 	 * Calculate the improvement based on the accuracy of the predictions. More info
@@ -123,9 +100,9 @@ public class Decision {
 				}
 
 				if (timeLeft > 0) {
-					value *= timeLeft / costs.get(key);
+					value *= (double) timeLeft / costs.get(key);
 				} else {
-					value *= 60 / costs.get(key);
+					value *= (double) 60 / costs.get(key);
 				}
 				improvementPrediction.put(key, value);
 			}

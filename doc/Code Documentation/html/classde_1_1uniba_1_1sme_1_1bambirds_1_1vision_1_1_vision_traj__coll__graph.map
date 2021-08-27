@@ -1,8 +1,15 @@
 <map id="de.uniba.sme.bambirds.vision.VisionTraj" name="de.uniba.sme.bambirds.vision.VisionTraj">
-<area shape="rect" id="node1" title=" " alt="" coords="5,303,228,344"/>
-<area shape="rect" id="node2" title=" " alt="" coords="59,102,177,129"/>
-<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_visual_debugger.html" title=" " alt="" coords="165,199,437,240"/>
-<area shape="rect" id="node4" title=" " alt="" coords="238,5,305,32"/>
-<area shape="rect" id="node5" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html" title=" " alt="" coords="299,95,571,136"/>
-<area shape="rect" id="node6" title=" " alt="" coords="596,102,683,129"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,407,203,448"/>
+<area shape="rect" id="node2" title=" " alt="" coords="52,206,156,233"/>
+<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_visual_debugger.html" title=" " alt="" coords="147,303,389,344"/>
+<area shape="rect" id="node4" title=" " alt="" coords="197,102,259,129"/>
+<area shape="rect" id="node5" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html" title=" " alt="" coords="269,199,512,240"/>
+<area shape="rect" id="node6" title=" " alt="" coords="274,5,339,32"/>
+<area shape="rect" id="node7" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html" title=" " alt="" coords="373,95,616,136"/>
+<area shape="rect" id="node8" title=" " alt="" coords="364,5,425,32"/>
+<area shape="rect" id="node9" title=" " alt="" coords="449,5,540,32"/>
+<area shape="rect" id="node10" title=" " alt="" coords="564,5,671,32"/>
+<area shape="rect" id="node11" title=" " alt="" coords="695,5,801,32"/>
+<area shape="rect" id="node12" title=" " alt="" coords="825,5,882,32"/>
+<area shape="rect" id="node13" title=" " alt="" coords="536,206,616,233"/>
 </map>

@@ -128,14 +128,45 @@ public class ImageUtil {
 		return img;
 	}
 
-	public static void saveToFile(BufferedImage img, String filename) {
+	/**
+	 * Save an image to a file
+	 * @param img a buffered Image to save
+	 * @param filename the name of the file
+	 * @param folder path to the file without a trailing slash
+	 * @return the file object where the file is saved or null if it didn't succeed
+	 */
+	public static File saveToFile(BufferedImage img, String filename, String folderPath) {
 		try {
-			File f = new File(String.format("debug/%s.png", filename));
+			File f = new File(String.format("%s/%s.png", folderPath, filename));
 			f.getParentFile().mkdirs();
-			ImageIO.write(img, "png", f);
+			if (ImageIO.write(img, "png", f)){
+				return f;
+			}
 		} catch (Exception e) {
 			log.error("Error while writing image: " + e.getMessage(), e);
 		}
+		return null;
+	}
+
+	/**
+	 * Save an image to the default debug folder
+	 * @param img a buffered Image to save
+	 * @param filename the name of the file
+	 * @param folder path to the file without a trailing slash
+	 * @return the file object where the file is saved or null if it didn't succeed
+	 */
+	public static File saveToDebugFile(BufferedImage img, String filename) {
+		return saveToFile(img, filename, "debug");
+	}
+
+	/**
+	 * Save an image to the default temp folder
+	 * @param img a buffered Image to save
+	 * @param filename the name of the file
+	 * @return the file object where the file is saved or null if it didn't succeed
+	 */
+	public static File saveToTempFile(BufferedImage img, String filename) {
+		return saveToFile(img, filename, "tmp");
 	}
 
 	/**

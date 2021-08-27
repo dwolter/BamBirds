@@ -1,9 +1,9 @@
 package de.uniba.sme.bambirds.level_selection;
 
-import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.uniba.sme.bambirds.common.utils.SelectionAlgorithms;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,6 +12,7 @@ import java.util.Set;
 
 import de.uniba.sme.bambirds.common.database.LevelStorage;
 import de.uniba.sme.bambirds.common.objects.Level;
+import de.uniba.sme.bambirds.common.utils.Settings;
 
 /**
  * Class for selecting a Level using a specific Strategy and the probability
@@ -28,7 +29,6 @@ public class Action {
 	private Strategy strategy;
 	private Random random;
 	private long timeLimit;
-	private int startLevel;
 	private int numberOfLevels;
 
 	// Old Level Selection Variables
@@ -44,11 +44,10 @@ public class Action {
 	 * @param epsilon        initial value for epsilon algorithms
 	 * @param strategy       Type of strategy used to select next level
 	 * @param timeLimit      Maximum time in the Competition
-	 * @param startLevel     The first level the agent is playing
 	 * @param numberOfLevels The number of Levels the agent is playing
 	 */
-	public Action(double epsilon, Strategy strategy, long timeLimit, int startLevel, int numberOfLevels) {
-		this(epsilon, strategy, timeLimit, startLevel, numberOfLevels, System.currentTimeMillis());
+	public Action(double epsilon, Strategy strategy, long timeLimit, int numberOfLevels) {
+		this(epsilon, strategy, timeLimit, numberOfLevels, System.currentTimeMillis());
 	}
 
 	/**
@@ -57,17 +56,15 @@ public class Action {
 	 * @param epsilon        initial value for epsilon algorithms
 	 * @param strategy       Type of strategy used to select next level
 	 * @param timeLimit      Maximum time in the Competition
-	 * @param startLevel     The first level the agent is playing
 	 * @param numberOfLevels The number of Levels the agent is playing
 	 * @param seed           The seed for the random number generator
 	 */
-	public Action(double epsilon, Strategy strategy, long timeLimit, int startLevel, int numberOfLevels, long seed) {
+	public Action(double epsilon, Strategy strategy, long timeLimit, int numberOfLevels, long seed) {
 		this.random = new Random(seed);
 		this.epsilonInit = epsilon;
 		this.strategy = strategy;
 		this.timeLimit = timeLimit;
 		this.numberOfLevels = numberOfLevels;
-		this.startLevel = startLevel;
 	}
 
 	/**
@@ -91,7 +88,7 @@ public class Action {
 			return randomSelection(probabilities);
 		default:
 			// Use complete randomness if no strategy is selected
-			return random.nextInt(numberOfLevels) + startLevel;
+			return random.nextInt(numberOfLevels) + Settings.START_LEVEL;
 		}
 	}
 
@@ -150,7 +147,7 @@ public class Action {
 				lastLostLevel = level.levelId;
 			}
 			++i;
-			log.info(
+			log.debug(
 					"Prob for Level " + level.levelId + " " + probability + ", Played: " + level.numberOfTimesPlayed + " times");
 		}
 
@@ -178,15 +175,15 @@ public class Action {
 					bestLevelIndex = level.levelId;
 					bestProp = probs[j];
 					log
-							.info("[Meta] All lost levels have been played at most twice but there are still lost levels remaining.");
-					log.info("[Meta] Too many lost levels left so try one last lost level again.");
+							.debug("[Meta] All lost levels have been played at most twice but there are still lost levels remaining.");
+					log.debug("[Meta] Too many lost levels left so try one last lost level again.");
 					break;
 					// else give up on these levels
 				} else if ((lostCounter < (0.15 * numberOfLevels)) | (numberOfTimesPlayedTheMost >= 4)) {
 					containsLost = false;
 					log
-							.info("[Meta] All lost levels have been played at most twice but there are still lost levels remaining.");
-					log.info("[Meta] Give up on the lost levels.");
+							.debug("[Meta] All lost levels have been played at most twice but there are still lost levels remaining.");
+					log.debug("[Meta] Give up on the lost levels.");
 				}
 			}
 
@@ -203,7 +200,7 @@ public class Action {
 
 		if (bestProp == -10000) {
 			log.warn("Something went wrong ... Choosing random level...");
-			bestLevelIndex = new Random().nextInt(numberOfLevels) + startLevel;
+			bestLevelIndex = new Random().nextInt(numberOfLevels) + Settings.START_LEVEL;
 		}
 
 		this.currentLevel = bestLevelIndex;
@@ -220,8 +217,7 @@ public class Action {
 	 * @return the next level to play
 	 */
 	private int greedySelection(Map<Integer, Double> probabilities) {
-		int selectedLevel = probabilities.entrySet().stream().max(Comparator.comparingDouble(entry -> entry.getValue()))
-				.get().getKey();
+		int selectedLevel = SelectionAlgorithms.greedy(probabilities);
 		log.info(
 				"Greedy selected level " + selectedLevel + " which had a probability of " + probabilities.get(selectedLevel));
 		return selectedLevel;
@@ -236,11 +232,7 @@ public class Action {
 	 * @return the next level to play
 	 */
 	private int epsilonGreedySelection(Map<Integer, Double> probabilities) {
-		if (random.nextDouble() < epsilonInit) {
-			return randomSelection(probabilities);
-		} else {
-			return greedySelection(probabilities);
-		}
+		return SelectionAlgorithms.epsilonGreedy(probabilities, epsilonInit);
 	}
 
 	/**
@@ -261,10 +253,10 @@ public class Action {
 		double meanError = ((scoreError + wonError) / 2);
 		double timeconstraint = 0;
 		if (timeLimit > 0) {
-			timeconstraint = timeLeft / timeLimit;
+			timeconstraint = (double) timeLeft / timeLimit;
 		}
 		double epsilon = Math.min(meanError + timeconstraint, 1);
-		log.info("Epsilon: " + epsilon);
+		log.debug("Epsilon: " + epsilon);
 		if (random.nextDouble() < epsilon) {
 			return randomSelection(probabilities);
 		} else {
@@ -289,9 +281,16 @@ public class Action {
 				return level.getKey();
 			}
 		}
-		int selectedLevel = random.nextInt(numberOfLevels) + startLevel;
+		int selectedLevel = random.nextInt(numberOfLevels) + Settings.START_LEVEL;
 		log.info("Randomly selected Level " + selectedLevel);
 		return selectedLevel;
 	}
 
+	public long getTimeLimit() {
+		return timeLimit;
+	}
+
+	public void setTimeLimit(long timeLimit) {
+		this.timeLimit = timeLimit;
+	}
 }

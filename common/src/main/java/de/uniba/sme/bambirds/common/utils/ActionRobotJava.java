@@ -11,6 +11,7 @@ package de.uniba.sme.bambirds.common.utils;
 import de.uniba.sme.bambirds.common.exceptions.ServerException;
 import de.uniba.sme.bambirds.common.objects.GameState;
 import de.uniba.sme.bambirds.common.objects.Shot;
+import de.uniba.sme.bambirds.common.utils.Settings.ServerType;
 
 import java.util.List;
 
@@ -40,5 +41,13 @@ public interface ActionRobotJava extends ActionRobot {
 	public int[] getBestScoresInt() throws ServerException;
 
 	public int[] getMyScoreInt() throws ServerException;
+
+	public int getCurrentLevelScoreInt() throws ServerException;
+
+	public int selectNextLevelInt() throws ServerException;
+	
+	public byte reportNoveltyLikelihood(float noveltyLikelihood, float nonNoveltyLikelihood, int[] novelObjectIDs, int noveltyLevel, String noveltyDescription) throws ServerException;
+
+	public ServerType getServerType();
 
 }

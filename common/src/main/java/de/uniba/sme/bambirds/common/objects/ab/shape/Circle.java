@@ -10,7 +10,11 @@ package de.uniba.sme.bambirds.common.objects.ab.shape;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Polygon;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +31,6 @@ public class Circle extends Body {
 	private static final long serialVersionUID = 1L;
 	// radius of the circle
 	public double r;
-	public Rectangle bounds;
 
 	/**
 	 * Create a new circle
@@ -42,18 +45,12 @@ public class Circle extends Body {
 		centerY = ys;
 		r = radius;
 		shape = ABShape.Circle;
-		bounds = new Rectangle((int) (xs - r * Math.sin(Math.PI / 4)), (int) (ys - r * Math.sin(Math.PI / 4)),
+		Rectangle bounds = new Rectangle((int) (xs - r * Math.sin(Math.PI / 4)), (int) (ys - r * Math.sin(Math.PI / 4)),
 				(int) (2 * r * Math.sin(Math.PI / 4)), (int) (2 * r * Math.sin(Math.PI / 4)));
 		this.type = type;
 		angle = 0;
 		area = (int) (Math.PI * r * r);
 		super.setBounds(bounds);
-
-	}
-
-	@Override
-	public Rectangle getBounds() {
-		return bounds;
 	}
 
 	public Circle(int box[], ABType type) {
@@ -62,8 +59,8 @@ public class Circle extends Body {
 		r = (box[2] - box[0] + box[3] - box[1]) / 4.0;
 		shape = ABShape.Circle;
 		area = (int) (Math.PI * r * r);
-		bounds = new Rectangle((int) (centerX - r * Math.sin(Math.PI / 4)), (int) (centerY - r * Math.sin(Math.PI / 4)),
-				(int) (2 * r * Math.sin(Math.PI / 4)), (int) (2 * r * Math.sin(Math.PI / 4)));
+		Rectangle bounds = new Rectangle(round(centerX - r * Math.sin(Math.PI / 4)), round(centerY - r * Math.sin(Math.PI / 4)),
+				round(2 * r * Math.sin(Math.PI / 4)), round(2 * r * Math.sin(Math.PI / 4)));
 		angle = 0;
 		this.type = type;
 		super.setBounds(bounds);
@@ -80,6 +77,25 @@ public class Circle extends Body {
 			g.drawOval(round(centerX - r - padding), round(centerY - r - padding), round(r * 2 + padding * 2),
 					round(r * 2 + padding * 2));
 		}
+	}
+
+	@Override
+	public Polygon getPolygon() {
+		Polygon p = new Polygon();
+
+		// As the circle is converted to a hexagon, the non easy calculatable vertices are offset differently than the others
+		double edge_margin = Math.sqrt((r*r)/2);
+
+		p.addPoint(round(centerX-r),round(centerY));                       // 🡠
+		p.addPoint(round(centerX-edge_margin),round(centerY-edge_margin)); // 🡤
+		p.addPoint(round(centerX),round(centerY-r));                     // 🡡
+		p.addPoint(round(centerX+edge_margin),round(centerY-edge_margin)); // 🡥
+		p.addPoint(round(centerX+r),round(centerY));                       // 🡢
+		p.addPoint(round(centerX+edge_margin),round(centerY+edge_margin)); // 🡦
+		p.addPoint(round(centerX),round(centerY+r));                     // 🡣
+		p.addPoint(round(centerX-edge_margin),round(centerY+edge_margin)); // 🡧
+
+		return p;
 	}
 
 	public String toString() {

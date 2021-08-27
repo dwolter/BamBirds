@@ -3,15 +3,19 @@ package de.uniba.sme.bambirds.common.objects;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.awt.image.BufferedImage;
-import java.awt.geom.Point2D;
 
 import de.uniba.sme.bambirds.common.database.ScreenScale;
+import de.uniba.sme.bambirds.common.gson.BamBirdsExclusionStrategy;
+import de.uniba.sme.bambirds.common.gson.Exclude;
 import de.uniba.sme.bambirds.common.objects.ab.ABObject;
 import de.uniba.sme.bambirds.common.objects.ab.ABType;
 import de.uniba.sme.bambirds.common.objects.ab.Slingshot;
 import de.uniba.sme.bambirds.common.objects.ab.shape.Circle;
-import de.uniba.sme.bambirds.common.objects.ab.shape.Rect;
 import de.uniba.sme.bambirds.common.utils.ImageUtil;
 
 /**
@@ -21,16 +25,24 @@ import de.uniba.sme.bambirds.common.utils.ImageUtil;
 public abstract class AbstractScene {
 
 	protected Slingshot slingshot;
+
 	public double scalingFactor = 1.005;
+
 	protected List<ABObject> pigs;
+
 	protected List<ABObject> birds;
+
 	protected List<ABObject> hills;
+
 	protected List<ABObject> blocks;
+
 	protected List<ABObject> tnts;
+
+	@Exclude
 	protected List<ABObject> _allObjects;
-	protected List<SavedShot> savedShots;
 	protected int groundPlaneY = -1;
 
+	@Exclude
 	protected BufferedImage image;
 
 	public AbstractScene(BufferedImage image) {
@@ -42,7 +54,6 @@ public abstract class AbstractScene {
 		blocks = new ArrayList<>();
 		tnts = new ArrayList<>();
 		_allObjects = new ArrayList<>();
-		savedShots = new ArrayList<>();
 	}
 
 	protected void generateIds() {
@@ -157,33 +168,6 @@ public abstract class AbstractScene {
 		return points;// + birds.size() * 10000;
 	}
 
-	public List<TargetPoint> getTargetPoints() {
-		if (birds == null || birds.isEmpty())
-			return new ArrayList<>();
-		List<ABObject> allBlocks = sortedTargetsList();
-		double screenScale = estimateScreenScale();
-		List<TargetPoint> targetPoints = new ArrayList<>();
-		for (ABObject obj : allBlocks) {
-			targetPoints.add(new TargetPoint(obj, obj.getCenter()));
-
-			if (obj instanceof Rect) {
-				Rect r = ((Rect) obj);
-				double len = r.getpLength() / 2;
-				double dy = len * Math.sin(r.angle);
-				double dx = len * Math.cos(r.angle);
-				if (2 * len * screenScale > 50) {
-					targetPoints.add(new TargetPoint(obj,new Point2D.Double(r.centerX - dx, r.centerY - dy)));
-					targetPoints.add(new TargetPoint(obj,new Point2D.Double(r.centerX + dx, r.centerY + dy)));
-					if (2 * len * screenScale > 100) {
-						targetPoints.add(new TargetPoint(obj,new Point2D.Double(r.centerX - dx/2, r.centerY - dy/2)));
-						targetPoints.add(new TargetPoint(obj,new Point2D.Double(r.centerX + dx/2, r.centerY + dy/2)));
-					}
-				}
-			}
-		}
-		return targetPoints;
-	}
-
 	protected double estimateScreenScale() {
 		double sum = 0;
 		int count = 0;
@@ -209,37 +193,6 @@ public abstract class AbstractScene {
 				return o;
 		return null;
 	}
-
-	public int getCountSavedShots() {
-		return this.savedShots.size();
-	}
-
-	public List<SavedShot> getPossibleShots() {
-		if (savedShots == null)
-			return new ArrayList<>();
-		return new ArrayList<>(savedShots);
-	}
-
-	public void setPossibleShots(List<SavedShot> shots) {
-		if (savedShots == null){
-			savedShots = new ArrayList<>();
-		} 
-		if (shots != null){
-			savedShots.clear();
-			savedShots.addAll(shots);
-		}
-	}
-
-	public void addPossibleShots(List<SavedShot> shots) {
-		if (savedShots == null){
-			savedShots = new ArrayList<>();
-		} 
-		if (shots != null){
-			savedShots.addAll(shots);
-		}
-	}
-
-	// public void setReachabilityForAllBlocks(ShotPlanner planner) {}
 
 	public String sceneDescription() {
 		String birds = "";
@@ -303,4 +256,44 @@ public abstract class AbstractScene {
 		return ImageUtil.deepCopy(image);
 	}
 
+	/**
+	 * 
+	 * @return a json representation of the scene
+	 */
+	public String toJSON() {
+		GsonBuilder b = new GsonBuilder();
+		b.setExclusionStrategies(new BamBirdsExclusionStrategy());
+		Gson g = b.create();
+		return g.toJson(this);
+	}
+
+    public int getObjectCount()
+	{
+		return _allObjects.size();
+	}
+
+	/**
+	 * Compare this scene to another one
+	 * @param scene Another scene
+	 * @return True if the scenes match with only small differences
+	 */
+	public boolean compareTo(AbstractScene scene) {
+		// Pig and object number must be the same
+		if (scene == null)
+			return false;
+		if (pigs.size() != scene.pigs.size()
+				|| blocks.size() != scene.blocks.size()
+				|| tnts.size() != scene.tnts.size())
+			return false;
+		// Otherwise check if the objects have moved
+		List<ABObject> thisObjects = sortedTargetsList();
+		List<ABObject> otherSceneObjects = sortedTargetsList();
+		int min = Math.min(thisObjects.size(), otherSceneObjects.size());
+		for (int i = 0; i < min; i++) {
+			if (thisObjects.get(i).getCenter().distance(otherSceneObjects.get(i).getCenter()) > 5) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

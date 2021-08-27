@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['velocitycomponentstoangle_590',['velocityComponentsToAngle',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#a21fc5d2ec5081438629b1c54250519c7',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
-  ['velocitycomponentstoparabola_591',['velocityComponentsToParabola',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#afe8e20d56c2f67923a4b6760d7ee32db',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
-  ['velocitycomponentstovelocity_592',['velocityComponentsToVelocity',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#a27dbe41297fc6612e8f7a6c48963a757',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
-  ['velocitytoparabola_593',['velocityToParabola',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#ab159566e4fe6ca096063c9243f2b901b',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
-  ['velocitytovelocitycomponents_594',['velocityToVelocityComponents',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#a1dbe1c961aba4e405990b045f2260aed',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
-  ['visionsling_595',['VisionSling',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_sling.html#a5dcfa6ddde046d78513123463fdd9233',1,'de::uniba::sme::bambirds::vision::VisionSling']]],
-  ['visiontraj_596',['VisionTraj',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_traj.html#a53e8aed1e46c072db652a4a7985c608e',1,'de::uniba::sme::bambirds::vision::VisionTraj']]]
+  ['updatefeatures_0',['updateFeatures',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_level.html#ad11e9c41093b4e04eb15e60015e5b6dd',1,'de::uniba::sme::bambirds::common::objects::Level']]],
+  ['updateinternalscalingfactor_1',['updateInternalScalingFactor',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_shot_planner.html#a07f9f5c92d838ba0798d16274651289c',1,'de::uniba::sme::bambirds::planner::shot::ShotPlanner']]],
+  ['updatelevelfeatures_2',['updateLevelFeatures',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_prediction.html#ae2267b26d1a96672d88754f7e00fb669',1,'de::uniba::sme::bambirds::level_selection::Prediction']]],
+  ['updatescoreifnecessary_3',['updateScoreIfNecessary',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1execution_1_1_shot_executor.html#a76dd8cff83523e67dc8d07eee3c7a045',1,'de::uniba::sme::bambirds::execution::ShotExecutor']]],
+  ['updateshottonewscalingfactor_4',['updateShotToNewScalingFactor',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_shot_helper.html#a795d087996b87d349a973e92a1ef773d',1,'de::uniba::sme::bambirds::common::utils::ShotHelper']]]
 ];

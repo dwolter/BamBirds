@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  game:
+    image: registry.sme.uni-bamberg.de/bambirds/angrybirds-chrome
+    ports:
+      - 80:80
+
+  abserver:
+    image: registry.sme.uni-bamberg.de/bambirds/abserver
+    environment:
+      # Timeout for a round, maximum 127
+      TIME: -1
+    ports:
+      - 2004:2004
+      - 9000:9000

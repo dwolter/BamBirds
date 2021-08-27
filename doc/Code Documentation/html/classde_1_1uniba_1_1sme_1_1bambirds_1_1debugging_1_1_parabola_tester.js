@@ -3,7 +3,6 @@ var classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester =
     [ "createShotEvaluationForAllBirds", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#a50eeaf7eac368957e5e846f6d2c958ba", null ],
     [ "findAccuratePivotPoint", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#a3f41663ac05a8f5d05738946d14a0b6e", null ],
     [ "findYellowBirdEstimation", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#aa627b62ddd62a0e40d391781f452ead4", null ],
-    [ "loadLevel", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#affa887cf3c8d774e58cef472ea2f3ee0", null ],
     [ "runTests", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#af93d079b3be3f03a361d6686b7809f7b", null ],
     [ "shoot", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#a1ef782d70f6185e880119a3ff1ee3735", null ],
     [ "shootAndGetParabola", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#a5e950f7a9fbb449904d0992130f074a4", null ],
@@ -15,15 +14,7 @@ var classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester =
     [ "shootYellow", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#ad26635349b07355731cdcd9ece3163c4", null ],
     [ "shootYellowFixedImpact", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#ae2c1634f42c9ab18059acab15d4211b7", null ],
     [ "shootYellowFixedTime", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#a88ff12e4eeb6bffdeb4f1fb7dc24659c", null ],
-    [ "shootYellowNear", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#a6af4ad311c13fb6da6966c708b7b4c75", null ],
     [ "shootYellowWithTap", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#a21b3fe248c59c5d3f104c3d0950db925", null ],
-    [ "start", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#aa3752334fc5393e8e12abef631b15732", null ],
     [ "writeOutput", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#af0be4b9d1fd7d4f3d8020a18ad347007", null ],
-    [ "writeOutputYellowTap", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#a96c2eaa37404b02a0aa730538051b670", null ],
-    [ "birdType", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#ad6d22660b675a7c5be732ad1377648cc", null ],
-    [ "clickableArea", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#af28f2b27396c4037772f55531cc28adf", null ],
-    [ "DBG", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#ac86f3afd0f307630768f8f1feb6917bd", null ],
-    [ "log", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#a01bb22933b53f60e99255c3ed91bc27f", null ],
-    [ "scaling", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#ac99ab29234e8809467dc7efd0980a77f", null ],
-    [ "sling", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#a2e234eb795bfc0b41aace916f1fa1b48", null ]
+    [ "writeOutputYellowTap", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#a96c2eaa37404b02a0aa730538051b670", null ]
 ];

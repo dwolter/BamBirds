@@ -10,11 +10,15 @@ package de.uniba.sme.bambirds.common.objects.ab;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import de.uniba.sme.bambirds.common.utils.GeometryUtil;
 
 public class ABObject extends Rectangle {
 	private static final Logger log = LogManager.getLogger();
@@ -41,9 +45,7 @@ public class ABObject extends Rectangle {
 	public boolean hollow = false;
 
 	public ABObject(Rectangle mbr, ABType type) {
-		super(mbr);
-		this.type = type;
-		this.id = counter++;
+		this(mbr, type, counter++);
 	}
 
 	public ABObject(Rectangle mbr, ABType type, int id) {
@@ -53,20 +55,17 @@ public class ABObject extends Rectangle {
 	}
 
 	public ABObject(ABObject ab) {
-		super(ab.getBounds());
-		this.type = ab.type;
-		this.id = ab.id;
+		this(ab.getBounds(),ab.type, ab.id);
 	}
 
 	public ABObject() {
-		this.id = counter++;
-		this.type = ABType.Unknown;
+		this(new Rectangle(),ABType.Unknown, counter++);
 	}
 
 	public ABType getType() {
 		return type;
 	}
-
+	
 	public Point getCenter() {
 		return new Point((int) getCenterX(), (int) getCenterY());
 	}
@@ -74,11 +73,25 @@ public class ABObject extends Rectangle {
 	public static void resetCounter() {
 		counter = 0;
 	}
-
+	
 	public static int round(double i) {
 		return (int) (i + 0.5);
 	}
 
+	/**
+	 * Get the all the vertices for the object
+	 * @return a list of Points
+	 */
+	public Polygon getPolygon() {
+		Polygon p = new Polygon();
+		p.addPoint(this.x, this.y);
+		p.addPoint(this.x, this.y);
+		p.addPoint(this.x + this.width, this.y);
+		p.addPoint(this.x + this.width, this.y + this.height);
+		p.addPoint(this.x, this.y + this.height);
+		return p;
+	}
+		
 	/**
 	 * Draws the Outline of the Object with the Color specified by the
 	 * {@link ABType} and the respective Value in {@link Colors}
@@ -93,7 +106,7 @@ public class ABObject extends Rectangle {
 	 * Draws the Object with the Color specified by the {@link ABType} and the
 	 * respective Value in {@link Colors}
 	 * 
-	 * @param g Graphics2D Object to draw on
+	 * @param g    Graphics2D Object to draw on
 	 * @param fill if the Object should be drawn filled or outlined
 	 */
 	public void draw(Graphics2D g, boolean fill) {
@@ -104,7 +117,7 @@ public class ABObject extends Rectangle {
 	 * Draws the Object with the Color specified by the {@link ABType} and the
 	 * respective Value in {@link Colors}
 	 * 
-	 * @param g Graphics2D Object to draw on
+	 * @param g     Graphics2D Object to draw on
 	 * @param color The Color to draw the Object with
 	 */
 	public void draw(Graphics2D g, Color color) {
@@ -115,7 +128,7 @@ public class ABObject extends Rectangle {
 	 * Draws the Outline of the Object with the Color specified by the
 	 * {@link ABType} and the respective Value in {@link Colors}
 	 * 
-	 * @param g Graphics2D Object to draw on
+	 * @param g       Graphics2D Object to draw on
 	 * @param padding of the drawn output
 	 */
 	public void draw(Graphics2D g, double padding) {
@@ -126,8 +139,8 @@ public class ABObject extends Rectangle {
 	 * Draws the Object with the Color specified by the {@link ABType} and the
 	 * respective Value in {@link Colors}
 	 * 
-	 * @param g Graphics2D Object to draw on
-	 * @param fill if the Object should be drawn filled or outlined
+	 * @param g       Graphics2D Object to draw on
+	 * @param fill    if the Object should be drawn filled or outlined
 	 * @param padding of the drawn output
 	 */
 	public void draw(Graphics2D g, boolean fill, double padding) {
@@ -138,8 +151,8 @@ public class ABObject extends Rectangle {
 	 * Draws the Object with the Color specified by the {@link ABType} and the
 	 * respective Value in {@link Colors}
 	 * 
-	 * @param g Graphics2D Object to draw on
-	 * @param color The Color to draw the Object with
+	 * @param g       Graphics2D Object to draw on
+	 * @param color   The Color to draw the Object with
 	 * @param padding of the drawn output
 	 */
 	public void draw(Graphics2D g, Color color, double padding) {
@@ -148,8 +161,9 @@ public class ABObject extends Rectangle {
 
 	/**
 	 * Draws the Object
-	 * @param g Graphics2D Object to draw on
-	 * @param fill if the Object should be drawn filled or outlined
+	 * 
+	 * @param g     Graphics2D Object to draw on
+	 * @param fill  if the Object should be drawn filled or outlined
 	 * @param color The Color to draw the Object with
 	 */
 	public void draw(Graphics2D g, boolean fill, Color color) {
@@ -158,18 +172,35 @@ public class ABObject extends Rectangle {
 
 	/**
 	 * Draws the Object
-	 * @param g Graphics2D Object to draw on
-	 * @param fill if the Object should be drawn filled or outlined
-	 * @param color The Color to draw the Object with
+	 * 
+	 * @param g       Graphics2D Object to draw on
+	 * @param fill    if the Object should be drawn filled or outlined
+	 * @param color   The Color to draw the Object with
 	 * @param padding of the drawn output
 	 */
 	public void draw(Graphics2D g, boolean fill, Color color, double padding) {
 		g.setColor(color);
-		Rectangle rect = new Rectangle(round(getX()-padding), round(getY()-padding), round(getWidth()+padding*2), round(getHeight()+padding*2));
+		Rectangle rect = new Rectangle(round(getX() - padding), round(getY() - padding), round(getWidth() + padding * 2),
+				round(getHeight() + padding * 2));
 		if (fill) {
 			g.fill(rect);
 		} else {
 			g.draw(rect);
+		}
+	}
+
+	public void drawRep(Graphics2D g){
+		g.setColor(new Color(type.id,0,0));
+		Polygon p = getPolygon();
+		int[] xpoints = p.xpoints;
+		int[] ypoints = p.ypoints;
+		int npoints = p.npoints;
+		g.fillPolygon(p);
+		List<Point> norms = GeometryUtil.listOfNormsInt(p);
+		for(int i = 0; i < npoints; i++) {
+			Point currentPoint = norms.get(i);
+			g.setColor(new Color(type.id,currentPoint.x,currentPoint.y));
+			g.drawLine(xpoints[i], ypoints[i], xpoints[(i + 1) % npoints], ypoints[(i + 1) % npoints]);
 		}
 	}
 

@@ -1,8 +1,5 @@
 package de.uniba.sme.bambirds.level_selection;
 
-import static de.uniba.sme.bambirds.common.utils.Settings.PERFORMANCE_MEASUREMENT_ENABLED;
-import static de.uniba.sme.bambirds.common.utils.Settings.LEVEL_SELECTION_FIRST_ROUND_ITERATIVE;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -24,8 +21,6 @@ public class LevelSelection {
 	private static final Logger log = LogManager.getLogger(LevelSelection.class);
 	private int numberOfLevels;
 	private int currentLevel;
-	private int startLevel;
-	private int roundsMax;
 	private int roundsPlayed;
 
 	private boolean allLevelsPlayedOnce;
@@ -47,16 +42,14 @@ public class LevelSelection {
 	 * Create a new LevelSelection
 	 * 
 	 * @param numberOfLevels The number of Levels in total
-	 * @param timeLimit      The time limit for the competition
+	 * @param timeLimit      The time limit for the competition in minutes
 	 */
 	public LevelSelection(int numberOfLevels, int timeLimit) {
-		if (Settings.levelRange > 0) {
-			this.numberOfLevels = Settings.levelRange;
+		if (Settings.LEVEL_RANGE > 0) {
+			this.numberOfLevels = Settings.LEVEL_RANGE;
 		} else {
 			this.numberOfLevels = numberOfLevels;
 		}
-		this.startLevel = Settings.startLevel;
-		this.roundsMax = Settings.rounds;
 
 		this.remainingTime = timeLimit * 60;
 
@@ -71,49 +64,45 @@ public class LevelSelection {
 		// and Linear Model
 		ClassifierType classifierType = ClassifierType.DECISION_TREE;
 		RegressorType regressorType = RegressorType.LINEAR_MODEL;
-		if (Settings.levelRange > 0) {
-			this.prediction = new Prediction(this.startLevel, Math.min(Settings.levelRange, numberOfLevels), classifierType, regressorType);
-		} else {
-			this.prediction = new Prediction(this.startLevel, numberOfLevels, classifierType, regressorType);
-		}
+		this.prediction = new Prediction(numberOfLevels, classifierType, regressorType);
 		this.decision = new Decision(true);
-		this.action = new Action(0.2, Strategy.EPSILON_ADAPTIVE, timeLimit, this.startLevel, numberOfLevels);
+		this.action = new Action(0.2, Strategy.EPSILON_ADAPTIVE, this.remainingTime, numberOfLevels);
 	}
 
 	public int selectNextLevel() {
 		// Only called once from Bambird.start()
 		if (currentLevel == 0) {
-			this.currentLevel = this.startLevel;
+			this.currentLevel = Settings.START_LEVEL;
 
-			if (PERFORMANCE_MEASUREMENT_ENABLED) {
-				log.info("Remaining rounds to play: " + (roundsMax - roundsPlayed));
+			if (Settings.DISABLE_LEVEL_SELECTION) {
+				log.debug("Remaining rounds to play: " + (Settings.ROUNDS - roundsPlayed));
 				this.roundsPlayed++; // Increment at start to play the correct number of times
 			}
 
 			// since numOfLevels is zero-index, but our levelIds start at 1
 			if (currentLevel == 0)
 				currentLevel = 1;
-		} else if (LEVEL_SELECTION_FIRST_ROUND_ITERATIVE || PERFORMANCE_MEASUREMENT_ENABLED) { // select levels in first
+		} else if (Settings.LEVEL_SELECTION_FIRST_ROUND_ITERATIVE || Settings.DISABLE_LEVEL_SELECTION) { // select levels in first
 																																														// round iteratively
 			this.currentLevel++;
 
 			// stay in range of the numberOfLevels
-			if (this.currentLevel > this.numberOfLevels + this.startLevel - 1) {
+			if (this.currentLevel > this.numberOfLevels + Settings.START_LEVEL - 1) {
 				// If we are playing in sequence check if we have a maximum of rounds to play
-				if (PERFORMANCE_MEASUREMENT_ENABLED) {
-					if (this.roundsPlayed < this.roundsMax) {
-						log.info("Remaining rounds to play: " + (this.roundsMax - this.roundsPlayed));
+				if (Settings.DISABLE_LEVEL_SELECTION) {
+					if (this.roundsPlayed < Settings.ROUNDS) {
+						log.debug("Remaining rounds to play: " + (Settings.ROUNDS - this.roundsPlayed));
 						this.roundsPlayed++; // So long a round to play is left decrement the number when end of levels is
 																	// reached
-					} else if (this.roundsMax <= -1) { // -1 means no boundaries so nothing to do here
+					} else if (Settings.ROUNDS <= -1) { // -1 means no boundaries so nothing to do here
 					} else {
-						log.info("No rounds remaining, requesting shutdown...");
+						log.debug("No rounds remaining, requesting shutdown...");
 						this.currentLevel = -1;
 						return -1; // when no rounds are left to play return -1 to signal that program shall
 												// terminate
 					}
 				}
-				this.currentLevel = startLevel;
+				this.currentLevel = Settings.START_LEVEL;
 
 				// we ran out of bounds of all levels, so all levels must have been played at
 				// least ONCE
@@ -121,10 +110,11 @@ public class LevelSelection {
 					this.allLevelsPlayedOnce = true;
 				}
 			}
-			if (PERFORMANCE_MEASUREMENT_ENABLED) {
-				log.info("Selecting next level in order because PERFORMANCE_MEASUREMENT is enabled");
-				return currentLevel;
-			}
+		}
+		
+		if (Settings.DISABLE_LEVEL_SELECTION) {
+			log.info("Selecting next level in order because Settings.DISABLE_LEVEL_SELECTION is true");
+			return currentLevel;
 		}
 
 		LevelStorage levelStorage = LevelStorage.getInstance();
@@ -136,17 +126,16 @@ public class LevelSelection {
 			// if that much levels have been stored, all levels must have been played ONCE
 			if (storageSize >= this.numberOfLevels) {
 				this.allLevelsPlayedOnce = true;
-				log.info("LevelStorage has size " + storageSize + ", so all levels must have been played once!");
+				log.debug("LevelStorage has size " + storageSize + ", so all levels must have been played once!");
 			} else {
-				log.info("LevelStorage has size " + storageSize);
+				log.debug("LevelStorage has size " + storageSize);
 			}
 		}
 
 		if (this.allLevelsPlayedOnce) {
-			log.info("DECISION TREE MANAGER: NOW starts prediction");
 			Map<Integer, PredictionTuple<Integer, Double>> predictions = prediction.predict();
 
-			log.info(predictions.toString());
+			log.debug("Predictions: {}", predictions.toString());
 
 			Map<Integer, Integer> maxScores = new HashMap<>();
 			Map<Integer, Long> costs = new HashMap<>();
@@ -159,23 +148,23 @@ public class LevelSelection {
 				levelStates.put(levelId, level.getLevelState());
 			}
 
-			log.info("Achieved scores: " + maxScores);
+			log.debug("Achieved scores: {}", maxScores);
 
 			Map<Integer, Double> probabilities = decision.calculateProbabilityDistribution(maxScores, costs, predictions,
 					levelStates, this.remainingTime);
 
-			log.info("Probabilities: " + probabilities);
+			log.debug("Probabilities: {}", probabilities);
 
 			currentLevel = action.nextLevel(probabilities, this.remainingTime);
-		} else { // select UNPLAYED levels randomly if all levels have not been played ONCE
-			log.info("Selecting a random, unplayed level...");
+		} else if(!Settings.LEVEL_SELECTION_FIRST_ROUND_ITERATIVE) { // select UNPLAYED levels randomly if all levels have not been played ONCE
+			log.debug("Selecting a random, unplayed level...");
 
 			Random generator = new Random();
-			int randomLevel = startLevel;
+			int randomLevel = Settings.START_LEVEL;
 
 			// get a random level until we get an unplayed one
 			do {
-				randomLevel = generator.nextInt(this.numberOfLevels) + this.startLevel;
+				randomLevel = generator.nextInt(this.numberOfLevels) + Settings.START_LEVEL;
 			} while (levelStorage.getLevelById(randomLevel) != null);
 
 			log.info("Selected randomly level " + randomLevel);
@@ -217,5 +206,17 @@ public class LevelSelection {
 
 	public int getCurrentIteration() {
 		return this.currentIteration;
+	}
+
+	public Prediction getPrediction() {
+		return prediction;
+	}
+
+	public Decision getDecision() {
+		return decision;
+	}
+
+	public Action getAction() {
+		return action;
 	}
 }

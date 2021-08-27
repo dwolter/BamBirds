@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import org.apache.logging.log4j.LogManager;
@@ -76,17 +77,21 @@ public class ABActionRobot implements ActionRobot {
 
 	@Override
 	public byte[] simpleMessage(byte[] msg, int responseLength) throws ServerException {
-		log.trace("Sending message {}",msg);
+		log.trace("Sending message {}", msg);
 		try {
 			out.write(msg);
 			out.flush();
 			byte[] response = new byte[responseLength];
+			log.trace("Received message {}", response);
 			if (in.read(response) == -1)
 				throw new ServerException(ServerException.Reason.INVALID_RESPONSE);
 			if (response[0] == -1) {
 				throw new ServerException(ServerException.Reason.SHUTDOWN);
 			}
 			return response;
+		} catch (SocketException e) {
+			// TODO: handle exception
+			throw new ServerException(Reason.INVALID_RESPONSE, e);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -320,6 +325,26 @@ public class ABActionRobot implements ActionRobot {
 
 	@Override
 	public byte[] getCurrentLevelScore() throws ServerException {
+		throw new UnsupportedOperationException("Not supported by ABServer");
+	}
+
+	@Override
+	public byte reportNoveltyLikelihood(byte... info) throws ServerException {
+		throw new UnsupportedOperationException("Not supported by ABServer");
+	}
+
+	@Override
+	public byte[] readyForNewSet() throws ServerException {
+		throw new UnsupportedOperationException("Not supported by ABServer");
+	}
+
+	@Override
+	public byte[] requestNoveltyInformation() throws ServerException {
+		throw new UnsupportedOperationException("Not supported by ABServer");
+	}
+
+	@Override
+	public byte[] selectNextLevel() throws ServerException {
 		throw new UnsupportedOperationException("Not supported by ABServer");
 	}
 

@@ -16,6 +16,7 @@ import de.uniba.sme.bambirds.common.objects.AbstractScene;
 import de.uniba.sme.bambirds.common.objects.ab.ABObject;
 import de.uniba.sme.bambirds.common.objects.ab.Slingshot;
 import de.uniba.sme.bambirds.common.utils.ActionRobot;
+import de.uniba.sme.bambirds.common.utils.ImageUtil;
 
 /**
  * The {@code Scene} class is basically a simple wrapper around the
@@ -77,7 +78,7 @@ public class Scene extends AbstractScene {
 		this.slingshot = sling;
 		if (Double.compare(scalingFactor, 0) != 0)
 			this.scalingFactor = scalingFactor;
-		Vision vision = new Vision(img);
+		Vision vision = new Vision(ImageUtil.removeABUI(img, 0));
 		if (this.slingshot == null) {
 			log.debug("Using VisionMBR to detect slingshot.");
 			Rectangle slingRect = vision.findSlingshotMBR();

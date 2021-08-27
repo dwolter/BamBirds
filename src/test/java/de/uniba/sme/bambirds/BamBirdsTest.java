@@ -3,12 +3,51 @@
  */
 package de.uniba.sme.bambirds;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import de.uniba.sme.bambirds.common.database.LevelStorage;
 
 public class BamBirdsTest {
-    @Test 
-    public void testBamBirds() {
-        fail("Not tests yet");
-    }
+
+	@Test
+	@EnabledIfEnvironmentVariable(named = "CI_JOB_NAME", matches = "test-root-ab")
+	public void testBamBirdsAB() throws MalformedURLException, InterruptedException {
+		
+		String jobID = System.getenv("CI_JOB_ID");
+
+		ChromeOptions capabilities = new ChromeOptions();
+		capabilities.setCapability("enableVNC", true);
+		capabilities.setCapability("enableVideo", true);
+		capabilities.setCapability("screenResolution", "1280x720x24");
+		capabilities.setCapability("videoName", "bambirds-ab-" + jobID + ".mp4");
+		capabilities.setCapability("sessionTimeout", "30m");
+		capabilities.setCapability("name", this.getClass().getName() +  " - " + jobID);
+
+		File extension = new File("custom_levels.crx");
+		if (extension.isFile()) {
+			capabilities.addExtensions(extension);
+		}
+
+		WebDriver driver = new RemoteWebDriver(new URL("http://selenoid:4444/wd/hub"), capabilities);
+		try {
+			driver.get("http://chrome.angrybirds.com/?host=abserver&port=9000");
+			driver.manage().window().fullscreen();
+
+			Thread.sleep(1000);
+			// Use job id for client id
+			BamBirds.main(new String[] { "-h", "abserver", "-t", jobID});
+		} finally {
+			LevelStorage.getInstance().storeResults("results.txt", true);
+			driver.quit();
+		}
+
+	}
 }

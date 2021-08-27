@@ -49,17 +49,43 @@ public class ImageSegmenter {
         {216, 232, 248, BACKGROUND},
         {208, 224, 240, BACKGROUND},
         {240, 248, 248, BACKGROUND},
+        {249, 252, 255, BACKGROUND},
         {184, 200, 240, BACKGROUND},
         {216, 232, 240, BACKGROUND},
         {168, 208, 224, BACKGROUND},
         {176, 216, 248, BACKGROUND},
         {208, 232, 248, BACKGROUND},
+        {223, 231, 250, BACKGROUND},
+        {242, 247, 253, BACKGROUND},
         {112, 160, 176, BACKGROUND},
-        {8, 16, 56, GROUND},
-        {24, 40, 96, GROUND},
+        {162, 126, 105, BACKGROUND},
+        {168, 147, 139, BACKGROUND},
+        {112, 112, 112, BACKGROUND},
+        {184, 160, 144, BACKGROUND},
+        {127, 138, 177, BACKGROUND},
+        {101, 141, 154, BACKGROUND},
+        {227, 209, 189, BACKGROUND},
+        {216, 146, 64, BACKGROUND},
+        {184, 120, 48, BACKGROUND},
+        {160, 112, 72, BACKGROUND},
+        {81, 190, 232, BACKGROUND},
+        {40, 160, 232, BACKGROUND},
+        {152, 80, 24, BACKGROUND},
+        {160, 88, 24, BACKGROUND},
+        {136, 64, 16, BACKGROUND},
+        {64, 176, 40, BACKGROUND},
+        {80, 152, 8, BACKGROUND},
+        {80, 80, 80, BACKGROUND},
+        {48, 56, 16, BACKGROUND},
+        {40, 40, 8, BACKGROUND},
+        {0, 0, 0, BACKGROUND},
+        {107, 119, 161, GROUND},
+        {123, 139, 155, GROUND},
         {48, 104, 16, GROUND},
         {192, 248, 8, GROUND},
+        {24, 40, 96, GROUND},
         {24, 48, 11, GROUND},
+        {8, 16, 56, GROUND},
         {64, 40, 24, HILLS},
         {48, 32, 16, HILLS},
         {144, 112, 80, HILLS},
@@ -79,8 +105,10 @@ public class ImageSegmenter {
         {208, 0, 40, RED_BIRD},
         {240, 216, 32, YELLOW_BIRD},
         {232, 176, 0, YELLOW_BIRD},
+        {215, 153, 19, YELLOW_BIRD},
         {96, 168, 192, BLUE_BIRD},
         {80, 144, 168, BLUE_BIRD},
+        {102, 141, 156, BLUE_BIRD},
         {232, 232, 200, WHITE_BIRD},
         {248, 184, 72, WHITE_BIRD},
         {104, 224, 72, PIG},
@@ -109,25 +137,6 @@ public class ImageSegmenter {
         {248, 176, 72, WOOD},
         {156, 112, 83, WOOD},
         {168, 88, 32, WOOD},
-        {216, 146, 64, BACKGROUND},
-        {80, 152, 8, BACKGROUND},
-        {48, 56, 16, BACKGROUND},
-        {40, 40, 8, BACKGROUND},
-        {162, 126, 105, BACKGROUND},
-        {168, 147, 139, BACKGROUND},
-        {160, 112, 72, BACKGROUND},
-        {152, 80, 24, BACKGROUND},
-        {112, 112, 112, BACKGROUND},
-        {160, 88, 24, BACKGROUND},
-        {184, 160, 144, BACKGROUND},
-        {136, 64, 16, BACKGROUND},
-        {64, 176, 40, BACKGROUND},
-        {184, 120, 48, BACKGROUND},
-        {80, 80, 80, BACKGROUND},
-        {0, 0, 0, BACKGROUND},
-        {127, 138, 177, BACKGROUND},
-        {81, 190, 232, BACKGROUND},
-        {40, 160, 232, BACKGROUND},
         {248, 224, 80, DUCK},
         {248, 208, 32, DUCK},
         {248, 136, 32, DUCK},
@@ -366,7 +375,7 @@ public class ImageSegmenter {
         _components = new ArrayList<ConnectedComponent>();
         boolean searched[][] = new boolean[_height][_width];
         
-        for (int x = 50; x < _width - 50; x++)
+        for (int x = 40 ; x < _width - 50; x++)
         for (int y = _groundLevel - 1; y > _height * 0.1; y--)
         {
             int cls = _class[y][x];
@@ -379,9 +388,9 @@ public class ImageSegmenter {
                     cc = new ConnectedComponent(_class, x, y, searched, true);
                 else
                     cc = new ConnectedComponent(_class, x, y, searched, false);
-                
+
                 // verify component has the correct size
-                if (cc.getArea() >= MIN_SIZE[cls] && cc.getArea() <= MAX_SIZE[cls])
+                if (cc.getArea() >= MIN_SIZE[cls] && cc.getArea() <= MAX_SIZE[cls] && cc.getTypeRatio() > 0.2)
                     _components.add(cc);
             }  
         }
@@ -595,8 +604,9 @@ public class ImageSegmenter {
         MIN_SIZE[HILLS] = 150;
         MAX_SIZE[HILLS] = 1000000;
         MIN_SIZE[SLING] = 150;
-        MIN_SIZE[BLUE_BIRD] = 2;
-        MAX_SIZE[BLUE_BIRD] = 30;
+        MIN_SIZE[YELLOW_BIRD] = 12;
+        MIN_SIZE[BLUE_BIRD] = 3;
+        MAX_SIZE[BLUE_BIRD] = 35;
         MIN_SIZE[RED_BIRD] = 20;
         MIN_SIZE[BLACK_BIRD] = 20;
         MIN_SIZE[TRAJECTORY] = 1;
@@ -637,7 +647,7 @@ public class ImageSegmenter {
                 return STONE;
             if (r > 232)
                 return TRAJECTORY;
-            if (r == 64)
+            if (r >= 0 && r <= 70)
                 return BLACK_BIRD;
         }
      

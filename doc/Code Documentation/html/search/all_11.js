@@ -1,27 +1,4 @@
 var searchData=
 [
-  ['randomforestclassifiermodel_187',['RandomForestClassifierModel',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_random_forest_classifier_model.html',1,'de::uniba::sme::bambirds::level_selection::model']]],
-  ['randomforestregressormodel_188',['RandomForestRegressorModel',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_random_forest_regressor_model.html',1,'de::uniba::sme::bambirds::level_selection::model']]],
-  ['randomselection_189',['randomSelection',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_action.html#a4557ffe7f8e9623a81cb9deda59b7d53',1,'de::uniba::sme::bambirds::level_selection::Action']]],
-  ['range_190',['range',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1knowledge_1_1_knowledge.html#a34c06c79cc8088e1bf009395447bdc5e',1,'de::uniba::sme::bambirds::planner::knowledge::Knowledge']]],
-  ['reason_191',['Reason',['../enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_scene_initialisation_exception_1_1_reason.html',1,'de.uniba.sme.bambirds.common.exceptions.SceneInitialisationException.Reason'],['../enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_server_exception_1_1_reason.html',1,'de.uniba.sme.bambirds.common.exceptions.ServerException.Reason']]],
-  ['recalculatescalingfactor_192',['recalculateScalingFactor',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_shot_helper.html#af9576c3a5d0c29b556898c0eff9e0a20',1,'de::uniba::sme::bambirds::common::utils::ShotHelper']]],
-  ['rect_193',['Rect',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_rect.html',1,'de::uniba::sme::bambirds::common::objects::ab::shape']]],
-  ['rectleftof_194',['RectLeftOf',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_game_state_extractor_1_1_rect_left_of.html',1,'de::uniba::sme::bambirds::vision::GameStateExtractor']]],
-  ['rectsize_195',['RectSize',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_screen_scale_1_1_rect_size.html',1,'de::uniba::sme::bambirds::common::database::ScreenScale']]],
-  ['refresh_196',['refresh',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_shot_planner.html#a05a5d2cdf96c41a3d9761e5f9c57a441',1,'de::uniba::sme::bambirds::planner::shot::ShotPlanner']]],
-  ['regressormodel_197',['RegressorModel',['../interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_regressor_model.html',1,'de::uniba::sme::bambirds::level_selection::model']]],
-  ['regressortype_198',['RegressorType',['../enumde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_prediction_1_1_regressor_type.html',1,'de::uniba::sme::bambirds::level_selection::Prediction']]],
-  ['relation_199',['Relation',['../enumde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1knowledge_1_1_relation.html',1,'de::uniba::sme::bambirds::planner::knowledge']]],
-  ['relativetosling_200',['relativeToSling',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_shot_helper.html#af847efb1791747d60b1f5e47b30fed48',1,'de::uniba::sme::bambirds::common::utils::ShotHelper']]],
-  ['releasepointtoangle_201',['releasePointToAngle',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_shot_helper.html#a66e9cc5a4d83fc72b5374c81f8941571',1,'de::uniba::sme::bambirds::common::utils::ShotHelper']]],
-  ['remainingtime_202',['remainingTime',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_level_selection.html#affdc6a8f933fef6c2aa3e125ad612c67',1,'de::uniba::sme::bambirds::level_selection::LevelSelection']]],
-  ['removeabui_203',['removeABUI',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_util.html#a668128de572567cba0c8c4595efefb36',1,'de::uniba::sme::bambirds::common::utils::ImageUtil']]],
-  ['rescalevelocity_204',['rescaleVelocity',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#a7b2523d0e5444dbdb10ec8fd61e9cbdf',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
-  ['result_205',['result',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_helper_1_1_fill_processing.html#a7fe1105dfcaebf9a8f25d73022b39a52',1,'de::uniba::sme::bambirds::vision::VisionHelper::FillProcessing']]],
-  ['reward_206',['reward',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_level.html#a3683a9b692964f6ad120bb3b183d0bd9',1,'de::uniba::sme::bambirds::common::objects::Level']]],
-  ['rgb2hsv_207',['rgb2hsv',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_sling.html#ad91b1327ffc029b9bc23590dd1449637',1,'de::uniba::sme::bambirds::vision::VisionSling']]],
-  ['roundinfo_208',['roundInfo',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1_bam_birds.html#a78910d74d33e42f4a9c25e270353072f',1,'de::uniba::sme::bambirds::BamBirds']]],
-  ['run_209',['run',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1execution_1_1_shot_executor.html#a373d87a45ab71ac28b219100a289863d',1,'de::uniba::sme::bambirds::execution::ShotExecutor']]],
-  ['runtests_210',['runTests',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#af93d079b3be3f03a361d6686b7809f7b',1,'de::uniba::sme::bambirds::debugging::ParabolaTester']]]
+  ['quickshot_0',['quickshot',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1execution_1_1_shot_executor.html#a0640448775988ebde0adad5bbb013654',1,'de::uniba::sme::bambirds::execution::ShotExecutor']]]
 ];

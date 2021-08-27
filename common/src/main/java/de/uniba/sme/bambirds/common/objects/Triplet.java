@@ -1,12 +1,12 @@
 package de.uniba.sme.bambirds.common.objects;
 
-public class Triplet<S extends Shot, T extends Target, N extends Number > {
+public class Triplet<S extends Shot, P extends Plan, N extends Number > {
 
 	private S shot;
-	private T target;
+	private P target;
 	private N damagePoints;
 
-	public Triplet(S first, T second, N damagePoints) {
+	public Triplet(S first, P second, N damagePoints) {
 		this.shot = first;
 		this.target = second;
 		this.damagePoints = damagePoints;
@@ -35,11 +35,11 @@ public class Triplet<S extends Shot, T extends Target, N extends Number > {
 		this.shot = shot;
 	}
 
-	public T getTarget() {
+	public P getTarget() {
 		return target;
 	}
 
-	public void setTarget(T target) {
+	public void setTarget(P target) {
 		this.target = target;
 	}
 

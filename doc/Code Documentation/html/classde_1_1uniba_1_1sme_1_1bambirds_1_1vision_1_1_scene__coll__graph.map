@@ -1,9 +1,12 @@
 <map id="de.uniba.sme.bambirds.vision.Scene" name="de.uniba.sme.bambirds.vision.Scene">
-<area shape="rect" id="node1" title=" " alt="" coords="847,192,1069,233"/>
-<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_abstract_scene.html" title=" " alt="" coords="483,151,773,192"/>
-<area shape="rect" id="node3" title=" " alt="" coords="15,5,345,47"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,117,355,159"/>
-<area shape="rect" id="node5" title=" " alt="" coords="121,183,239,210"/>
-<area shape="rect" id="node6" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_slingshot.html" title=" " alt="" coords="25,235,335,276"/>
-<area shape="rect" id="node7" title=" " alt="" coords="595,217,661,243"/>
+<area shape="rect" id="node1" title=" " alt="" coords="1424,30,1621,71"/>
+<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_abstract_scene.html" title=" " alt="" coords="1113,61,1375,102"/>
+<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_slingshot.html" title=" " alt="" coords="729,119,1008,161"/>
+<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_object.html" title=" " alt="" coords="372,131,651,173"/>
+<area shape="rect" id="node5" title=" " alt="" coords="105,83,185,109"/>
+<area shape="rect" id="node6" title=" " alt="" coords="114,19,175,45"/>
+<area shape="rect" id="node7" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_type.html" title=" " alt="" coords="5,199,284,241"/>
+<area shape="rect" id="node8" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_shape.html" title=" " alt="" coords="5,134,284,175"/>
+<area shape="rect" id="node9" title=" " alt="" coords="477,80,545,107"/>
+<area shape="rect" id="node10" title=" " alt="" coords="817,68,921,95"/>
 </map>

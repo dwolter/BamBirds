@@ -1,5 +1,6 @@
 <map id="de.uniba.sme.bambirds.common.objects.ab.shape.Circle" name="de.uniba.sme.bambirds.common.objects.ab.shape.Circle">
-<area shape="rect" id="node1" title=" " alt="" coords="21,169,376,211"/>
-<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_body.html" title=" " alt="" coords="5,95,392,121"/>
-<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_object.html" title=" " alt="" coords="43,5,354,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="20,244,339,285"/>
+<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_body.html" title=" " alt="" coords="5,169,353,196"/>
+<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_object.html" title=" " alt="" coords="40,80,319,121"/>
+<area shape="rect" id="node4" title=" " alt="" coords="139,5,219,32"/>
 </map>

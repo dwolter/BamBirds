@@ -1,9 +1,14 @@
 <map id="de.uniba.sme.bambirds.common.utils.VisualDebugger" name="de.uniba.sme.bambirds.common.utils.VisualDebugger">
-<area shape="rect" id="node1" title=" " alt="" coords="205,303,477,344"/>
-<area shape="rect" id="node2" title=" " alt="" coords="16,102,83,129"/>
-<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html" title=" " alt="" coords="53,199,325,240"/>
-<area shape="rect" id="node4" title=" " alt="" coords="150,5,213,32"/>
-<area shape="rect" id="node5" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html" title=" " alt="" coords="213,95,485,136"/>
-<area shape="rect" id="node6" title=" " alt="" coords="350,206,437,233"/>
-<area shape="rect" id="node7" title=" " alt="" coords="461,206,579,233"/>
+<area shape="rect" id="node1" title=" " alt="" coords="225,303,468,344"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,102,67,129"/>
+<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html" title=" " alt="" coords="77,199,320,240"/>
+<area shape="rect" id="node3" title=" " alt="" coords="344,206,448,233"/>
+<area shape="rect" id="node5" title=" " alt="" coords="82,5,147,32"/>
+<area shape="rect" id="node6" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html" title=" " alt="" coords="181,95,424,136"/>
+<area shape="rect" id="node7" title=" " alt="" coords="172,5,233,32"/>
+<area shape="rect" id="node8" title=" " alt="" coords="257,5,348,32"/>
+<area shape="rect" id="node9" title=" " alt="" coords="372,5,479,32"/>
+<area shape="rect" id="node10" title=" " alt="" coords="503,5,609,32"/>
+<area shape="rect" id="node11" title=" " alt="" coords="633,5,690,32"/>
+<area shape="rect" id="node12" title=" " alt="" coords="472,206,552,233"/>
 </map>

@@ -23,6 +23,7 @@ public class Slingshot extends ABObject {
 
 	public Slingshot(Rectangle bounds, Point2D.Double pivot) {
 		super(bounds, ABType.Sling);
+		globalID = "sling";
 		_sceneScale = getWidth() + getHeight();
 		if (pivot == null)
 			pivot = calculatePivot();
@@ -31,6 +32,8 @@ public class Slingshot extends ABObject {
 
 	public double getSceneScale() { return _sceneScale; }
 	public Point getPivotPoint() { return new Point((int)pivot.x, (int)pivot.y); }
+
+	public Point2D.Double getPivotPoint2D() { return pivot; }
 
 	private Point2D.Double calculatePivot() {
 		if (USE_NEW_SLING_DETECTION)

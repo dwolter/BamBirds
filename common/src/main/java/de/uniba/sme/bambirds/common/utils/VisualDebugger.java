@@ -11,11 +11,11 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import static de.uniba.sme.bambirds.common.utils.Settings.DEBUG_ENABLED;
+import static de.uniba.sme.bambirds.common.utils.Settings.VISUAL_DEBUG_ENABLED;
 
 public class VisualDebugger {
 	private static final Logger log = LogManager.getLogger(VisualDebugger.class);
-	final static public boolean globalDebuggingEnabled = DEBUG_ENABLED;
+	final static public boolean globalDebuggingEnabled = VISUAL_DEBUG_ENABLED;
 	public boolean localDebuggingEnabled = true;
 	public boolean visualOuputEnabled = true;
 	public boolean fileOutputEnabled = true;
@@ -124,7 +124,7 @@ public class VisualDebugger {
 
 	public void saveToFileDirectly(String filename, BufferedImage img) {
 		if (canSaveFile()) {
-			ImageUtil.saveToFile(img, filename);
+			ImageUtil.saveToDebugFile(img, filename);
 		}
 	}
 }

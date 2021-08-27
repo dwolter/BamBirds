@@ -1,5 +1,0 @@
-<map id="ab.vision.ShowSeg" name="ab.vision.ShowSeg">
-<area shape="rect" id="node5" href="$classab_1_1vision_1_1_vision_real_shape.html" title="ab.vision.VisionRealShape" alt="" coords="635,299,813,325"/>
-<area shape="rect" id="node6" href="$classab_1_1vision_1_1_a_b_object.html" title="ab.vision.ABObject" alt="" coords="339,171,473,197"/>
-<area shape="rect" id="node8" href="$classab_1_1vision_1_1real_1_1_image_segmenter.html" title="ab.vision.real.ImageSegmenter" alt="" coords="305,299,507,325"/>
-</map>

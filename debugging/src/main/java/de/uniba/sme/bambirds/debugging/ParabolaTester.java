@@ -44,7 +44,7 @@ public class ParabolaTester {
 	}
 
 	public void start() throws ServerException {
-		log.info("[ParabolaTester] ready.");
+		log.debug("ready.");
 		this.birdType = ABType.RedBird;
 		runTests();
 	}
@@ -103,7 +103,7 @@ public class ParabolaTester {
 	 */
 	private void findAccuratePivotPoint(ABType bird) throws ServerException {
 		this.birdType = bird;
-		log.info("Searching pivot point for " + birdType);
+		log.debug("Searching pivot point for " + birdType);
 		loadLevel(birdType);
 		Point2D.Double avgPoint = new Point2D.Double();
 		double[][] allParabolas = new double[9][3];
@@ -116,7 +116,7 @@ public class ParabolaTester {
 				Point2D.Double np = ParabolaMath.intersection(allParabolas[i - 1], allParabolas[i], sling.pivot);
 				avgPoint.x += np.x;
 				avgPoint.y += np.y;
-				log.info(String.format("new pivot: %1.3f %1.3f", avgPoint.x / i, avgPoint.y / i));
+				log.debug(String.format("new pivot: %1.3f %1.3f", avgPoint.x / i, avgPoint.y / i));
 			}
 			if (DBG.canOutputImage()) {
 				DBG.setImage(Client.get().doScreenShot());
@@ -128,9 +128,9 @@ public class ParabolaTester {
 		}
 		avgPoint.x /= (i - 1);
 		avgPoint.y /= (i - 1);
-		log.info(String.format("final pivot: %s", avgPoint));
-		log.info(String.format("X offset: %1.4f", (avgPoint.x - sling.x) / sling.width ));
-		log.info(String.format("Y offset: %1.4f (of width) %1.4f (of height)",
+		log.debug(String.format("final pivot: %s", avgPoint));
+		log.debug(String.format("X offset: %1.4f", (avgPoint.x - sling.x) / sling.width ));
+		log.debug(String.format("Y offset: %1.4f (of width) %1.4f (of height)",
 				(avgPoint.y - sling.y) / sling.width, (avgPoint.y - sling.y) / sling.height));
 	}
 
@@ -402,14 +402,14 @@ public class ParabolaTester {
 	private void shoot(double theta, int time) throws ServerException {
 		// Dont use angleToReleasePoint() since evaluation should not be biased with actualToLaunch() conversion
 		Point rel = new Point((int)(- 1000 * Math.cos(theta)), (int)(+ 1000 * Math.sin(theta)));
-		Shot shot = new Shot((int)sling.pivot.x, (int)sling.pivot.y, rel.x, rel.y, 0, time);
+		Shot shot = new Shot((int)sling.pivot.x, (int)sling.pivot.y, rel.x, rel.y,0, 0, 0, time);
 		Client.get().shootFast(shot);
 		try { Thread.sleep((birdType == ABType.BlackBird ? 7000 : 5000)); } catch (Exception ignored) {}
 	}
 
 	/** Save results to csv file */
 	private void writeOutput(ShotParabola pub) {
-		log.info(String.format("%s %s", birdType, pub));
+		log.debug(String.format("%s %s", birdType, pub));
 		try(FileWriter fw = new FileWriter("parabolaEval-" + birdType + ".csv", true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				PrintWriter out = new PrintWriter(bw)) {

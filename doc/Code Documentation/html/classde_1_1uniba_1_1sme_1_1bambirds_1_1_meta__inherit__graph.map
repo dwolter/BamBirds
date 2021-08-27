@@ -1,4 +1,5 @@
 <map id="de.uniba.sme.bambirds.Meta" name="de.uniba.sme.bambirds.Meta">
-<area shape="rect" id="node1" title=" " alt="" coords="27,95,239,121"/>
-<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1execution_1_1_shot_executor_1_1_shot_executor_callback.html" title=" " alt="" coords="5,5,260,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="288,46,479,73"/>
+<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1execution_1_1_shot_executor_1_1_shot_executor_callback.html" title=" " alt="" coords="5,5,240,47"/>
+<area shape="rect" id="node3" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1execution_1_1_shot_executor_1_1_strategy_callback.html" title=" " alt="" coords="12,71,233,112"/>
 </map>

@@ -1,4 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,64,32"/>
-<area shape="rect" id="node2" href="$classprediction_1_1simulate_1_1_algorithm.html" title=" " alt="" coords="112,5,328,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,209,73,235"/>
+<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1predicates_1_1_i_predicate_generator.html" title=" " alt="" coords="121,201,392,243"/>
+<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1behind__the__corner_1_1_behind_the_corner_predicate_generator.html" title=" " alt="" coords="503,5,809,47"/>
+<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1knowledge_1_1_knowledge.html" title=" " alt="" coords="520,71,792,112"/>
+<area shape="rect" id="node5" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1predicategeneration_1_1_confidence_predicate_generator.html" title=" " alt="" coords="440,136,872,177"/>
+<area shape="rect" id="node6" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1predicategeneration_1_1_example_predicate_generator.html" title=" " alt="" coords="440,201,872,243"/>
+<area shape="rect" id="node7" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1predicategeneration_1_1_is_reachable_predicate_generator.html" title=" " alt="" coords="440,267,872,308"/>
+<area shape="rect" id="node8" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1predicategeneration_1_1_i6adf962d31fd3b5c12834363efb858dc.html" title=" " alt="" coords="440,332,872,373"/>
+<area shape="rect" id="node9" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1predicategeneration_1_1_support_predicate_generator.html" title=" " alt="" coords="440,397,872,439"/>
 </map>

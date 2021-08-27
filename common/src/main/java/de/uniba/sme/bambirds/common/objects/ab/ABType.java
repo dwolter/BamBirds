@@ -35,8 +35,38 @@ public enum ABType {
 		this.id = id;
 	}
 
-	public int id() {
+    public static ABType fromObjectID(String objectId) {
+		if (objectId == null) return Unknown;
+		if (objectId.startsWith("redbird")) {
+			return RedBird;
+		} else if (objectId.startsWith("yellowbird")) {
+			return YellowBird;
+		} else if (objectId.startsWith("bluebird")) {
+			return BlueBird;
+		} else if (objectId.startsWith("blackbird")) {
+			return BlackBird;
+		} else if (objectId.startsWith("whitebird")) {
+			return WhiteBird;
+		} else if (objectId.startsWith("pig")) {
+			return Pig;
+		} else if (objectId.startsWith("ice")) {
+			return Ice;
+		} else if (objectId.startsWith("wood")) {
+			return Wood;
+		} else if (objectId.startsWith("stone")) {
+			return Stone;
+		} else if (objectId.startsWith("tnt")) {
+			return TNT;
+		}
+		return Unknown;
+    }
+
+    public int id() {
 		return this.id;
+	}
+
+	public boolean isBird() {
+		return id >= 4 && id <= 8;
 	}
 
 	public static ABType fromID(int id) {

@@ -7,7 +7,7 @@ import java.awt.Color;
  */
 public class Colors {
 
-	public static int _drawColor[] = new int[17];
+	public static int _drawColor[] = new int[20];
 
 	static {
 		_drawColor[ABType.Background.id()] = 0xdddddd;
@@ -27,6 +27,7 @@ public class Colors {
 		_drawColor[ABType.WhiteBird.id()] = 0xe8e8c8;
 		_drawColor[ABType.Duck.id()] = 0xf0d820;
 		_drawColor[ABType.Watermelon.id()] = 0x80a818;
+		_drawColor[ABType.TNT.id()] = Color.RED.getRGB();
 	}
 
 	public static Color get(ABType type){

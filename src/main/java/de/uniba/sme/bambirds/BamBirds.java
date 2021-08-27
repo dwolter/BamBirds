@@ -43,7 +43,7 @@ public class BamBirds extends BamBirdModule {
 
 			// LevelStorage.getInstance().restoreFromFile(); // in case agent crashed
 			log.info("Starting Meta");
-			meta = new Meta(Settings.pathToSwipl, levelSelector);
+			meta = new Meta(levelSelector);
 			meta.startMeta();
 
 		} catch (InterruptedException e) {
@@ -72,6 +72,7 @@ public class BamBirds extends BamBirdModule {
 			public void run() {
 				if (instance != null){
 					instance.shutdown();
+					Client.shutdown();
 				}
 			}
 		});
@@ -90,8 +91,10 @@ public class BamBirds extends BamBirdModule {
 		// TODO: do this somewhere else
 		// if (!VisualDebugger.globalDebuggingEnabled)
 		// System.setProperty("java.awt.headless", "true"); // surpress menu bar
-
-		log.always().log("Version 2019-08-13"); // FIXME: pull version from git
+		String version = BamBirds.class.getPackage().getImplementationVersion();
+		if (version == null)
+			version = "current";
+		log.always().log("Version {}", version);
 
 		log.info("Connecting to ABServer");
 		int tries = 0;
@@ -114,13 +117,13 @@ public class BamBirds extends BamBirdModule {
 			}
 		}
 
-		PrologPlanner.extractPrologFiles();
+		PrologPlanner.compileExecutable();
 
 		BamBirds bamBirds = BamBirds.getInstance();
 
 		byte[] info = {};
 		try {
-			info = Client.get().configure(Settings.teamID);
+			info = Client.get().configure(Settings.TEAM_ID);
 		} catch (ServerException e) {
 			log.fatal("Could not register at Server",e);
 			System.exit(1);
@@ -129,7 +132,7 @@ public class BamBirds extends BamBirdModule {
 		bamBirds.timeLimit = info[1];
 		bamBirds.numOfLevels = info[2]; // FIXME: should exploit other info from ABServer too
 		
-		if (Settings.serverType == ServerType.SCIENCE_BIRDS){
+		if (Settings.SERVER_TYPE == ServerType.SCIENCE_BIRDS){
 			try {
 				bamBirds.numOfLevels = ByteUtil.bytesToInt(Client.get().getNumberOfLevels());
 			} catch (ServerException e) {
@@ -137,23 +140,25 @@ public class BamBirds extends BamBirdModule {
 			}
 		}
 
-		log.info("Server response: roundInfo = " + bamBirds.roundInfo + ", timeLimit = " + bamBirds.timeLimit + ", numOfLevels = " + bamBirds.numOfLevels);
-
-		while (bamBirds.isPlaying()) { // shut down if competition is over, all requests to the server should then return -1
-			try {
-				bamBirds.start();
-			} catch (ServerException e) {
-				log.fatal(e.getMessage(),e);
-				break;
-			} catch (Exception e) {
-				// Never crash for any reason, just retry forever
-				log.error("A fatal error occurred", e);
-				log.error("Restarting BamBirds...");
-				break;
+		log.debug("Server response: roundInfo = " + bamBirds.roundInfo + ", timeLimit = " + bamBirds.timeLimit + ", numOfLevels = " + bamBirds.numOfLevels);
+		try {
+			while (bamBirds.isPlaying()) { // shut down if competition is over, all requests to the server should then return -1
+				try {
+					bamBirds.start();
+				} catch (ServerException e) {
+					log.fatal(e.getMessage(),e);
+					break;
+				} catch (Exception e) {
+					// Never crash for any reason, just retry forever
+					log.error("A fatal error occurred", e);
+//					log.error("Restarting BamBirds...");
+					throw e;
+				}
 			}
+		} finally {
+			log.warn("Shutting down BamBirds");
+			// No need to shutdown here, since that is handled by the ShutdownHook
 		}
-		Client.shutdown();
-		log.error("Shutting down BamBirds");
 	}
 
 	@Override

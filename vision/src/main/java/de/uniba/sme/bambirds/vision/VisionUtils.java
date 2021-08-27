@@ -444,7 +444,7 @@ public class VisionUtils {
 
 	// draws bounding boxes onto an image
 	public static BufferedImage drawBoundingBoxes(BufferedImage canvas,
-			List<Rectangle> boxes, Color fgColour, Color bgColour) {
+			List<? extends Rectangle> boxes, Color fgColour, Color bgColour) {
 		Graphics2D g2d = canvas.createGraphics();
 		for (Rectangle r : boxes) {
 			g2d.setColor(bgColour);
@@ -470,6 +470,20 @@ public class VisionUtils {
 		return canvas;
 	}
 
+	public static BufferedImage drawObjects(BufferedImage canvas, List<ABObject> boxes, Color c) {
+		Graphics2D g2d = canvas.createGraphics();
+		boxes.forEach(box -> box.draw(g2d,true,c));
+		return canvas;
+	}
+
+	public static BufferedImage drawObjects(BufferedImage canvas, List<ABObject> boxes) {
+		Graphics2D g2d = canvas.createGraphics();
+		boxes.forEach(box -> box.draw(g2d,true));
+		return canvas;
+	}
+
+
+
 	// draws bounding boxes onto an image
 	public static BufferedImage drawBoundingPolygon(BufferedImage canvas,
 			Polygon p, Color fgColour) {
@@ -481,7 +495,7 @@ public class VisionUtils {
 
 	// draws bounding boxes onto an image
 	public static BufferedImage drawBoundingBoxes(BufferedImage canvas,
-			List<Rectangle> boxes, Color fgColour) {
+			List<? extends Rectangle> boxes, Color fgColour) {
 		return drawBoundingBoxes(canvas, boxes, fgColour, Color.WHITE);
 	}
 

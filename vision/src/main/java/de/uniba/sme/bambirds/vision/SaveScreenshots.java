@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
 
 import de.uniba.sme.bambirds.common.objects.AbstractScene;
 import de.uniba.sme.bambirds.common.objects.ab.ABObject;
-import de.uniba.sme.bambirds.common.objects.ab.ABType;
 import de.uniba.sme.bambirds.common.utils.VisualDebugger;
 
 /**

@@ -187,7 +187,7 @@ public class VisionHelper {
 				g2d.fillRect(r.x, r.y, r.width, r.height); // because pigs are blinking
 			}
 		} catch (Exception e) {
-			log.error("[Level] error masking birds, returning regular screenshot...");
+			log.error("error masking birds, returning regular screenshot...");
 		}
 		DBG.saveToFileDirectly("preshot-stable-" + DBG.incrementCounter(), screenShot);
 		return screenShot;
@@ -200,6 +200,17 @@ public class VisionHelper {
 		VisionTraj vision = new VisionTraj(img);
 		double scalingFactor = currentLevel.getScalingFactor();
 		Slingshot slingshot = currentLevel.getSlingshot();
+		VisionSling v = new VisionSling(img);
+		Rectangle sling = v.findSlingshot();
+		// If the current screen is moved to the castle, the parameters need to be adjusted
+		if (sling != null){
+			Slingshot currentSlinghot = new Slingshot(sling);
+			if (currentSlinghot.pivot.distance(slingshot.pivot) > 5) {
+				releasePoint.x += currentSlinghot.pivot.x - slingshot.pivot.x;
+				releasePoint.y += currentSlinghot.pivot.y - slingshot.pivot.y;
+				slingshot = currentSlinghot;
+			}
+		}
 
 		// TODO: Setting the Properties for ShotHelper this ways seems wrong...
 		ShotHelper.setProperties(scalingFactor, currentLevel.currentScene.getBirdTypeOnSling());
@@ -218,7 +229,7 @@ public class VisionHelper {
 		if (para.velocity == 0 || Double.isNaN(para.velocity))
 			return scalingFactor;
 
-		para.draw(ImageUtil.deepCopy(img), estTapPoint);
+		DBG.saveToFileDirectly("parabola-" + DBG.incrementCounter(), para.draw(ImageUtil.deepCopy(img), estTapPoint));
 		double factor = ShotHelper.recalculateScalingFactor(para.velocity, theta);
 		if (!Double.isNaN(factor))
 			scalingFactor = factor;

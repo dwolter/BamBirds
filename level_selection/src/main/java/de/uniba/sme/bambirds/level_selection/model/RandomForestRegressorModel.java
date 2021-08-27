@@ -52,7 +52,7 @@ public class RandomForestRegressorModel implements RegressorModel {
 		this.levelFeatures.putAll(levelFeatures);
 		Map<Integer, Integer> predictions = new HashMap<Integer, Integer>();
 		List<? extends InputField> inputFields = evaluator.getInputFields();
-		log.info("Input fields: " + inputFields);
+		log.trace("Input fields: " + inputFields);
 
 		for (Map.Entry<Integer, Map<String, Integer>> entry : this.levelFeatures.entrySet()) {
 			int levelId = entry.getKey();

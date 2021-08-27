@@ -1,4 +1,7 @@
-image: java:8-jdk
+image: registry.sme.uni-bamberg.de/bambirds/testing/build:0.4
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
 
 before_script:
   #  - echo `pwd` # debug
@@ -6,17 +9,119 @@ before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 stages:
-  - build
+  - prepare
   - test
+  - check
+  - publish
 
 
 cache:
   paths:
-    - .gradle/wrapper
-    - .gradle/caches
+    - .gradle/
 
-build:
-  stage: build
+
+compile:
+  stage: prepare
+  script:
+    - ./gradlew jar
+    - ./gradlew testClasses
+  artifacts:
+    untracked: false
+    expire_in: 10 days
+    paths:
+      - "bin/"
+      - "build/"
+      - "*/bin/"
+      - "*/build/"
+
+chrome-extension:
+  stage: prepare
+  image: node:alpine
+  script:
+    - cp -f game/Levels/levels_organised/learning_0/* game/Levels/original-levels/package1/
+    - npx crx pack game/Levels/ -o custom_levels.crx
+  artifacts:
+    paths:
+      - "custom_levels.crx"
+    expire_in: 30 days
+
+.gradle-test-template:
+  script:
+    - ./gradlew ${PROJECT}:test
+    - |
+      if [ -f "$JACOCO_REPORT_CSV" ]; then
+        awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' ${JACOCO_REPORT_CSV}
+      else
+        echo jacoco report file "$JACOCO_REPORT_CSV" does not exist
+        echo 0.0 % covered
+      fi
+  artifacts:
+    reports:
+      junit:
+        - "${CI_PROJECT_DIR}/${PROJECT}/build/test-results/test/TEST-*.xml"
+  coverage: '/([0-9]{1,3}|[0-9]{1,3}\.[0-9]*).%.covered/'
+  variables:
+    JACOCO_REPORT_CSV: ${CI_PROJECT_DIR}/${PROJECT}/build/reports/jacoco/test/jacocoTestReport.csv
+
+test:
+  stage: test
+  extends: .gradle-test-template
+  dependencies:
+    - compile
+  parallel: 
+    matrix:
+      - PROJECT: ["", "client", "common", "level_selection", "planner", "vision"]
+
+test-root-ab:
+  stage: test
+  tags:
+    - docker
+    - selenoid
+  when: manual
+  extends: .gradle-test-template
+  variables:
+    PROJECT: ""
+  before_script:
+    - curl http://selenoid:4444/
+  script:
+    - ./gradlew ${PROJECT}:test
+  after_script:
+    - wget "http://selenoid:4444/video/bambirds-ab-${CI_JOB_ID}.mp4"
+  dependencies:
+    - chrome-extension
+    - compile
+  artifacts:
+    paths:
+      - "bambirds-ab*.mp4"
+      - "results.txt"
+      - "situation*.pl"
+      - "logs/*"
+      - "debug/*"
+    expire_in: 30 days
+
+.gradle-check-template:
+  script:
+    - ./gradlew ${PROJECT}:checkStyleMain
+    - ./gradlew ${PROJECT}:checkStyleTest
+  artifacts:
+    when: on_failure
+    paths:
+      - "${CI_PROJECT_DIR}/${PROJECT}/build/reports/checkstyle/*"
+  dependencies:
+    - compile
+
+check:
+  stage: check
+  extends: .gradle-check-template
+  allow_failure: true
+  variables:
+    CHECKSTYLE_SHOW_FAILURES: "true"
+  parallel:
+    matrix:
+      - PROJECT: ["", "client", "common", "level_selection", "planner", "vision"]
+
+publish master:
+  stage: publish
   script:
     - ./gradlew assemble
   artifacts:
@@ -27,13 +132,39 @@ build:
     expire_in: 1 week
   only:
     - master
+  dependencies:
+    - compile
 
-test:
-  stage: test
+publish tags:
+  stage: publish
   script:
-    - ./gradlew test
+    - ./gradlew -Pversion=${CI_COMMIT_TAG} assemble
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file "build/distributions/bambirds-${CI_COMMIT_TAG}.zip" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/bambirds/${CI_COMMIT_TAG}/bambirds-${CI_COMMIT_TAG}.zip"'
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file "build/distributions/bambirds-${CI_COMMIT_TAG}.tar" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/bambirds/${CI_COMMIT_TAG}/bambirds-${CI_COMMIT_TAG}.tar"'
   artifacts:
-    reports:
-      junit:
-        - "build/test-results/test/TEST-*.xml"
-        - "*/build/test-results/test/TEST-*.xml"
+    paths:
+      - "build/libs/*.jar"
+      - "*/build/libs/*.jar"
+      - "build/distributions/*"
+    expire_in: 1 week
+  only:
+    - tags
+  dependencies:
+    - compile
+
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
+code_quality:
+  stage: check
+  tags:
+    - docker
+    - build
+  before_script:
+    - rm Prolog
+  rules:
+    - if: '$CODE_QUALITY_DISABLED'
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"' # Run code quality job in merge request pipelines
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'      # Run code quality job in pipelines on the master branch (but not in other branch pipelines)
+    - if: '$CI_COMMIT_TAG'                               # Run code quality job in pipelines for tags

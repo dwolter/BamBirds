@@ -1,21 +1,16 @@
 package de.uniba.sme.bambirds.planner.shot;
 
+import de.uniba.sme.bambirds.common.objects.*;
 import de.uniba.sme.bambirds.common.objects.ab.ABObject;
 import de.uniba.sme.bambirds.common.objects.ab.ABType;
-import de.uniba.sme.bambirds.common.objects.Level;
-import de.uniba.sme.bambirds.common.objects.Node;
-import de.uniba.sme.bambirds.common.objects.Target;
-import de.uniba.sme.bambirds.common.objects.Triplet;
-import de.uniba.sme.bambirds.common.objects.SavedShot;
-import de.uniba.sme.bambirds.common.objects.Shot;
+import de.uniba.sme.bambirds.common.objects.Plan;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
+import de.uniba.sme.bambirds.common.utils.SelectionAlgorithms;
+import de.uniba.sme.bambirds.common.utils.Settings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,28 +26,40 @@ public class ShotSelection {
 	public boolean fallbackToDemoShot = true;
 
 	private List<Node> filteredNodeList = null;
-	private Target chosenTarget = null;
-	private Random random = new Random();
-    private Shot shotToVary = null;
+	private Plan chosenPlan = null;
+	private final Random random = new Random();
+	private Shot shotToVary = null;
 
 	public ShotSelection(Level currentLevel, int shotNumber) {
 		this.currentLevel = currentLevel;
 		this.executedShots = shotNumber;
 	}
 
-	public Target getChosenTarget() { return chosenTarget; }
+	public Plan getChosenTarget() { return chosenPlan; }
 
-	public boolean generateAndEvaluateShotOptions(List<Target> targets, List<SavedShot> savedShots) {
+	public boolean generateAndEvaluateShotOptions(List<Plan> plans) {
 		shotToVary = null;
 		
-		if (targets == null || targets.isEmpty())
+		if (plans == null){
 			return false;
+		} else if (plans.isEmpty()) {
+			Plan demoPlan = getDemoPlan();
+			if (demoPlan == null) {
+				return false;
+			}
+			plans.add(demoPlan);
+		}
 
 		fallbackToDemoShot = false;
-		currentLevel.tree.createChildNodesFromTargetList(targets, savedShots);
+		currentLevel.tree.getCurrentNode().createChildNodesFromTargetList(plans);
 
+		return generateAndEvaluateShotOptions();
+	}
+
+	public boolean generateAndEvaluateShotOptions() {
+		fallbackToDemoShot = false;
 		try {
-			ArrayList<Node> childNodes = currentLevel.tree.getCurrentNode().getChildren();
+			List<Node> childNodes = currentLevel.tree.getCurrentNode().getChildren();
 			if (childNodes == null || childNodes.isEmpty())
 				throw new NullPointerException("No targets");
 
@@ -62,7 +69,7 @@ public class ShotSelection {
 					childsNotLost.add(childNode);
 				}
 			}
-			log.info("child nodes before: "+childNodes.size()+" and after removal: "+childsNotLost.size());
+			log.debug("child nodes before: "+childNodes.size()+" and after removal: "+childsNotLost.size());
 			if (childsNotLost.isEmpty()) {
 				shotToVary = childNodes.get(random.nextInt(childNodes.size())).getShot();
 				throw new NullPointerException("All nodes lead to failure");
@@ -70,34 +77,47 @@ public class ShotSelection {
 
 			childsNotLost.sort(Comparator.comparingDouble(n -> -n.getConfidence()));
 			filteredNodeList = childsNotLost;
-			return true;
 		}
 		catch (Exception e) {
 			fallbackToDemoShot = true;
-			log.error("[ShotSelection] Error generating Targets: " + e.getMessage()
-					+ ", falling back to demo shot.");
+			log.error("Error generating Targets, falling back to demo shot.", e);
 		}
-		return false;
+		return !fallbackToDemoShot;
 	}
 
 	public Shot mostPromisingShot() {
-		if (fallbackToDemoShot || filteredNodeList == null || filteredNodeList.isEmpty())
-			return getDemoShot();
+		Node selectedNode;
 
-		Node highestConfidenceNode = filteredNodeList.get(0);
-		chosenTarget = highestConfidenceNode.target;
-		currentLevel.tree.setCurrentNode(highestConfidenceNode);
+		if (fallbackToDemoShot || filteredNodeList == null || filteredNodeList.isEmpty()){
+			Plan demoPlan = getDemoPlan();
+			if (demoPlan == null) {
+				return null;
+			}
+			selectedNode = new Node(demoPlan);
+			currentLevel.tree.getCurrentNode().addChild(selectedNode);
+		} else {
+			Map<Node, Double> map = new HashMap<>();
+			filteredNodeList.forEach(n -> map.put(n, n.getConfidence()));
+			selectedNode = SelectionAlgorithms.epsilonGreedy(SelectionAlgorithms.softmax(map), Settings.NODE_SELECTION_EPSILON);
+		}
+
+		chosenPlan = selectedNode.plan;
+		currentLevel.tree.setCurrentNode(selectedNode);
 
 		// do we really care if the object can not be found in scene?
 //		ABObject chosenABTarget = currentLevel.currentScene.findObjectWithID(chosenTarget.getTargetId());
 //		if (chosenABTarget == null)
 //			throw new NullPointerException("Could not find target in scene");
 
-		log.info("Chosen target: " + chosenTarget);
-		return highestConfidenceNode.getShot();
+		log.info("Chosen target: " + chosenPlan);
+		return selectedNode.getShot();
 	}
 
-	public Shot getDemoShot() {
+	/**
+	 * Generate a demo plan. A new demoShot is generated at a random target
+	 * @return Target With the shot description
+	 */
+	public Plan getDemoPlan() {
 		TrajectoryPlanner tp = new TrajectoryPlanner();
 		Rectangle sling = currentLevel.currentScene.getSlingshot();
 		ABType birdOnSling = currentLevel.currentScene.getBirdTypeOnSling();
@@ -129,8 +149,8 @@ public class ShotSelection {
 					Point refPoint = TrajectoryPlanner.getReferencePoint(sling);
 					if (releasePoint != null) {
 						double releaseAngle = tp.getReleaseAngle(sling, releasePoint);
-						log.info("Release Point: " + releasePoint);
-						log.info("Release Angle: " + Math.toDegrees(releaseAngle));
+						log.debug("Release Point: " + releasePoint);
+						log.debug("Release Angle: " + Math.toDegrees(releaseAngle));
 						int tapInterval;
 						switch (birdOnSling) {
 							case RedBird:    tapInterval = 0; break;
@@ -144,70 +164,26 @@ public class ShotSelection {
 						int tapTime = tp.getTapTime(sling, releasePoint, _tpt, tapInterval);
 						dx = (int) releasePoint.getX() - refPoint.x - 50 + random.nextInt(100);
 						dy = (int) releasePoint.getY() - refPoint.y - 50 + random.nextInt(100);
-						return new Shot(refPoint.x, refPoint.y, dx, dy, 0, tapTime);
+						//TODO: Calculate angles and Parabola correctly
+						return new Plan(pig.globalID, 42, "demo", 0,
+								new Shot(refPoint.x, refPoint.y, dx, dy, _tpt.x, _tpt.y, 0, tapTime),
+								ThinkerType.DEMO);
 					} else {
 						log.error("No Release Point Found");
 						return null;
 					}
 				}
 			} else if (shotToVary != null) {
-				int dx = shotToVary.getDx() - 80 + random.nextInt(160);
-				int dy = shotToVary.getDy() - 80 + random.nextInt(160);
-				int tap = (int) shotToVary.getT_tap() - 200 + random.nextInt(400);
-				return new Shot(shotToVary.getX(), shotToVary.getY(), dx, dy, 0, tap);
+				int dx = shotToVary.getDragX() - 80 + random.nextInt(160);
+				int dy = shotToVary.getDragY() - 80 + random.nextInt(160);
+				int tap = (int) shotToVary.getTapTime() - 200 + random.nextInt(400);
+				//TODO: Calculate angles and Parabola correctly
+				return new Plan("random", 42, "demo", 0,
+						new Shot(shotToVary.getSlingX(), shotToVary.getSlingY(), dx, dy, shotToVary.getTargetX(), shotToVary.getTargetY(), 0, tap),
+						ThinkerType.DEMO);
 			}
 		}
 		return null;
-	}
-
-	private ShotEvaluation evaluate(Target chosenTarget, Level levelInStore) {
-		ShotEvaluation resultEvaluation = ShotEvaluation.GOOD;
-		List<Triplet<Shot, Target, Integer>> executedShotsList = levelInStore.executedShots;
-
-		try {
-			if (executedShots + 1 <= executedShotsList.size()) {
-
-				ABObject chosenTargetObject = currentLevel.currentScene.findObjectWithID(chosenTarget.getTargetId());
-				ABObject previousTargetObject = currentLevel.currentScene.findObjectWithID(executedShotsList.get(executedShots).getTarget().getTargetId());
-
-				if (chosenTargetObject.equals(previousTargetObject)) {
-
-					// If the shotToBeExecuted was the only shot in the list
-					if (executedShotsList.size() == 1) {
-						log.info("[Meta] Only shot in list, shot was rated as being optimal.");
-						return resultEvaluation;
-					} else if ((optimalShot() + calculateRatioPoints(levelInStore)) < 0.45) {
-						log.info("[Meta] shot was bad in the first round: "
-								+ (optimalShot() + calculateRatioPoints(levelInStore)) + ". Choosing another one...");
-						resultEvaluation = ShotEvaluation.BAD;
-					}
-				}
-			}
-		} catch (Exception e) {
-			log.warn("[Meta] Connection is lacking so no exact calculation possible.");
-		}
-		return resultEvaluation;
-	}
-
-	private double optimalShot() {
-		int totalBirdAmount = currentLevel.currentScene.getBirds().size() + currentLevel.executedShots.size();
-		int usedBirds = currentLevel.executedShots.size();
-		return (1 - (usedBirds / totalBirdAmount)) * 0.3;
-	}
-
-	private double calculateRatioPoints(Level levelInStore) {
-		int numberOfBirds = currentLevel.currentScene.getBirds().size();
-		int totalBirdAmount = numberOfBirds + currentLevel.executedShots.size();
-
-		int estimatedShotPoints = currentLevel.getEstimatedMaximalPoints() - 10000 * (numberOfBirds - 1);
-		log.info("Damage Points of all shots: " + estimatedShotPoints);
-
-		int averageReachablePoints = (estimatedShotPoints / totalBirdAmount);
-		log.info("Damage Points per shot: " + averageReachablePoints);
-
-		int reachedPoints = levelInStore.executedShots.get(executedShots).getDamage();
-
-		return (reachedPoints / averageReachablePoints) * 0.7;
 	}
 
 	public List<Node> getAvailableTargets() {
@@ -218,22 +194,22 @@ public class ShotSelection {
 	}
 
 	public void printAvailableTargets() {
-		log.info("");
-		log.info("Available targets: ");
+		log.debug("");
+		log.debug("Available targets: ");
 		if (fallbackToDemoShot) {
-			log.info("-- none --");
+			log.debug("-- none --");
 		}
 		else if (filteredNodeList != null) {
-			log.info(Integer.toString(filteredNodeList.size()));
+			log.debug(Integer.toString(filteredNodeList.size()));
 			for (Node n : filteredNodeList) {
-				if (n.target != null)
-					log.info(n.target.prettyPrint());
+				if (n.plan != null)
+					log.debug(n.plan.prettyPrint());
 			}
 		}
 	}
 
 	@Override public String toString() {
 		return String.format("(ShotSelection useDemoShot: %b, targets: %d, chosen: %s)",
-				fallbackToDemoShot, (filteredNodeList == null ? 0 : filteredNodeList.size()), chosenTarget);
+				fallbackToDemoShot, (filteredNodeList == null ? 0 : filteredNodeList.size()), chosenPlan);
 	}
 }

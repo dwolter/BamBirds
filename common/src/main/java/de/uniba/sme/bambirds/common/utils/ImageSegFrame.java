@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.concurrent.TimeUnit;
 
 public class ImageSegFrame {
 	private static final Logger log = LogManager.getLogger(ImageSegFrame.class);
@@ -28,8 +29,9 @@ public class ImageSegFrame {
 	public static String saveFileDir = "";
 	public static volatile boolean recordScreenshot = false;
 	public static volatile boolean saveAndExit = false;
+	private static volatile boolean paused = false;
 
-	public class ImagePanel extends JPanel implements KeyListener, MouseListener {
+	public class ImagePanel extends JPanel implements KeyListener, MouseListener, ActionListener {
 		/**
 		* 
 		*/
@@ -87,73 +89,74 @@ public class ImageSegFrame {
 			}
 		}
 
+		private void close() {
+			_parent.setVisible(false);
+			_parent.dispose();
+		}
+
+		private void saveImage() {
+			String imgFilename = saveFileDir + String.format("img%04d.png", _saveCount);
+			log.debug("saving image to " + imgFilename);
+			BufferedImage bi = new BufferedImage(_img.getWidth(null), _img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+			Graphics2D g2d = bi.createGraphics();
+			g2d.drawImage(_img, 0, 0, null);
+			g2d.dispose();
+			try {
+				ImageIO.write(bi, "png", new File(imgFilename));
+			} catch (IOException e) {
+				log.error("failed to save image " + imgFilename);
+				e.printStackTrace();
+			}
+			_saveCount += 1;
+		}
+
+		private void saveHighlights() {
+
+			if (_meta != null) {
+				String metaFilename = String.format("meta%04d.txt", _saveCount);
+				log.debug("saving meta-data to " + metaFilename);
+				try {
+					PrintWriter ofs = new PrintWriter(new FileWriter(metaFilename));
+					for (int[] ints : _meta) {
+						for (int j = 0; j < ints.length; j++) {
+							if (j > 0)
+								ofs.print(' ');
+							ofs.print(ints[j]);
+						}
+						ofs.println();
+					}
+					ofs.close();
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}
+
+		private void toggleHighlight() {
+			// toggle highlight mode
+			if (_highlightMode) {
+				_highlightMode = false;
+				this.repaint();
+			} else {
+				_highlightMode = true;
+				_highlightIndex = -1;
+			}
+		}
+
 		public void keyPressed(KeyEvent key) {
 			// process key
 
 			if (key.getKeyCode() == KeyEvent.VK_ENTER) {
-				_parent.setVisible(false);
-				_parent.dispose();
-
+				close();
 			} else if (key.getKeyCode() == KeyEvent.VK_D) {
-
-				String imgFilename = saveFileDir + String.format("img%04d.png", _saveCount);
-				log.info("saving image to " + imgFilename);
-				BufferedImage bi = new BufferedImage(_img.getWidth(null), _img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-				Graphics2D g2d = bi.createGraphics();
-				g2d.drawImage(_img, 0, 0, null);
-				g2d.dispose();
-				try {
-					ImageIO.write(bi, "png", new File(imgFilename));
-				} catch (IOException e) {
-					log.error("failed to save image " + imgFilename);
-					e.printStackTrace();
-				}
-
-				if (_meta != null) {
-					String metaFilename = String.format("meta%04d.txt", _saveCount);
-					log.info("saving meta-data to " + metaFilename);
-					try {
-						PrintWriter ofs = new PrintWriter(new FileWriter(metaFilename));
-						for (int i = 0; i < _meta.length; i++) {
-							for (int j = 0; j < _meta[i].length; j++) {
-								if (j > 0)
-									ofs.print(' ');
-								ofs.print(_meta[i][j]);
-							}
-							ofs.println();
-						}
-						ofs.close();
-
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-
-					_saveCount += 1;
-				}
+				saveImage();
+				saveHighlights();
 			} else if (key.getKeyCode() == KeyEvent.VK_H) {
-				// toggle highlight mode
-				if (_highlightMode) {
-					_highlightMode = false;
-					this.repaint();
-				} else {
-					_highlightMode = true;
-					_highlightIndex = -1;
-				}
-
+				toggleHighlight();
 			} else if (key.getKeyCode() == KeyEvent.VK_S) {
-				String imgFilename = String.format("img%04d.png", _saveCount);
-				log.info("saving image to " + imgFilename);
-				BufferedImage bi = new BufferedImage(_img.getWidth(null), _img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-				Graphics2D g2d = bi.createGraphics();
-				g2d.drawImage(_img, 0, 0, null);
-				g2d.dispose();
-				try {
-					ImageIO.write(bi, "png", new File(imgFilename));
-				} catch (IOException e) {
-					log.error("failed to save image " + imgFilename);
-					e.printStackTrace();
-				}
-				_saveCount += 1;
+				saveImage();
 			}
 
 			// check if usercode is waiting for a keypress
@@ -220,6 +223,24 @@ public class ImageSegFrame {
 				_tip = null;
 			}
 		}
+
+		@Override public void actionPerformed(ActionEvent actionEvent) {
+			switch (actionEvent.getActionCommand()) {
+			case "close":
+				close();
+				break;
+			case "highlight":
+				toggleHighlight();
+				break;
+			case "save":
+				saveHighlights();
+			case "save_no_highlights":
+				saveImage();
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	protected JFrame frame;
@@ -241,46 +262,43 @@ public class ImageSegFrame {
 		this.meta = meta;
 		frame = new JFrame(name);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
 		panel = new ImagePanel(frame);
 
 		frame.getContentPane().add(panel);
 
+		JMenu commands = new JMenu("Commands");
+		JMenuItem close = new JMenuItem("close",KeyEvent.VK_C);
+		close.setActionCommand("close");
+		close.addActionListener(panel);
+		JMenuItem highlight = new JMenuItem("highlight",KeyEvent.VK_H);
+		highlight.setActionCommand("highlight");
+		highlight.addActionListener(panel);
+		JMenuItem save = new JMenuItem("save current image",KeyEvent.VK_D);
+		save.setActionCommand("save");
+		save.addActionListener(panel);
+		JMenuItem saveNoHighlight = new JMenuItem("save current image (no highlights)",KeyEvent.VK_S);
+		saveNoHighlight.setActionCommand("save_no_highlights");
+		saveNoHighlight.addActionListener(panel);
+		JCheckBoxMenuItem pause = new JCheckBoxMenuItem("pause agent");
+		pause.setSelected(false);
+		pause.setToolTipText("Pauses the updating of the frame and in turn pauses the agent");
+		pause.addItemListener(itemEvent -> {
+			JCheckBoxMenuItem item = (JCheckBoxMenuItem) itemEvent.getItem();
+			paused = item.getState();
+		});
+		commands.add(close);
+		commands.add(highlight);
+		commands.add(save);
+		commands.add(saveNoHighlight);
+		commands.add(pause);
+
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.add(commands);
+
+		frame.setJMenuBar(menuBar);
+
 		frame.pack();
-		Insets insets = frame.getInsets();
-		frame.setSize(img.getWidth(null) + insets.left + insets.right, img.getHeight(null) + insets.top + insets.bottom);
-		if (bound_x != -1 && bound_y != -1)
-			frame.setBounds(bound_x, bound_y, frame.getSize().width, frame.getSize().height);
-		else {
-			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
-			Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
-			int x = (int) rect.getMaxX() - frame.getWidth();
-			int y = 0;
-			// log.info(frame.getWidth());
-			frame.setLocation(x, y);
-
-		}
-		frame.setVisible(true);
-		if (img != null && meta != null)
-			panel.refresh(img, meta);
-	}
-
-	public ImageSegFrame(String name, Image img, int[][] meta) {
-
-		this.name = name;
-		this.img = img;
-		this.meta = meta;
-		frame = new JFrame(name);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		panel = new ImagePanel(frame);
-
-		frame.getContentPane().add(panel);
-
-		frame.pack();
-		Insets insets = frame.getInsets();
-		frame.setSize(img.getWidth(null) + insets.left + insets.right, img.getHeight(null) + insets.top + insets.bottom);
+		refresh(img, meta);
 		if (bound_x != -1 && bound_y != -1)
 			frame.setBounds(bound_x, bound_y, frame.getSize().width, frame.getSize().height);
 		else {
@@ -291,9 +309,11 @@ public class ImageSegFrame {
 		}
 		frame.setVisible(true);
 		frame.setResizable(false);
-		if (img != null && meta != null)
-			panel.refresh(img, meta);
 
+	}
+
+	public ImageSegFrame(String name, Image img, int[][] meta) {
+		this(name, img, meta, -1, -1);
 		// panel.requestFocus();
 	}
 
@@ -303,7 +323,7 @@ public class ImageSegFrame {
 
 	// set new image
 	public void refresh(Image img) {
-		panel.refresh(img);
+		refresh(img, null);
 	}
 
 	public void refreshNow(Image img, int[][] meta) {
@@ -314,9 +334,16 @@ public class ImageSegFrame {
 
 	// set new image and meta information for tooltip
 	public void refresh(Image img, int[][] meta) {
-
+		while (paused) {
+			try {
+				TimeUnit.MILLISECONDS.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		panel.refresh(img, meta);
-
+		Insets insets = frame.getInsets();
+		frame.setSize(img.getWidth(null) + insets.left + insets.right, img.getHeight(null) + insets.top + insets.bottom + frame.getJMenuBar().getHeight());
 	}
 
 	public void highlightTarget(Point point) {

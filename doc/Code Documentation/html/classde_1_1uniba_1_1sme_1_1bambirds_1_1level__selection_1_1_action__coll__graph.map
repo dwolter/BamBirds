@@ -1,6 +1,6 @@
 <map id="de.uniba.sme.bambirds.level_selection.Action" name="de.uniba.sme.bambirds.level_selection.Action">
-<area shape="rect" id="node1" title=" " alt="" coords="96,109,307,151"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,13,72,39"/>
-<area shape="rect" id="node3" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_action_1_1_strategy.html" title=" " alt="" coords="96,5,307,47"/>
-<area shape="rect" id="node4" title=" " alt="" coords="330,13,406,39"/>
+<area shape="rect" id="node1" title=" " alt="" coords="91,109,277,151"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,13,67,39"/>
+<area shape="rect" id="node3" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_action_1_1_strategy.html" title=" " alt="" coords="91,5,277,47"/>
+<area shape="rect" id="node4" title=" " alt="" coords="302,13,373,39"/>
 </map>

@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -21,23 +22,36 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Class that loads settings from config.properties
+ * Stores settings for the BamBirds Agent.
  * 
- * @author Brant Unger
+ * Can load configurations from cli-arguments and config.properties
+ * 
+ * @author Felix Haase
  *
  */
 public class Settings {
 	private static final Logger log = LogManager.getLogger(Settings.class);
 
 	// Connection Settings
-	public static String serverHost = "localhost";
-	public static int teamID = 1;
-	public static String pathToSwipl = "/usr/bin/swipl";
+	public static String SERVER_HOST = "localhost";
+	public static int TEAM_ID = 1;
+
+	/**
+	 * Path to swi-prolog executable. By default it is used from PATH
+	 */
+	public static String PATH_TO_SWIPL = "swipl";
+
+	// Settings for Strategies
+	public static final long STRATEGY_TIMEOUT = 20000;
+	public static final TimeUnit STRATEGY_TIMEOUT_UNIT = TimeUnit.MILLISECONDS;
+	public static final boolean STRATEGY_ASYNC = true;
+	public static final long STRATEGY_ASNYC_TIMEOUT = 60000;
+
+	public static double NODE_SELECTION_EPSILON = 0.2;
 
 	// Image specifications
 	public static final int IMAGE_HEIGHT = 480;
@@ -46,67 +60,62 @@ public class Settings {
 	/**
 	 * 0 for AB and 1 for SB
 	 */
-	public static ServerType serverType = ServerType.ANGRY_BIRDS;
+	public static ServerType SERVER_TYPE = ServerType.ANGRY_BIRDS;
 
 	public enum ServerType {
-		ANGRY_BIRDS(0), 
-		SCIENCE_BIRDS(1);
-
-		private int type;
-		private ServerType(int type){
-			this.type = type;
-		}
-
-		@Override
-		public String toString() {
-			switch (type) {
-				case 1:
-					return "SCIENCE_BIRDS";
-				case 0:
-				default:
-					return "ANGRY_BIRDS";
-			}
-		}
+		ANGRY_BIRDS, SCIENCE_BIRDS
 	}
 
 	public static GameMode GAME_MODE = GameMode.COMPETITION;
 
 	public enum GameMode {
-		COMPETITION(0),
-		TRAINING(1);
+		COMPETITION(0), TRAINING(1), DEMO(2);
 
-		private byte mode;
+		private final byte mode;
 
-		private GameMode (int i){
+		private GameMode(int i) {
 			mode = (byte) i;
 		}
 
-		public byte getValue(){
+		public byte getValue() {
 			return mode;
 		}
 
 		@Override
 		public String toString() {
-			switch (mode) {
-				case 0:
-					return "COMPETITION";
-				case 1:
-				default:
-					return "TRAINING";
+			return this.name();
+		}
+
+		public static GameMode fromString(String gameMode) {
+			switch (gameMode) {
+			case "TRAIN":
+				return GameMode.TRAINING;
+			case "DEMO":
+				return GameMode.DEMO;
+			case "COMPETITION":
+				return GameMode.COMPETITION;
+			default:
+				throw new IllegalArgumentException("Unknown GameMode");
 			}
 		}
 	}
 
-	// Level Selection Settings
-	public static int startLevel = 1;
-	public static int levelRange = 0;
-	public static int rounds = -1;
+	//Simulation Component Settings
+	public static boolean SIMULATION_COMPONENT_ENABLED = true;
+	public static boolean SIM_DEBUG_MODE = false;
 
-	public static boolean DEBUG = false;
-	public static boolean DEBUG_ENABLED = true;
+	// Level Selection Settings
+	public static int START_LEVEL = 1;
+	public static int LEVEL_RANGE = 0;
+	public static int ROUNDS = -1;
+
+	public static boolean VISUAL_DEBUG_ENABLED = false;
 	public static boolean USE_NEW_SLING_DETECTION = true;
-	public static boolean PERFORMANCE_MEASUREMENT_ENABLED = false; // for testing
+	public static boolean EXPORT_LEVEL_STATS = false; // for testing
+	public static boolean DISABLE_LEVEL_SELECTION = false; // for testing
 	public static boolean LEVEL_SELECTION_FIRST_ROUND_ITERATIVE = false; // for testing
+
+	// Parameters for Parabola Calculations
 	public static double[] lowAngleChange;
 	public static double[] lowAngleVelocity;
 	public static double[] highAngleBegin = new double[10];
@@ -118,6 +127,12 @@ public class Settings {
 
 	public static final Map<String, Integer> STRATEGY_WEIGHTS;
 
+	public static final String PROLOG_FILE_EXTENSION = ".pl";
+	public static String PLANNER_START = Paths.get("planner/start.pl")
+			.toAbsolutePath().normalize().toString();
+	public static String PLANNER_EXECUTABLE = null;
+	public static String PLANNER_LIB_DIR = null;
+
 	static {
 		Hashtable<String, Integer> tmp = new Hashtable<String, Integer>(6);
 		// all the known strategies with the weights used in our decision tree in python
@@ -128,15 +143,7 @@ public class Settings {
 		tmp.put("targetPig", 5);
 		tmp.put("defrost", 15);
 		STRATEGY_WEIGHTS = Collections.unmodifiableMap(tmp);
-	}
 
-	public static final String PROLOG_FILE_EXTENSION = ".pl";
-	public static final String PROLOG_FUNCTIONS = (Paths.get("Prolog/planner/old/functions.pl")).toAbsolutePath().normalize()
-			.toString();
-	public static final String NEW_PROLOG_FUNCTIONS = (Paths.get("Prolog/planner/ShotCandidatePlanner.pl")).toAbsolutePath()
-			.normalize().toString();
-
-	private static void loadParameters() {
 		if (USE_NEW_SLING_DETECTION) {
 			lowAngleChange = new double[] { -0.0230, -7.871e-4, 0.0540 };
 			lowAngleVelocity = new double[] { 0.0473, -0.1756, 2.8654 };
@@ -174,13 +181,14 @@ public class Settings {
 			highAngleVelocity[BlackBird.id] = new double[] { 76.0678, -214.6207, 152.6222 };
 			highAngleVelocity[WhiteBird.id] = new double[] { 78.4918, -213.2718, 145.9202 };
 		}
-
 	}
 
 	/**
 	 * Load settings from properties file and cli
+	 * 
+	 * @param args Commandline arguments
 	 */
-	public static void load(String[] args) {
+	public static void load(String... args) {
 
 		// ---------------
 		// setup cli parser
@@ -190,9 +198,9 @@ public class Settings {
 		Option help = Option.builder().longOpt("help").desc("Print this message").build();
 		options.addOption(help);
 
-		Option serverHost = new Option("h", "host", true, "hostname of the ABServer (Default: localhost)");
-		serverHost.setArgName("hostname");
-		options.addOption(serverHost);
+		Option serverHostOption = new Option("h", "host", true, "hostname of the ABServer (Default: localhost)");
+		serverHostOption.setArgName("hostname");
+		options.addOption(serverHostOption);
 
 		Option debug = new Option("v", "verbose", false, "Enable verbose/debug output");
 		options.addOption(debug);
@@ -201,13 +209,12 @@ public class Settings {
 		teamID.setArgName("team_id");
 		options.addOption(teamID);
 
-		Option pathToSwipl = new Option("p", "swipl", true, "Path to SWIProlog");
+		Option pathToSwipl = new Option("s", "swipl", true, "Path to SWIProlog (Default: swipl i.e. from PATH)");
 		pathToSwipl.setArgName("path");
 		options.addOption(pathToSwipl);
 
 		Option startLevel = Option.builder().longOpt("start-level").hasArg()
 				.desc("ID of level to start from. Default: 1 for first level").build();
-		// TODO: add more information on range
 		options.addOption(startLevel);
 
 		Option range = Option.builder().longOpt("range").hasArg()
@@ -218,8 +225,9 @@ public class Settings {
 				.desc("Number of rounds to play (Only used when mode=generate). -1 for infinite rounds").build();
 		options.addOption(rounds);
 
-		Option mode = Option.builder().longOpt("mode").hasArg().desc("Mode of execution. Options: competition (default), train")
-				.argName("GAME_MODE").build();
+		Option mode = Option.builder().longOpt("mode").hasArg()
+				.desc("Mode of execution. Options (case-insensitive): competition (default), train").argName("GAME_MODE")
+				.build();
 		options.addOption(mode);
 
 		OptionGroup serverType = new OptionGroup();
@@ -229,6 +237,35 @@ public class Settings {
 				.desc("Set if using AngryBirds as Game (and the corresponding ABServer)").build();
 		serverType.addOption(scienceBirds);
 		serverType.addOption(angryBirds);
+		options.addOptionGroup(serverType);
+
+		Option visualDebug = Option.builder().longOpt("visual-debug")
+				.desc("Enable Visual debugging. Outputs files or displays continuous updates for some modules.").build();
+		options.addOption(visualDebug);
+
+		Option disableLevelSelection = Option.builder().longOpt("disable-level-selection")
+				.desc("Disable Level Selection. Levels will be played in sequence and after last level will restart").build();
+		options.addOption(disableLevelSelection);
+
+		Option levelSelectionFirstRoundIterative = Option.builder().longOpt("ls-first-round-it")
+				.desc("The first round will be run iterative and not random").build();
+		options.addOption(levelSelectionFirstRoundIterative);
+
+		Option exportLevelStats = Option.builder().longOpt("export-level-stats")
+				.desc("Exports level statistics after the end of each level to ").build();
+		options.addOption(exportLevelStats);
+
+		Option disableSimComponent = Option.builder().longOpt("disable-sim")
+		.desc("Disables simulation component").build();
+		options.addOption(disableSimComponent);
+
+		Option simDebug = Option.builder().longOpt("sim-debug")
+		.desc("Disables simulation component").build();
+		options.addOption(disableSimComponent);
+
+		Option nodeSelectionEpsilon = Option.builder().longOpt("node-selection-epsilon").hasArg()
+				.desc("Epsilon value that determines the probability for weighted random selection of a Node").build();
+		options.addOption(nodeSelectionEpsilon);
 
 		// --------------
 
@@ -244,19 +281,28 @@ public class Settings {
 						Properties prop = new Properties();
 
 						// set the properties value
-						prop.setProperty("START_LEVEL", Integer.toString(Settings.startLevel));
-						prop.setProperty("LEVEL_RANGE", Integer.toString(Settings.levelRange));
-						prop.setProperty("ROUNDS", Integer.toString(Settings.rounds));
-						prop.setProperty("SERVER_TYPE", Settings.serverType.toString());
+						prop.setProperty("START_LEVEL", Integer.toString(Settings.START_LEVEL));
+						prop.setProperty("LEVEL_RANGE", Integer.toString(Settings.LEVEL_RANGE));
+						prop.setProperty("ROUNDS", Integer.toString(Settings.ROUNDS));
+						prop.setProperty("SERVER_TYPE", Settings.SERVER_TYPE.toString());
 						prop.setProperty("GAME_MODE", Settings.GAME_MODE.toString());
-						prop.setProperty("PATH_TO_SWIPL", Settings.pathToSwipl);
-						prop.setProperty("HOST", Settings.serverHost);
-						prop.setProperty("TEAM_ID", Integer.toString(Settings.teamID));
+						prop.setProperty("PATH_TO_SWIPL", Settings.PATH_TO_SWIPL);
+						prop.setProperty("HOST", Settings.SERVER_HOST);
+						prop.setProperty("TEAM_ID", Integer.toString(Settings.TEAM_ID));
+						prop.setProperty("VISUAL_DEBUG_ENABLED", Boolean.toString(Settings.VISUAL_DEBUG_ENABLED));
+						prop.setProperty("DISABLE_LEVEL_SELECTION", Boolean.toString(Settings.DISABLE_LEVEL_SELECTION));
+						prop.setProperty("LEVEL_SELECTION_FIRST_ROUND_ITERATIVE",
+								Boolean.toString(Settings.LEVEL_SELECTION_FIRST_ROUND_ITERATIVE));
+						prop.setProperty("EXPORT_LEVEL_STATS", Boolean.toString(Settings.EXPORT_LEVEL_STATS));
 
+						prop.setProperty("SIMULATION_COMPONENT_ENABLED", Boolean.toString(Settings.SIMULATION_COMPONENT_ENABLED));
+						prop.setProperty("SIMULATION_DEBUG_MODE", Boolean.toString(Settings.SIM_DEBUG_MODE));
+
+						prop.setProperty("NODE_SELECTION_EPSILON", Double.toString(Settings.NODE_SELECTION_EPSILON));
 						// save properties to project root folder
 						prop.store(output, null);
 
-						log.info("Stored default properties to "+propertiesFile);
+						log.debug("Stored default properties to " + propertiesFile);
 
 					} catch (IOException e) {
 						log.error("Could not store default values to properties file", e);
@@ -264,14 +310,22 @@ public class Settings {
 				}
 			} catch (IOException e) {
 				log.error("Could not create properties file", e);
-				System.exit(1);
 			}
 		}
 
 		Properties appSettings = new Properties();
+		// load config.properties file
 		try (FileInputStream fis = new FileInputStream(propertiesFile)) {
-			// load config.properties file
 			appSettings.load(fis);
+		} catch (IOException e) {
+			log.error("Could not load properties file", e);
+			appSettings.clear();
+		} catch (IllegalArgumentException e) {
+			log.warn("Properties file could not be parsed so it will be ignored", e);
+			appSettings.clear();
+		}
+
+		try {
 
 			// Parse CommandLine Arguments
 			CommandLineParser parser = new DefaultParser();
@@ -288,98 +342,118 @@ public class Settings {
 			// cli options have priority
 
 			if (cli.hasOption("host")) {
-				Settings.serverHost = cli.getOptionValue("host", "localhost");
+				Settings.SERVER_HOST = cli.getOptionValue("host", Settings.SERVER_HOST);
 			} else if (appSettings.containsKey("HOST")) {
-				Settings.serverHost = (String) appSettings.get("HOST");
-			} else {
-				Settings.serverHost = "localhost";
+				Settings.SERVER_HOST = (String) appSettings.get("HOST");
 			}
 
 			if (cli.hasOption("team")) {
-				Settings.teamID = Integer.parseInt(cli.getOptionValue("team", "1"));
+				Settings.TEAM_ID = Integer.parseInt(cli.getOptionValue("team", Integer.toString(Settings.TEAM_ID)));
 			} else if (appSettings.containsKey("TEAM_ID")) {
-				Settings.teamID = Integer.parseInt((String) appSettings.get("TEAM_ID"));
-			} else {
-				Settings.teamID = 1;
+				Settings.TEAM_ID = Integer.parseInt((String) appSettings.get("TEAM_ID"));
 			}
 
 			if (cli.hasOption("swipl")) {
-				Settings.pathToSwipl = cli.getOptionValue("swipl", "/usr/bin/swipl");
+				Settings.PATH_TO_SWIPL = cli.getOptionValue("swipl", Settings.PATH_TO_SWIPL);
 			} else if (appSettings.containsKey("PATH_TO_SWIPL")) {
-				Settings.pathToSwipl = (String) appSettings.get("PATH_TO_SWIPL");
-			} else {
-				Settings.pathToSwipl = "/usr/bin/swipl";
+				Settings.PATH_TO_SWIPL = (String) appSettings.get("PATH_TO_SWIPL");
 			}
 
-
 			if (cli.hasOption("start-level")) {
-				Settings.startLevel = Integer.parseInt(cli.getOptionValue("start-level", "1"));
+				Settings.START_LEVEL = Integer
+						.parseInt(cli.getOptionValue("start-level", Integer.toString(Settings.START_LEVEL)));
 			} else if (appSettings.containsKey("START_LEVEL")) {
-				Settings.startLevel = Integer.parseInt((String) appSettings.get("START_LEVEL"));
-			} else {
-				Settings.startLevel = 1;
+				Settings.START_LEVEL = Integer.parseInt((String) appSettings.get("START_LEVEL"));
 			}
 
 			if (cli.hasOption("range")) {
-				Settings.levelRange = Integer.parseInt(cli.getOptionValue("range", "0"));
+				Settings.LEVEL_RANGE = Integer.parseInt(cli.getOptionValue("range", Integer.toString(Settings.LEVEL_RANGE)));
 			} else if (appSettings.containsKey("LEVEL_RANGE")) {
-				Settings.levelRange = Integer.parseInt((String) appSettings.get("LEVEL_RANGE"));
-			} else {
-				Settings.levelRange = -1;
+				Settings.LEVEL_RANGE = Integer.parseInt((String) appSettings.get("LEVEL_RANGE"));
 			}
 
 			if (cli.hasOption("rounds")) {
-				Settings.rounds = Integer.parseInt(cli.getOptionValue("rounds", "-1"));
+				Settings.ROUNDS = Integer.parseInt(cli.getOptionValue("rounds", Integer.toString(Settings.ROUNDS)));
 			} else if (appSettings.containsKey("ROUNDS")) {
-				Settings.rounds = Integer.parseInt((String) appSettings.get("ROUNDS"));
-			} else {
-				Settings.rounds = 0;
+				Settings.ROUNDS = Integer.parseInt((String) appSettings.get("ROUNDS"));
 			}
 
 			if (cli.hasOption("mode")) {
-				String gameMode = cli.getOptionValue("mode", "competition");
-				switch (gameMode) {
-					case "train":
-						Settings.GAME_MODE = GameMode.TRAINING;
-						break;
-					case "competition":
-						Settings.GAME_MODE = GameMode.COMPETITION;
-						break;
-					default:
-						throw new ParseException("Mode " + gameMode + " is not a valid game mode");
+				String gameMode = cli.getOptionValue("mode", GameMode.COMPETITION.toString()).toUpperCase();
+				try {
+					Settings.GAME_MODE = GameMode.fromString(gameMode);
+				} catch (IllegalArgumentException e) {
+					throw new ParseException("Mode " + gameMode + " is not a valid game mode");
 				}
 			} else if (appSettings.containsKey("GAME_MODE")) {
 				String gameMode = (String) appSettings.get("GAME_MODE");
-				if (gameMode.equals(GameMode.TRAINING.toString()))
-					Settings.GAME_MODE = GameMode.TRAINING;
-				else
+				try {
+					Settings.GAME_MODE = GameMode.fromString(gameMode);
+				} catch (IllegalArgumentException e) {
 					Settings.GAME_MODE = GameMode.COMPETITION;
-			} else {
-				Settings.GAME_MODE = GameMode.COMPETITION;
+				}
 			}
 
 			if (cli.hasOption("science-birds") || cli.hasOption("angry-birds")) {
-				Settings.serverType = cli.hasOption("angry-birds") ? ServerType.ANGRY_BIRDS : ServerType.SCIENCE_BIRDS;
+				Settings.SERVER_TYPE = cli.hasOption("science-birds") ? ServerType.SCIENCE_BIRDS : ServerType.ANGRY_BIRDS;
 			} else if (appSettings.containsKey("SERVER_TYPE")) {
 				String type = (String) appSettings.get("SERVER_TYPE");
 				if (type.equals(ServerType.ANGRY_BIRDS.toString()))
-					Settings.serverType = ServerType.ANGRY_BIRDS;
+					Settings.SERVER_TYPE = ServerType.ANGRY_BIRDS;
 				else
-					Settings.serverType = ServerType.SCIENCE_BIRDS;
-			} else {
-				Settings.serverType = ServerType.ANGRY_BIRDS;
+					Settings.SERVER_TYPE = ServerType.SCIENCE_BIRDS;
 			}
 
-		} catch (IOException e) {
-			log.error("Could not load properties file", e);
-			System.exit(1);
+			if (cli.hasOption("visual-debug")) {
+				Settings.VISUAL_DEBUG_ENABLED = true;
+			} else if (appSettings.containsKey("VISUAL_DEBUG_ENABLED")) {
+				Settings.VISUAL_DEBUG_ENABLED = Boolean.parseBoolean((String) appSettings.get("VISUAL_DEBUG_ENABLED"));
+			}
+
+			if (cli.hasOption("disable-level-selection")) {
+				Settings.DISABLE_LEVEL_SELECTION = true;
+			} else if (appSettings.containsKey("DISABLE_LEVEL_SELECTION")) {
+				Settings.DISABLE_LEVEL_SELECTION = Boolean.parseBoolean((String) appSettings.get("DISABLE_LEVEL_SELECTION"));
+			}
+
+			if (cli.hasOption("ls-first-round-it")) {
+				Settings.LEVEL_SELECTION_FIRST_ROUND_ITERATIVE = true;
+			} else if (appSettings.containsKey("LEVEL_SELECTION_FIRST_ROUND_ITERATIVE")) {
+				Settings.LEVEL_SELECTION_FIRST_ROUND_ITERATIVE = Boolean
+						.parseBoolean((String) appSettings.get("LEVEL_SELECTION_FIRST_ROUND_ITERATIVE"));
+			}
+
+			if (cli.hasOption("export-level-stats")) {
+				Settings.EXPORT_LEVEL_STATS = true;
+			} else if (appSettings.containsKey("EXPORT_LEVEL_STATS")) {
+				Settings.EXPORT_LEVEL_STATS = Boolean.parseBoolean((String) appSettings.get("EXPORT_LEVEL_STATS"));
+			}
+
+			if (cli.hasOption("disable-sim")) {
+				Settings.SIMULATION_COMPONENT_ENABLED = false;
+			} else if (appSettings.containsKey("SIMULATION_COMPONENT_ENABLED")) {
+				Settings.SIMULATION_COMPONENT_ENABLED = Boolean.parseBoolean((String) appSettings.get("SIMULATION_COMPONENT_ENABLED"));
+			}
+
+			if (cli.hasOption("sim-debug")) {
+				Settings.SIM_DEBUG_MODE = true;
+			} else if (appSettings.containsKey("SIMULATION_DEBUG_MODE")) {
+				Settings.SIM_DEBUG_MODE = Boolean.parseBoolean((String) appSettings.get("SIMULATION_DEBUG_MODE"));
+			}
+
+			if (cli.hasOption("node-selection-epsilon")) {
+				Settings.NODE_SELECTION_EPSILON = Double.parseDouble(cli.getOptionValue("node-selection-epsilon", Double.toString(Settings.NODE_SELECTION_EPSILON)));
+			} else if (appSettings.containsKey("NODE_SELECTION_EPSILON")) {
+				Settings.NODE_SELECTION_EPSILON = Double.parseDouble((String) appSettings.get("NODE_SELECTION_EPSILON"));
+			}
+			log.debug(Settings.NODE_SELECTION_EPSILON);
+
+
 		} catch (ParseException e) {
 			log.error("Could not parse CLI Arguments", e);
 			System.exit(1);
 		}
 
-		loadParameters();
-
-		log.info("Settings successfully initialized");
+		log.debug("Settings successfully initialized");
 	}
 }

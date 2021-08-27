@@ -20,17 +20,17 @@ public class ClientCommands {
 
 	@ShellMethod("Establish a connection to the server")
 	public void connect(@ShellOption(defaultValue="localhost") String host, @ShellOption(defaultValue="ANGRY_BIRDS") String serverType) {
-		Settings.serverHost = host;
-		Settings.serverType = ServerType.valueOf(serverType);
+		Settings.SERVER_HOST = host;
+		Settings.SERVER_TYPE = ServerType.valueOf(serverType);
 		try {
 			Client.init();
-			byte[] info = Client.get().configure(Settings.teamID);
+			byte[] info = Client.get().configure(Settings.TEAM_ID);
 
 			Values.ROUND_INFO = info[0];
 			Values.TIME_LIMIT = info[1];
 			Values.NUMBER_OF_LEVELS = info[2];
 
-			if (Settings.serverType == ServerType.SCIENCE_BIRDS){
+			if (Settings.SERVER_TYPE == ServerType.SCIENCE_BIRDS){
 				Values.NUMBER_OF_LEVELS = ByteUtil.bytesToInt(Client.get().getNumberOfLevels());
 			}
 			log.info("Server response: roundInfo = " + Values.ROUND_INFO + ", timeLimit = " + Values.TIME_LIMIT + ", numOfLevels = " + Values.NUMBER_OF_LEVELS);

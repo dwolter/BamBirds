@@ -1,5 +1,0 @@
-<map id="ab.demo.other.ActionRobot" name="ab.demo.other.ActionRobot">
-<area shape="rect" id="node2" href="$classab_1_1server_1_1_proxy.html" title="ab.server.Proxy" alt="" coords="101,109,216,136"/>
-<area shape="rect" id="node5" href="$classab_1_1demo_1_1other_1_1_restart_level_schema.html" title="ab.demo.other.RestartLevel\lSchema" alt="" coords="67,199,250,240"/>
-<area shape="rect" id="node6" href="$classab_1_1demo_1_1other_1_1_load_level_schema.html" title="ab.demo.other.LoadLevelSchema" alt="" coords="275,206,491,233"/>
-</map>

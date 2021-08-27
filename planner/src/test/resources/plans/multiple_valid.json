@@ -1,0 +1,94 @@
+[
+  {
+    "target_object": "ice0",
+    "angle": 0,
+    "strategy":"collapseStructure",
+    "confidence":1.37,
+    "shot": {
+      "sling_x":254,
+      "sling_y":327,
+      "drag_x":-801,
+      "drag_y":598
+    }
+  },
+  {
+    "target_object": "ice0",
+    "angle": 0,
+    "strategy":"collapseStructure",
+    "confidence":1.01,
+    "reasons": [
+      "pig0"
+    ],
+    "shot": {
+      "sling_x":254,
+      "sling_y":327,
+      "drag_x":-801,
+      "drag_y":598,
+      "tap_time":631
+    }
+  },
+  {
+    "target_object": "hill1",
+    "angle": 33,
+    "strategy":"bounceLR",
+    "confidence":0.51,
+    "reasons": [
+      "stone0"
+    ],
+    "shot": {
+      "sling_x":254,
+      "sling_y":327,
+      "drag_x":-809,
+      "drag_y":588,
+      "tap_time":652
+    }
+  },
+  {
+    "target_object": "hill1",
+    "angle": 34,
+    "strategy":"bounceLR",
+    "confidence":0.51,
+    "reasons": [
+      "stone0"
+    ],
+    "shot": {
+      "sling_x":254,
+      "sling_y":327,
+      "drag_x":-799,
+      "drag_y":602,
+      "tap_time":625
+    }
+  },
+  {
+    "target_object": "hill1",
+    "angle": 34,
+    "strategy":"bounceLR",
+    "confidence":0.51,
+    "reasons": [
+      "stone0"
+    ],
+    "shot": {
+      "sling_x":254,
+      "sling_y":327,
+      "drag_x":-801,
+      "drag_y":598,
+      "tap_time":631
+    }
+  },
+  {
+    "target_object": "hill1",
+    "angle": 34,
+    "strategy":"bounceLR",
+    "confidence":0.51,
+    "reasons": [
+      "stone0"
+    ],
+    "shot": {
+      "sling_x":254,
+      "sling_y":327,
+      "drag_x":-803,
+      "drag_y":595,
+      "tap_time":637
+    }
+  }
+]

@@ -4,10 +4,13 @@ import de.uniba.sme.bambirds.common.objects.Level;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +33,7 @@ public class LevelStorage {
 		if (levelDataStorage.containsKey(playedLevel.levelId))
 			return;
 		levelDataStorage.put(playedLevel.levelId, playedLevel);
-		log.info("[Meta] Level " + playedLevel.levelId + " added into database with score " + playedLevel.getBestScore());
+		log.info("Level " + playedLevel.levelId + " added into database with score " + playedLevel.getBestScore());
 	}
 
 	public Set<Integer> getListOfIDs() {
@@ -43,15 +46,15 @@ public class LevelStorage {
 
 	public void storeToFile() {
 		try {
-			log.info("[LevelStorage] Writing storage to disk");
+			log.info("Writing storage to disk");
 			FileOutputStream file = new FileOutputStream("levelStorage.dat");
 			ObjectOutputStream out = new ObjectOutputStream(file);
 			out.writeObject(this);
 			out.close();
 			file.close();
-			log.info("[LevelStorage] done.");
+			log.info("done.");
 		} catch(Exception e) {
-			log.error("[LevelStorage] Error writing storage to disk");
+			log.error(" Error writing storage to disk");
 			e.printStackTrace();
 		}
 	}
@@ -59,18 +62,38 @@ public class LevelStorage {
 	public void restoreFromFile() {
 		try {
 			if (new java.io.File("levelStorage.dat").exists()) {
-				log.info("[LevelStorage] Loading storage from disk");
+				log.info("Loading storage from disk");
 				FileInputStream file = new FileInputStream("levelStorage.dat");
 				ObjectInputStream in = new ObjectInputStream(file);
 				LevelStorage fileInstance = (LevelStorage) in.readObject();
 				ourInstance = fileInstance;
-				log.info("[LevelStorage] done.");
+				log.info("done.");
 				in.close();
 				file.close();
 			}
 		} catch(Exception e) {
-			log.error("[LevelStorage] Error reading storage from disk");
+			log.error("Error reading storage from disk");
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Store the results in Property format
+	 * @param filename The file the results should be saved to
+	 * @param stdout If the results should also be displayed in stdout
+	 */
+	public void storeResults(String filename, boolean stdout) {
+		Properties p = new Properties();
+		levelDataStorage.forEach((id, level) -> {
+			p.put(id.toString(), level.getScores().toString());
+		});
+		try (OutputStream os = new FileOutputStream(filename)) {
+			if (stdout) {
+				p.store(System.out, "Scores for each level");
+			}
+			p.store(os, "Scores for each level");
+		} catch (IOException e) {
+			log.error(e);
 		}
 	}
 }

@@ -15,7 +15,7 @@ import de.uniba.sme.bambirds.planner.PrologPlanner;
 public class BamBirdsShell {
 	public static void main(String[] args) {
 		Settings.load(args);
-		PrologPlanner.extractPrologFiles();
+		PrologPlanner.compileExecutable();
 		SpringApplication.run(BamBirdsShell.class, args);
 	}
 

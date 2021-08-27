@@ -1,6 +1,0 @@
-<map id="ab.server.ProxyMessage&lt; T &gt;" name="ab.server.ProxyMessage&lt; T &gt;">
-<area shape="rect" id="node2" href="$classab_1_1server_1_1proxy_1_1message_1_1_proxy_click_message.html" title="ab::server::proxy::\lmessage::ProxyClickMessage\l\&lt; Object \&gt;" alt="" coords="275,5,475,61"/>
-<area shape="rect" id="node3" href="$classab_1_1server_1_1proxy_1_1message_1_1_proxy_drag_message.html" title="ab::server::proxy::\lmessage::ProxyDragMessage\l\&lt; Object \&gt;" alt="" coords="276,85,475,141"/>
-<area shape="rect" id="node4" href="$classab_1_1server_1_1proxy_1_1message_1_1_proxy_mouse_wheel_message.html" title="ab::server::proxy::\lmessage::ProxyMouseWheelMessage\l\&lt; Object \&gt;" alt="" coords="252,165,499,221"/>
-<area shape="rect" id="node5" href="$classab_1_1server_1_1proxy_1_1message_1_1_proxy_screenshot_message.html" title="ab::server::proxy::\lmessage::ProxyScreenshotMessage\l\&lt; byte[]\&gt;" alt="" coords="257,245,493,301"/>
-</map>

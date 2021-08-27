@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['waitforlevelend_597',['waitForLevelEnd',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1_meta.html#a12764880fa7193db6a91d42cc8d3e6b8',1,'de::uniba::sme::bambirds::Meta']]],
-  ['waittillsceneisstable_598',['waitTillSceneIsStable',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1execution_1_1_shot_executor.html#a2ef56fdc0e860d7b1d6bb66861418eee',1,'de::uniba::sme::bambirds::execution::ShotExecutor']]],
-  ['waittillsceneisstablenolistener_599',['waitTillSceneIsStableNoListener',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1execution_1_1_shot_executor.html#a51d261f598f9cc39e3d3e0906de9d4e5',1,'de::uniba::sme::bambirds::execution::ShotExecutor']]],
-  ['whatsabove_600',['whatsAbove',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1knowledge_1_1_knowledge.html#a39e1b196c54cb3dd80e2ff2c2dbde8f5',1,'de::uniba::sme::bambirds::planner::knowledge::Knowledge']]],
-  ['writeoutput_601',['writeOutput',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#af0be4b9d1fd7d4f3d8020a18ad347007',1,'de::uniba::sme::bambirds::debugging::ParabolaTester']]],
-  ['writeoutputyellowtap_602',['writeOutputYellowTap',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#a96c2eaa37404b02a0aa730538051b670',1,'de::uniba::sme::bambirds::debugging::ParabolaTester']]],
-  ['writeprolog_603',['writeProlog',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1knowledge_1_1_knowledge.html#a8ae3cfeebee74a26c4385439b840accf',1,'de::uniba::sme::bambirds::planner::knowledge::Knowledge']]]
+  ['velocitycomponentstoangle_0',['velocityComponentsToAngle',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#a21fc5d2ec5081438629b1c54250519c7',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
+  ['velocitycomponentstoparabola_1',['velocityComponentsToParabola',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#ae29254336f73a0c013010b289f34e6bb',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
+  ['velocitycomponentstovelocity_2',['velocityComponentsToVelocity',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#a27dbe41297fc6612e8f7a6c48963a757',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
+  ['velocitytoparabola_3',['velocityToParabola',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#ab1ec46abe32444688089dc1908e54ca9',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
+  ['velocitytovelocitycomponents_4',['velocityToVelocityComponents',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html#a87bf4f6e607dc7dc8ced79cb9b2f5b2f',1,'de::uniba::sme::bambirds::common::utils::ParabolaMath']]],
+  ['visionsling_5',['VisionSling',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_sling.html#a5dcfa6ddde046d78513123463fdd9233',1,'de::uniba::sme::bambirds::vision::VisionSling']]],
+  ['visiontraj_6',['VisionTraj',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_traj.html#a53e8aed1e46c072db652a4a7985c608e',1,'de::uniba::sme::bambirds::vision::VisionTraj']]]
 ];

@@ -1,25 +1,27 @@
 package de.uniba.sme.bambirds.level_selection;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import de.uniba.sme.bambirds.common.objects.Level.State;
+import de.uniba.sme.bambirds.common.utils.Settings;
 
 public class LevelSelectionTest {
 
-  private Map<Integer, Map<String, Integer>> levelFeatures;
-  private Map<Integer, Integer> maxScores;
-  private Map<Integer, Long> costs;
-  private Map<Integer, State> levelStates;
-  private Prediction prediction;
-  private Decision decision;
+  private static Map<Integer, Map<String, Integer>> levelFeatures;
+  private static Map<Integer, Integer> maxScores;
+  private static Map<Integer, Long> costs;
+  private static Map<Integer, State> levelStates;
+  private static Prediction prediction;
+  private static Decision decision;
 
-  @Before
-  public void initialize() {
+  @BeforeAll
+  public static void initialize() {
     Map<String, Integer> features1 = new HashMap<>();
     features1.put("num_pigs", 7);
     features1.put("num_birds", 3);
@@ -158,16 +160,16 @@ public class LevelSelectionTest {
     costs.put(8, 62L);
 
     decision = new Decision(true);
-
-    prediction = new Prediction(1, 8,Prediction.ClassifierType.RANDOM_FOREST, Prediction.RegressorType.LINEAR_MODEL);
+    Settings.START_LEVEL = 1;
+    prediction = new Prediction(8,Prediction.ClassifierType.RANDOM_FOREST, Prediction.RegressorType.LINEAR_MODEL);
   }
 
   @Test
-  public void DecisionTreeManagerTest() {
+  public void predictionTest() {
     System.out.println("DecisionTreeManagerTest:");
     Map<Integer, PredictionTuple<Integer, Double>> predictions = prediction.predict(levelFeatures);
     System.out.println(predictions);
-    Assert.assertEquals("Length of predictions should be 8", 8, predictions.size());
+    assertEquals(8, predictions.size(), "Length of predictions should be 8");
   }
 
   @Test
@@ -188,7 +190,7 @@ public class LevelSelectionTest {
         levelStates, 300);
     System.out.println(probabilities);
 
-    Assert.assertEquals("Length of predictions should be 8", 8, probabilities.values().size());
+    assertEquals(8, probabilities.values().size(), "Length of predictions should be 8");
   }
 
   @Test
@@ -209,7 +211,7 @@ public class LevelSelectionTest {
         levelStates, 1000);
     System.out.println(probabilities);
 
-    Assert.assertEquals("Length of predictions should be 8", 8, probabilities.values().size());
+    assertEquals(8, probabilities.values().size(), "Length of predictions should be 8");
   }
 
   @Test
@@ -230,7 +232,7 @@ public class LevelSelectionTest {
         levelStates, 200);
     System.out.println(probabilities);
 
-    Assert.assertEquals("Length of predictions should be 8", 8, probabilities.values().size());
+    assertEquals(8, probabilities.values().size(), "Length of predictions should be 8");
   }
 
   @Test
@@ -261,7 +263,7 @@ public class LevelSelectionTest {
         levelStates, 500);
     System.out.println(probabilities);
 
-    Assert.assertEquals("Length of predictions should be 7", 7, probabilities.values().size());
+    assertEquals(7, probabilities.values().size(), "Length of predictions should be 7");
   }
 
   @Test
@@ -272,7 +274,16 @@ public class LevelSelectionTest {
     Map<Integer, Double> probabilities = decision.calculateProbabilityDistribution(maxScores, costs, predictions,
         levelStates, 500);
     System.out.println(probabilities);
-    Assert.assertEquals("Length of predictions should be 8", 8, probabilities.values().size());
+    assertEquals(8, probabilities.values().size(), "Length of predictions should be 8");
+  }
+  
+
+  @Test
+  public void levelSelectionCorrectTimeLimitInitialisation() {
+	int initialTime = 30;
+    LevelSelection ls = new LevelSelection(10, initialTime);
+    assertEquals(initialTime * 60, ls.getRemainingTime(), "Time in LevelSelection should be in seconds");
+    assertEquals(initialTime * 60, ls.getAction().getTimeLimit(), "Time in Action should be in seconds");
   }
 
 }

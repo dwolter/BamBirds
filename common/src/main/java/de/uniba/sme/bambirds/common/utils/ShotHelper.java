@@ -1,5 +1,6 @@
 package de.uniba.sme.bambirds.common.utils;
 
+import de.uniba.sme.bambirds.common.objects.Shot;
 import de.uniba.sme.bambirds.common.objects.ab.ABType;
 import de.uniba.sme.bambirds.common.objects.ab.Slingshot;
 
@@ -80,8 +81,12 @@ public class ShotHelper {
 	 * Calculate pixel offset representation to launch angle
 	 * @return Pixel coordinate deltas (relative position)
 	 */
-	static public Point angleToReleasePoint(double theta) {
+	static public Point angleToReleasePoint(double theta, Slingshot s) {
 		double mag = 1000;
+		if (theta < 0) {
+			// SlingY + DragY must be greater than 100 otherwise the shot will be discarded
+			mag = s.y - 100;
+		}
 		theta = actualToLaunch(theta);
 		return new Point((int)(- mag * Math.cos(theta)), (int)(+ mag * Math.sin(theta)));
 	}
@@ -293,5 +298,39 @@ public class ShotHelper {
 			l.remove(maxErrorIndex); // cant be -1 since maxError would be 0 too
 		}
 		return w;
+	}
+
+	/**
+	 * Update a Shot because of a change in the scaling factor, which would otherwise make it unusable
+	 * @param slingshot The Slingshot
+	 * @param birdType The bird of the shot
+	 * @param shot The shot to adjust
+	 * @param currentScalingFactor The current scaling factor
+	 * @param newScalingFactor The new scaling factor calculated using {@link #recalculateScalingFactor(double, double)}
+	 */
+	public static void updateShotToNewScalingFactor(Slingshot slingshot, ABType birdType, Shot shot, double currentScalingFactor, double newScalingFactor) {
+		setProperties(currentScalingFactor,birdType);
+
+		Point oldReleasePoint = new Point(shot.getDragX(), shot.getDragY());
+		Point2D.Double targetPoint = new Point2D.Double(shot.getTargetX(), shot.getTargetY());
+
+		// Calculate the previous tap ratio
+		double oldTheta = releasePointToAngle(oldReleasePoint);
+		int tof = predictTime(oldTheta, slingshot,targetPoint);
+		double ratioOfTap = (double) shot.getTapTime() / tof;
+
+		int lowOrHigh = oldTheta > 45 ? 0 : 1;
+
+		// Calculate the new Angle and releasePoint
+		setProperties(newScalingFactor,birdType);
+		double newTheta = estimateLaunchPoint(slingshot,targetPoint)[lowOrHigh];
+		tof = predictTime(newTheta,slingshot,targetPoint);
+		int newTapTime = (int) (tof * ratioOfTap);
+		Point newReleasePoint = angleToReleasePoint(newTheta, slingshot);
+
+		// Update shot variables
+		shot.setDragX(newReleasePoint.x);
+		shot.setDragY(newReleasePoint.y);
+		shot.setTapTime(newTapTime);
 	}
 }

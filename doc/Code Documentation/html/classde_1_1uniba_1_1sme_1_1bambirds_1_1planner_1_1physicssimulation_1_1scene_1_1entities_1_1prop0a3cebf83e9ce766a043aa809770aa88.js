@@ -1,0 +1,4 @@
+var classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1entities_1_1prop0a3cebf83e9ce766a043aa809770aa88 =
+[
+    [ "getEntityProperties", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1entities_1_1prop0a3cebf83e9ce766a043aa809770aa88.html#a5e8aa82041572187c937ede5797cc254", null ]
+];

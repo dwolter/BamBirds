@@ -1,27 +1,4 @@
 var classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame =
 [
-    [ "ImagePanel", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel" ],
-    [ "ImageSegFrame", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#aa00846e2ec440b4aae0ace303888c85e", null ],
-    [ "ImageSegFrame", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#ad41939c0b1beea0ba70d49be18569e0e", null ],
-    [ "ImageSegFrame", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#a57aacd8abde99fe2b28694566d2cd0ec", null ],
-    [ "close", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#a6c0ba5de984b8dd19a48fed15edc3e73", null ],
-    [ "getFrame", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#a8a499ee2e2fe86fec2974499bb444bec", null ],
-    [ "highlightTarget", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#a519b5546341ae6ca55ce8bbd4764aba0", null ],
-    [ "refresh", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#a3fbdb2406c2693c571fe2a4f2be3cf78", null ],
-    [ "refresh", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#a7d3f017ba9316f853763f08abc3fab28", null ],
-    [ "refreshNow", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#a633bd45c0108899e99fa091a293fe04b", null ],
-    [ "waitForKeyPress", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#a0e34f4234be99ead31b6bd9675c82f54", null ],
-    [ "_saveCount", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#ae8019009438fa454322af73c21b48a53", null ],
-    [ "bound_x", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#a3860aadb556b8c7b22b6e1fa46a09c84", null ],
-    [ "bound_y", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#aba4cb4ba6782117e53adba645cc7c66c", null ],
-    [ "frame", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#a3c352c57f7315e120673e701c9f70409", null ],
-    [ "img", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#ac426a6db229b538a5bcf990a4fdd6ac7", null ],
-    [ "log", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#a04287dddb6972212867d6dff75648276", null ],
-    [ "meta", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#adc98197a7357cf3e28aac1cf72435659", null ],
-    [ "name", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#acd4ad12c41441e82e4d0f1e642b306f9", null ],
-    [ "panel", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#a219e064324f0289425ade5250a408b47", null ],
-    [ "recordScreenshot", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#afd4c51ac7a3b20ce93a69a9e211013e1", null ],
-    [ "refresh", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#af2fb969ff88ca83bd3e32c412bd78f82", null ],
-    [ "saveAndExit", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#a169150305f3f5d67a8b8e64212b90523", null ],
-    [ "saveFileDir", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html#a9826ef80cf75273e9449398b0c9bd0b6", null ]
+    [ "ImagePanel", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html", null ]
 ];

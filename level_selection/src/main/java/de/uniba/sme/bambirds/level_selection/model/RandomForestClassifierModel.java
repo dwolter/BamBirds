@@ -51,7 +51,7 @@ public class RandomForestClassifierModel implements ClassifierModel {
 		this.levelFeatures.putAll(levelFeatures);
 		Map<Integer, Double> predictions = new HashMap<Integer, Double>();
 		List<? extends InputField> inputFields = evaluator.getInputFields();
-		log.info("Input fields: " + inputFields);
+		log.trace("Input fields: " + inputFields);
 
 		for (Map.Entry<Integer, Map<String, Integer>> entry : this.levelFeatures.entrySet()) {
 			int levelId = entry.getKey();

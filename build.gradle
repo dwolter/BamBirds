@@ -21,7 +21,6 @@ allprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
     group = 'de.uniba.sme.bambirds'
-    version = '20.0'
     repositories {
         // Use jcenter for resolving dependencies.
         // You can declare any Maven/Ivy/file repository here.
@@ -33,15 +32,36 @@ allprojects {
         implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.0'
         implementation 'org.apache.commons:commons-lang3:3.9'
 
-        // https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml
-        implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.10.3'
-
         // Use JUnit test framework
-        testImplementation 'junit:junit:4.12'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
+        testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.2'
+        testImplementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+        testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver:3.141.59'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
     }
 
     test {
-        ignoreFailures = true
+        useJUnitPlatform()
+        finalizedBy jacocoTestReport // report is always generated after tests run
+    }
+
+    jacocoTestReport {
+        dependsOn test // tests are required to run before generating the report
+        reports {
+            csv.enabled true
+        }
+    }
+
+    checkstyle {
+        if (System.getenv().CHECKSTYLE_SHOW_FAILURES != "true") {
+            ignoreFailures true
+        }
+    }
+
+    jar {
+        manifest {
+            attributes 'Main-Class': 'de.uniba.sme.bambirds.BamBirds', 'Implementation-Version': version
+        }
     }
 }
 
@@ -53,8 +73,19 @@ dependencies {
     implementation project(':vision')
     implementation project(':client')
     implementation project(':level_selection')
-    implementation project(':planner')
+    implementation project(path: ':planner', configuration: 'default')
+    implementation project(path: ':planner', configuration: 'prolog')
     
+}
+
+startScripts {
+
+    doLast {
+        def unixScriptFile    = file getUnixScript()
+        def windowsScriptfile = file getWindowsScript()
+        unixScriptFile.text  = unixScriptFile.text.replace('APP_NAME=', '# Set logfile to the production default\nBAMBIRDS_OPTS="$BAMBIRDS_OPTS -Dlog4j2.configurationFile=$APP_HOME/conf/log4j2.properties"\n\nAPP_NAME=')
+        windowsScriptfile.text = windowsScriptfile.text.replace('set APP_HOME=%DIRNAME%..', 'set APP_HOME=%DIRNAME%..\n\n@rem Set logfile to the production default\nset BAMBIRDS_OPTS=%BAMBIRDS_OPTS% -Dlog4j2.configurationFile="%APP_HOME%/conf/log4j2.properties"')
+    }
 }
 
 application {
@@ -62,9 +93,11 @@ application {
     mainClassName = 'de.uniba.sme.bambirds.BamBirds'
 }
 
-jar {
-    manifest {
-        attributes 'Main-Class': 'de.uniba.sme.bambirds.BamBirds'
+distributions {
+    main {
+        contents {
+            from 'doc/Team Descriptions/team_description_2021.md'
+        }
     }
 }
 
@@ -83,6 +116,7 @@ project(':client') {
 project(':planner') {
     dependencies {
         implementation project(':common')
+        implementation project(path: ':planner:behind_the_corner', configuration: 'prolog')
     }
 }
 
@@ -101,18 +135,3 @@ project(':debugging') {
         implementation project(':level_selection')
     }
 }
-
-tasks.register("run_server", Exec){
-    description = "Runs the ABServer for AngryBirds in Chrome"
-    group = 'application'
-    workingDir "$projectDir/game/abV1.33/"
-    commandLine 'java', '-jar', 'ABServer.jar'
-}
-
-tasks.register("run_server_old", Exec){
-    description = "Runs the old ABServer for AngryBirds in Chrome"
-    group = 'application'
-    workingDir "$projectDir/game/abV1.32/"
-    commandLine 'java', '-jar', 'ABServer.jar'
-}
-

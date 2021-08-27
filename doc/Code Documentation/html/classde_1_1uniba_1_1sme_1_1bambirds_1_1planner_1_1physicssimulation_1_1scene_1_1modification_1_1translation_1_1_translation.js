@@ -1,0 +1,4 @@
+var classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1modification_1_1translation_1_1_translation =
+[
+    [ "apply", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1modification_1_1translation_1_1_translation.html#a5295561758631b103877ee56e37348b3", null ]
+];

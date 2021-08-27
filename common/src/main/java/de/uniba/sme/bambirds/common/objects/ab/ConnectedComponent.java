@@ -52,6 +52,7 @@ public class ConnectedComponent {
     private int _type;
     private int _image[][];
     private double _angleThreshold = 0;
+    private int _notActualType = 0;
     
     // points and lines in the component
     private ArrayList<LineSegment> _lines = null;
@@ -95,8 +96,11 @@ public class ConnectedComponent {
             
             if (map[p.y][p.x] == _type ||
                 (_type == ABType.Ice.id() && map[p.y][p.x] == ABType.BlueBird.id()) ||
-                (_type == ABType.WhiteBird.id() && map[p.y][p.x] == ABType.Trajectory.id()))
+                (_type == ABType.WhiteBird.id() && map[p.y][p.x] == ABType.Trajectory.id())
+            )
             {
+                if (map[p.y][p.x] != _type)
+                    _notActualType++;
                 points.add(p);
                 ignore[p.y][p.x] = true;
                 boolean added = false;
@@ -553,5 +557,9 @@ public class ConnectedComponent {
         int dx = prev.x - p.x + 1;
         int dy = prev.y - p.y + 1;
         return new Point(prev.x + xClock[dy][dx], prev.y + yClock[dy][dx]);
+    }
+
+    public double getTypeRatio() {
+        return (double) (_area - _notActualType) / _area;
     }
 }

@@ -1,0 +1,13 @@
+<map id="de.uniba.sme.bambirds.planner.physicssimulation.scene.SerializableScene" name="de.uniba.sme.bambirds.planner.physicssimulation.scene.SerializableScene">
+<area shape="rect" id="node1" title=" " alt="" coords="1357,70,1712,111"/>
+<area shape="rect" id="node2" title=" " alt="" coords="467,5,556,32"/>
+<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1entities_1_1prop0a3cebf83e9ce766a043aa809770aa88.html" title=" " alt="" coords="729,39,1191,81"/>
+<area shape="rect" id="node3" title=" " alt="" coords="481,64,542,91"/>
+<area shape="rect" id="node5" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_slingshot.html" title=" " alt="" coords="821,169,1099,210"/>
+<area shape="rect" id="node6" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_object.html" title=" " alt="" coords="372,121,651,162"/>
+<area shape="rect" id="node7" title=" " alt="" coords="105,48,185,75"/>
+<area shape="rect" id="node8" title=" " alt="" coords="114,99,175,125"/>
+<area shape="rect" id="node9" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_type.html" title=" " alt="" coords="5,150,284,191"/>
+<area shape="rect" id="node10" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_shape.html" title=" " alt="" coords="5,215,284,257"/>
+<area shape="rect" id="node11" title=" " alt="" coords="477,187,545,213"/>
+</map>

@@ -1,9 +1,6 @@
 <map id="de.uniba.sme.bambirds.level_selection.Prediction" name="de.uniba.sme.bambirds.level_selection.Prediction">
-<area shape="rect" id="node1" title=" " alt="" coords="761,136,972,177"/>
-<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_classifier_model.html" title=" " alt="" coords="300,5,539,47"/>
-<area shape="rect" id="node3" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_model.html" title=" " alt="" coords="5,39,216,80"/>
-<area shape="rect" id="node4" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_regressor_model.html" title=" " alt="" coords="298,71,541,112"/>
-<area shape="rect" id="node5" title=" " alt="" coords="340,136,499,177"/>
-<area shape="rect" id="node6" title=" " alt="" coords="333,202,505,229"/>
-<area shape="rect" id="node7" title=" " alt="" coords="265,253,573,309"/>
+<area shape="rect" id="node1" title=" " alt="" coords="601,36,788,77"/>
+<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_classifier_model.html" title=" " alt="" coords="245,5,457,47"/>
+<area shape="rect" id="node3" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_model.html" title=" " alt="" coords="5,39,192,80"/>
+<area shape="rect" id="node4" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_regressor_model.html" title=" " alt="" coords="241,71,460,112"/>
 </map>

@@ -1,13 +1,20 @@
 var searchData=
 [
-  ['abactionrobot_304',['ABActionRobot',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_a_b_action_robot.html',1,'de::uniba::sme::bambirds::client']]],
-  ['abactionrobotjava_305',['ABActionRobotJava',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_a_b_action_robot_java.html',1,'de::uniba::sme::bambirds::client']]],
-  ['abobject_306',['ABObject',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_object.html',1,'de::uniba::sme::bambirds::common::objects::ab']]],
-  ['abshape_307',['ABShape',['../enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_shape.html',1,'de::uniba::sme::bambirds::common::objects::ab']]],
-  ['abstractscene_308',['AbstractScene',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_abstract_scene.html',1,'de::uniba::sme::bambirds::common::objects']]],
-  ['abtype_309',['ABType',['../enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_type.html',1,'de::uniba::sme::bambirds::common::objects::ab']]],
-  ['action_310',['Action',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_action.html',1,'de::uniba::sme::bambirds::level_selection']]],
-  ['actionrobot_311',['ActionRobot',['../interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_action_robot.html',1,'de::uniba::sme::bambirds::common::utils']]],
-  ['actionrobotjava_312',['ActionRobotJava',['../interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_action_robot_java.html',1,'de::uniba::sme::bambirds::common::utils']]],
-  ['algorithm_313',['Algorithm',['../classprediction_1_1simulate_1_1_algorithm.html',1,'prediction::simulate']]]
+  ['abactionrobot_0',['ABActionRobot',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_a_b_action_robot.html',1,'de::uniba::sme::bambirds::client']]],
+  ['abactionrobotjava_1',['ABActionRobotJava',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_a_b_action_robot_java.html',1,'de::uniba::sme::bambirds::client']]],
+  ['abobject_2',['ABObject',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_object.html',1,'de::uniba::sme::bambirds::common::objects::ab']]],
+  ['abshape_3',['ABShape',['../enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_shape.html',1,'de::uniba::sme::bambirds::common::objects::ab']]],
+  ['abstractscene_4',['AbstractScene',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_abstract_scene.html',1,'de::uniba::sme::bambirds::common::objects']]],
+  ['abtype_5',['ABType',['../enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_type.html',1,'de.uniba.sme.bambirds.common.objects.ab.ABType'],['../classrebound_1_1settings_1_1_a_b_type.html',1,'rebound.settings.ABType']]],
+  ['action_6',['Action',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_action.html',1,'de::uniba::sme::bambirds::level_selection']]],
+  ['actionrobot_7',['ActionRobot',['../interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_action_robot.html',1,'de::uniba::sme::bambirds::common::utils']]],
+  ['actionrobotjava_8',['ActionRobotJava',['../interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_action_robot_java.html',1,'de::uniba::sme::bambirds::common::utils']]],
+  ['activatecontactdamage_9',['ActivateContactDamage',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_1c0fa1501a46bf3066b737cc4f9ca1b51.html',1,'de::uniba::sme::bambirds::planner::physicssimulation::physics::modification::manipulation']]],
+  ['addground_10',['AddGround',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1modification_1_1insertion_1_1_add_ground.html',1,'de::uniba::sme::bambirds::planner::physicssimulation::scene::modification::insertion']]],
+  ['advancedstabilizerv1_11',['AdvancedStabilizerV1',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_1046b1d80fb3d12a61f77cd7e90da0f32.html',1,'de::uniba::sme::bambirds::planner::physicssimulation::physics::modification::stability']]],
+  ['advancedstabilizerv2_12',['AdvancedStabilizerV2',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_1935ad1ccc76ff7dd090e358d663163e6.html',1,'de::uniba::sme::bambirds::planner::physicssimulation::physics::modification::stability']]],
+  ['algorithm_13',['Algorithm',['../classprediction_1_1simulate_1_1_algorithm.html',1,'prediction::simulate']]],
+  ['anglesmoother_14',['AngleSmoother',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1modification_1_1smoothing_1_1_angle_smoother.html',1,'de::uniba::sme::bambirds::planner::physicssimulation::scene::modification::smoothing']]],
+  ['angrybirdscontactlistener_15',['AngryBirdsContactListener',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1contact_listenc3abcb9d13d27d9f9f942423661293ab.html',1,'de::uniba::sme::bambirds::planner::physicssimulation::physics::contactListener']]],
+  ['angulardampingmodifier_16',['AngularDampingModifier',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1sceneunderstanding_1_1pro8850bbc727e81fc047da92d579df402a.html',1,'de::uniba::sme::bambirds::planner::physicssimulation::sceneunderstanding::propertymodification::modifier']]]
 ];

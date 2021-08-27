@@ -12,20 +12,20 @@ package de.uniba.sme.bambirds.client;
 /*encode the messages to byte[]*/
 public class ClientMessageEncoder {
 
+	protected static byte[] encodeMessageID(ClientMessageTable id) {
+		return new byte[] { id.get() };
+	};
+
 	//encode screenshot message
 	public static byte[] encodeDoScreenShot() {
-		byte[] message = { ClientMessageTable
-				.getValue(ClientMessageTable.doScreenShot) };
-		return message;
-
+		return encodeMessageID(ClientMessageTable.doScreenShot);
 	}
   
 	//encode configure message
 	public static byte[] configure(byte[] id) {
 		byte[] message = new byte[1 + id.length];
 		message = mergeArray(
-				new byte[] { ClientMessageTable
-						.getValue(ClientMessageTable.configure) },
+			encodeMessageID(ClientMessageTable.configure),
 				id);
 	  
 		return message;
@@ -42,9 +42,7 @@ public class ClientMessageEncoder {
 
 	//encode restart message
 	public static byte[] restart() {
-		byte[] message = { ClientMessageTable
-				.getValue(ClientMessageTable.restartLevel) };
-		return message;
+		return encodeMessageID(ClientMessageTable.restartLevel);
 	}
 
 	//encode cshoot message (safe mode)
@@ -53,8 +51,7 @@ public class ClientMessageEncoder {
 		byte[] message = new byte[1 + fx.length + fy.length + dx.length
 				+ dy.length + t1.length + t2.length];
 		message = mergeArray(
-				new byte[] { ClientMessageTable
-						.getValue(ClientMessageTable.cshoot) },
+			encodeMessageID(ClientMessageTable.cshoot),
 				fx, fy, dx, dy, t1, t2);
 		return message;
 
@@ -66,8 +63,7 @@ public class ClientMessageEncoder {
 		byte[] message = new byte[1 + fx.length + fy.length + dx.length
 				+ dy.length + t1.length + t2.length];
 		message = mergeArray(
-				new byte[] { ClientMessageTable
-						.getValue(ClientMessageTable.pshoot) },
+			encodeMessageID(ClientMessageTable.pshoot),
 				fx, fy, dx, dy, t1, t2);
 		return message;
 	}
@@ -77,8 +73,7 @@ public class ClientMessageEncoder {
 		byte[] message = new byte[1 + fx.length + fy.length + dx.length
 				+ dy.length + t1.length + t2.length];
 		message = mergeArray(
-				new byte[] { ClientMessageTable
-						.getValue(ClientMessageTable.pFastshoot) },
+			encodeMessageID(ClientMessageTable.pFastshoot),
 				fx, fy, dx, dy, t1, t2);
 		return message;
 	}
@@ -88,8 +83,7 @@ public class ClientMessageEncoder {
 		byte[] message = new byte[1 + fx.length + fy.length + dx.length
 				+ dy.length + t1.length + t2.length];
 		message = mergeArray(
-				new byte[] { ClientMessageTable
-						.getValue(ClientMessageTable.cFastshoot) },
+			encodeMessageID(ClientMessageTable.cFastshoot),
 				fx, fy, dx, dy, t1, t2);
 		return message;
 
@@ -97,50 +91,41 @@ public class ClientMessageEncoder {
 	
 	//encode fully zoom out message 
 	public static byte[] fullyZoomOut() {
-		byte[] message = { ClientMessageTable
-				.getValue(ClientMessageTable.fullyZoomOut) };
-		return message;
-
+		return encodeMessageID(ClientMessageTable.fullyZoomOut);
 	}
 	public static byte[] fullyZoomIn() {
-		byte[] message = { ClientMessageTable
-				.getValue(ClientMessageTable.fullyZoomIn) };
-		return message;
-
+		return encodeMessageID(ClientMessageTable.fullyZoomIn);
 	}
-	public static byte[] clickInCenter()
-	{
-		byte[] message = { ClientMessageTable
-				.getValue(ClientMessageTable.clickInCentre) };
-		return message;
+	public static byte[] clickInCenter() {
+		return encodeMessageID(ClientMessageTable.clickInCentre);
 	}
 	//encode getState message
 	public static byte[] getState() {
-		byte[] message = { ClientMessageTable
-				.getValue(ClientMessageTable.getState) };
-		return message;
+		return encodeMessageID(ClientMessageTable.getState);
 	}
 	//encode  get best scores message 
-	public static byte[] getBestScores() 
-	{
-		byte[] message = {ClientMessageTable.getValue(ClientMessageTable.getBestScores)};
-		return message;
+	public static byte[] getBestScores() {
+		return encodeMessageID(ClientMessageTable.getBestScores);
 	} 
 	//get my score message
-	public static byte[] getMyScore()
-	{
-		byte[] message = {ClientMessageTable.getValue(ClientMessageTable.getMyScore)};
-		return message;
+	public static byte[] getMyScore() {
+		return encodeMessageID(ClientMessageTable.getMyScore);
 	}
 
-	public static byte[] getCurrentLevel(){
-		byte[] message = {ClientMessageTable.getCurrentLevel.get()};
-		return message;
+	public static byte[] getCurrentLevel() {
+		return encodeMessageID(ClientMessageTable.getCurrentLevel);
 	}
 
 	public static byte[] getNumberOfLevels(){
-		byte[] message = {ClientMessageTable.getNumberOfLevels.get()};
-		return message;
+		return encodeMessageID(ClientMessageTable.getNumberOfLevels);
+	}
+
+	public static byte[] readyForNewSet(){
+		return encodeMessageID(ClientMessageTable.readyForNewSet);
+	}
+
+	public static byte[] requestNoveltyInformation(){
+		return encodeMessageID(ClientMessageTable.requestNoveltyInformation);
 	}
 
 	//merge byte arrays into one array

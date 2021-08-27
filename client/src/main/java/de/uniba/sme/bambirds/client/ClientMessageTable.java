@@ -32,11 +32,15 @@ public enum ClientMessageTable {
 	shootSeqFast(43),
 	loadLevel(51),
 	restartLevel(52),
+	selectNextLevel(53),
 	getGTWithScreenshot(61),
 	getGTWithoutScreenshot(62),
 	getNoisyGTWithScreenshot(63),
 	getNoisyGTWithoutScreenshot(64),
-	getCurrentLevelScore(65);
+	getCurrentLevelScore(65), 
+	reportNoveltyLikelihood(66), 
+	readyForNewSet(68), 
+	requestNoveltyInformation(69);
 
 	private int message_code;
 

@@ -1,8 +1,0 @@
-<map id="level_selection.LevelSelection" name="level_selection.LevelSelection">
-<area shape="rect" id="node2" href="$classlevel__selection_1_1_decision.html" title="level_selection.Decision" alt="" coords="415,5,577,32"/>
-<area shape="rect" id="node3" href="$classlevel__selection_1_1_action.html" title="level_selection.Action" alt="" coords="421,56,571,83"/>
-<area shape="rect" id="node4" href="$enumlevel__selection_1_1_action_1_1_strategy.html" title="level_selection.Action.Strategy" alt="" coords="9,5,212,32"/>
-<area shape="rect" id="node6" href="$classlevel__selection_1_1_prediction.html" title="level_selection.Prediction" alt="" coords="411,227,581,253"/>
-<area shape="rect" id="node8" href="$interfacelevel__selection_1_1model_1_1_regressor_model.html" title="level_selection.model.Regressor\lModel" alt="" coords="5,187,216,229"/>
-<area shape="rect" id="node11" href="$interfacelevel__selection_1_1model_1_1_classifier_model.html" title="level_selection.model.Classifier\lModel" alt="" coords="7,370,214,411"/>
-</map>

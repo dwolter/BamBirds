@@ -9,4 +9,4 @@
 
 rootProject.name = 'bambirds'
 
-include 'common', 'vision', 'client', 'debugging', 'planner', 'level_selection'
+include 'common', 'vision', 'client', 'debugging', 'planner', 'planner:behind_the_corner' , 'level_selection'

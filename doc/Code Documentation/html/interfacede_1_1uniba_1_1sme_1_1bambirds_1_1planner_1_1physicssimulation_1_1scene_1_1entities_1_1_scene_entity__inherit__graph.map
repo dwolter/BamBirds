@@ -1,0 +1,7 @@
+<map id="de.uniba.sme.bambirds.planner.physicssimulation.scene.entities.SceneEntity" name="de.uniba.sme.bambirds.planner.physicssimulation.scene.entities.SceneEntity">
+<area shape="rect" id="node1" title=" " alt="" coords="5,71,405,112"/>
+<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1entities_1_1_scene_entity_base.html" title=" " alt="" coords="453,71,853,112"/>
+<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1entities_1_1_scene_circle.html" title=" " alt="" coords="901,5,1301,47"/>
+<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1entities_1_1_scene_polygon.html" title=" " alt="" coords="901,71,1301,112"/>
+<area shape="rect" id="node5" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1entities_1_1_scene_rectangle.html" title=" " alt="" coords="901,136,1301,177"/>
+</map>
