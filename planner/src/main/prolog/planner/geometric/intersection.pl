@@ -105,15 +105,11 @@ parabola_crosses_shape(rect, CX, CY, [W,H,Angle], X0, Y0, DXMAX, A, B, HITX) :-
 	min_list(HITXS, HITX).
 
 parabola_crosses_shape(ball, CX, CY, [R], X0, Y0, _, A, B, HX) :- % FIXME: add true shape test
-	X is CX-X0,
-	YP is Y0 - A*X*X - B*X,
-	Y is YP-CY,
-	abs(Y) =< R,
-	M is 2*A*X + B,
-	ATERM is 1+M*M,
-	BTERM is 2*M*Y,
-	ROOTTERM is BTERM*BTERM - 4*ATERM*(Y*Y-R*R),
-	HX is CX + (-BTERM - sqrt(ROOTTERM)) / (2*ATERM).
+	XStart is CX-X0-R,
+	XEnd is CX-X0+R,
+	YStart is Y0 - A*XStart*XStart - B*XStart,
+	YEnd is Y0 - A*XEnd*XEnd - B*XEnd,
+	line_crosses_shape(ball, CX, CY, [R], XStart, YStart, XEnd, YEnd, HX, _).
 
 parabola_crosses_shape(poly, _, _, [_ | [P1 | POINTS]], X0, Y0, DXMAX, A, B, HX) :-
 	findall(HX, poly_parabola_intersection(P1, [P1 | POINTS], X0, Y0, DXMAX, A, B, HX), HXS),

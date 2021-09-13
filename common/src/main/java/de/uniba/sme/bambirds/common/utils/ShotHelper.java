@@ -319,7 +319,7 @@ public class ShotHelper {
 		int tof = predictTime(oldTheta, slingshot,targetPoint);
 		double ratioOfTap = (double) shot.getTapTime() / tof;
 
-		int lowOrHigh = oldTheta > 45 ? 0 : 1;
+		int lowOrHigh = oldTheta > Math.toRadians(45) ? 1 : 0;
 
 		// Calculate the new Angle and releasePoint
 		setProperties(newScalingFactor,birdType);

@@ -6,7 +6,8 @@ import de.uniba.sme.bambirds.common.objects.ab.Slingshot;
 import de.uniba.sme.bambirds.common.objects.ab.shape.Circle;
 import de.uniba.sme.bambirds.common.utils.ShotHelper;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -14,8 +15,9 @@ import java.awt.geom.Point2D;
 
 public class NodeTest {
 
-    @Test
-    public void adaptShotBecauseOfNewScalingFactor() {
+    @ParameterizedTest
+    @ValueSource(ints = {0,1})
+    public void adaptShotBecauseOfNewScalingFactor(int lowOrHigh) {
         // Given
         double initialScalingFactor = 1.005;
         Point2D.Double target = new Point2D.Double(336, 219);
@@ -24,7 +26,7 @@ public class NodeTest {
         ExampleScene scene = new ExampleScene(sling, bird);
 
         ShotHelper.setProperties(initialScalingFactor, ABType.RedBird);
-        Point releasePoint = getReleasePoint(sling, target);
+        Point releasePoint = getReleasePoint(sling, target, lowOrHigh);
 
         Plan plan = new Plan("redbird0","pig0", 42, "targetPig", 1.0, new String[]{}, new Shot(sling.x, sling.y, releasePoint.x, releasePoint.y, target.x, target.y, 0, 1300), ThinkerType.NEWPLANNER);
         Node node = new Node(plan, scene);
@@ -35,14 +37,18 @@ public class NodeTest {
 
         // Then
         ShotHelper.setProperties(newScalingFactor, ABType.RedBird);
-        Point newReleasePoint = getReleasePoint(sling, target);
+        Point newReleasePoint = getReleasePoint(sling, target, lowOrHigh);
+
+        System.out.println(releasePoint);
+        System.out.println(newReleasePoint);
+        System.out.println(node.getShot().getDragX() + " " + node.getShot().getDragY());
 
         Assertions.assertEquals(newReleasePoint.x,node.getShot().getDragX(), "X value of the nodes ReleasePoint should equal the new releasePoint after scene scale change");
         Assertions.assertEquals(newReleasePoint.y,node.getShot().getDragY(), "Y value of the nodes ReleasePoint should equal the new releasePoint after scene scale change");
     }
 
-    private Point getReleasePoint(Slingshot sling, Point2D.Double target) {
-        double highAngle = ShotHelper.estimateLaunchPoint(sling, target)[1];
+    private Point getReleasePoint(Slingshot sling, Point2D.Double target, int lowOrHigh) {
+        double highAngle = ShotHelper.estimateLaunchPoint(sling, target)[lowOrHigh];
         return ShotHelper.angleToReleasePoint(highAngle, sling);
     }
 

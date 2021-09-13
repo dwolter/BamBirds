@@ -80,7 +80,7 @@ export_col_shape(Out,rect,X,Y,[W, H, A]) :-
 
 export_col_shape(_,unknown,_,_,_).
 
-draw_parabola(_Out, X, HITX, _A, _B, SX, _SY) :- 
+draw_parabola(_Out, X, HITX, _A, _B, SX, _SY) :-
 	(X + SX) > HITX, !.
 
 draw_parabola(Out, X, HITX, A, B, SX, SY) :-
@@ -108,17 +108,22 @@ export_plan(Out, [Target, Angle, _Strategy, _Confidence, _Pigs | _Rest]) :-
 %    shape(Target, _, TX, TY, _, _),
 %    RA is ((pi*Angle)/180.0),
 %    TXScaled is (TX*0.05),
-%    TYScaled is (TY*(-0.05)),		     
+%    TYScaled is (TY*(-0.05)),
 %    SX is (TXScaled - 5*cos(RA)),
 %    SY is (TYScaled - 5*sin(RA)),
 %    EX is (TXScaled - 0.2*cos(RA)),
 %    EY is (TYScaled - 0.2*sin(RA)),
-	(parabola(Target,[HITX, _], Angle, A, B) -> 
-			export_parabola(Out, A, B, HITX);
+	(parabola(Target,[HITX, HITY], Angle, A, B) ->
+			(export_parabola(Out, A, B, HITX),
+			format(Out, '\\fill[red] (~f,~f) circle(0.1cm);~n', [0.05*HITX, -0.05*HITY]),
+			slingshotPivot(X0, _),
+			DXMAX is (HITX-X0),
+			shot_obstacles(A, B, DXMAX, Obstacles),
+			forall(member([_,HX,HY], Obstacles), format(Out, '\\fill[orange] (~f,~f) circle(0.1cm);~n', [0.05*HX, -0.05*HY])));
 			true).
 %    format(Out, '\\draw[dashed,->] (~f,~f) -- (~f,~f);~n', [SX, SY, EX, EY]).
 
- 
+
 export_plan(Out, [Target, Angle, Strategy, Confidence]) :-
 	export_plan(Out, [Target, Angle, Strategy, Confidence, []]).
 
@@ -182,7 +187,7 @@ write_tikz(Plans) :-
 	),
 
 	%% draw all objects in scene by  executing goal export_shape/6 defined above for all shapes
-	forall(col_shape(_,Type,X,Y,_,Params), export_col_shape(Out,Type,X,Y,Params)), 
+	forall(col_shape(_,Type,X,Y,_,Params), export_col_shape(Out,Type,X,Y,Params)),
 	forall(shape(ID,Type,X,Y,_,Params), export_shape(Out,ID,Type,X,Y,Params)),
 
 	%% draw slingshot
@@ -193,9 +198,9 @@ write_tikz(Plans) :-
 	forall(member(P, Plans), export_plan(Out, P)),
 
 	%% add table of plans
-	(Plans\=[] -> 
+	(Plans\=[] ->
 		table_of_plans(Out, Plans);
-		forall( 
+		forall(
 			isHittable(Object, IA),
 			(
 				parabola(Object,[HITX,HITY],IA,A,B),
@@ -210,7 +215,7 @@ write_tikz(Plans) :-
 
 	%%  finish picture
 	writeln(Out, '\\end{tikzpicture}'),
-	
+
 	%% finish document, close file, and typeset
 	writeln(Out, '\\end{document}'),
 	close(Out).
