@@ -13,8 +13,11 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -84,7 +87,25 @@ public class ShotSelection {
 		if (fallbackToDemoShot || filteredNodeList == null || filteredNodeList.isEmpty())
 			return getDemoShot();
 
-		Node highestConfidenceNode = filteredNodeList.get(0);
+		// Author of the following:
+		// Daniel Lutalo - Agent X
+
+		// hyperparameter further filtering available nodes, removes nodes not at least 'X' percent of the highest evaluated confidence
+		double percentageOfMaxScore = 0.8;
+
+		// hyperparameter tuning exploration vs exploitation, exponentiates then renormalises the weights for a probability distribution
+		double exponent = 10;
+
+		List<Node> furtherFilteredNodeList = filterNodesByScore(filteredNodeList, filteredNodeList.get(0).getConfidence() * percentageOfMaxScore);
+		Map<Node,Double> actions = new HashMap<Node,Double>();
+		furtherFilteredNodeList.forEach(n -> actions.put(n, n.getConfidence()));
+		TreeMap<Double,Node> weightedActions = new TreeMap<>();
+		double cumulativeProbability = 0;
+        for (Map.Entry<Node,Double> kv: secondOrderThompsonSample(actions,exponent).entrySet()){
+            weightedActions.put(cumulativeProbability += kv.getValue(), kv.getKey());   
+        }
+
+		Node highestConfidenceNode = weightedActions.higherEntry(Math.random()).getValue();
 		chosenTarget = highestConfidenceNode.target;
 		currentLevel.tree.setCurrentNode(highestConfidenceNode);
 
@@ -95,6 +116,46 @@ public class ShotSelection {
 
 		log.info("Chosen target: " + chosenTarget);
 		return highestConfidenceNode.getShot();
+	}
+
+	/**
+	 * Filters the available nodes and only keeps ones with a confidence level above a given threshold 
+	 * @param nodeList the list of Nodes to be filtered
+	 * @param minimumScoreRequired the score threshold used to filter the list of Nodes
+	 * @return a list of Nodes with scores >= to the minimum threshold
+	 * @author Daniel Lutalo - Agent X
+	 */
+	private List<Node> filterNodesByScore(List<Node> nodeList, double minimumScoreRequired){
+		List<Node> filteredList = new ArrayList<Node>();
+		nodeList.forEach(n -> {if (n.getConfidence() >= minimumScoreRequired) {filteredList.add(n);}});
+		return filteredList;
+		// return nodeList.stream().filter(n -> n.getConfidence() >= minimumScoreRequired).collect(Collectors.toList());
+	}
+
+	/**
+	 * My new method called Second Order Thompson Sampling with exponent k in [0,infinity)
+	 * (you could also make k negative if you want 'negative exploitation', i.e. a higher probability of selecting lower evaluated actions)
+	 * vary k to select a custom trade-off between exploration vs exploitation
+	 * k = 1 -> regular Thompson sampling - linear
+	 * k > 1 -> approaches greedy selection as k approaches infinity (pure exploitation) - superlinear
+	 * k < 1 -> approaches a uniform sample as k approaches 0 (pure exploration) - sublinear
+	 * @param originalProbabilities
+	 * @param exponent
+	 * @return
+	 * @author Daniel Lutalo - Agent X
+	 */
+	private Map<Node, Double> secondOrderThompsonSample(Map<Node, Double> originalProbabilities, double exponent){
+		// normalise scores into probabilities (first Thompson sample)
+		double sum = originalProbabilities.values().stream().mapToDouble(v->v).reduce(0, Double::sum);
+		Map<Node, Double> normalisedProbabilities = new HashMap<Node, Double>();
+		originalProbabilities.forEach((k,v) -> normalisedProbabilities.put(k,v/sum));
+
+		// exponentiate the probabilities and renormalise (second Thompson sample)
+		double exponentiatedSum = normalisedProbabilities.values().stream().mapToDouble(v->v).reduce(0, (a,b) -> a + Math.pow(b, exponent));
+		Map<Node, Double> finalProbabilities = new HashMap<Node, Double>();
+		normalisedProbabilities.forEach((k,v) -> finalProbabilities.put(k,v/exponentiatedSum));
+
+		return finalProbabilities;
 	}
 
 	public Shot getDemoShot() {
