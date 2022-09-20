@@ -11,51 +11,31 @@
 %%%%%% WhiteBird Targeting (based on unused 2020 version) %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-plans_common:plan(Bird,plan{bird:Bird, shot:Shot, target_object:Target, impact_angle:42, strategy:"whitebirdtargeting", confidence:Conf, reasons:Pigs}) :-
+% See our project report from 2021 for a full description.
+plans_common:plan(Bird,plan{bird:Bird, shot:Shot, target_object:Target, impact_angle:42, strategy:"whitebirdtargeting", confidence:Conf, reasons:Reasons}) :-
 	hasColor(Bird,white),
 	in_slingshot(Bird),
-	white_bird(Bird, Target, Shot, Conf, Pigs).
-	% Conf is 4.0,
-	% Target = pig0,
-	% Pigs = [pig0],
-	% UnconvertedShot = [486, 276, 0.5539913058196878, -0.0012450537106506983, 0.6186103437782923, [], 1713.041753492272, -825, 565],
-	% convert_to_shot(UnconvertedShot, Shot).
+	white_bird(Bird, Target, Shot, Conf, Reasons).
 
-white_bird(Bird, Target, ShotDict, Confidence, Pigs) :-
+white_bird(Bird, Target, Shot, Confidence, Reasons) :-
 	gather_polygon_coordinates(PolygonList),
 	establish_attack_space(PolygonList, AttackPoints),
 	calculate_shots(Bird, AttackPoints, AttackPointsWithShots), !,
-	% simulate_explosion_for_shots( AttackPointsWithShots, AttackPointsWithConfidence ), !,
-	% maplist(calculate_confidence, AttackPointsWithShots, AttackPointsWithConfidence), !,
-	% member((Target, _, Shot, Pigs, Confidence), AttackPointsWithConfidence),
-	% confident_enough(Confidence),
-	% best_shot(AttackPointsWithConfidence, BestShot),
-	% BestShot = (Target, _, Shot, Pigs, Confidence),
 	member((Target, [X,Y], Shot), AttackPointsWithShots),
-	calculate_confidence(Target, [X, Y], Shot, Confidence, Pigs),
-	convert_to_shot(Shot, ShotDict).
-
-best_shot([S], S).
-best_shot([First|Shots], Best) :-
-	First = (_, _, _, _, Confidence),
-	best_shot(Shots, BestRest),
-	BestRest = (_, _, _, _, ConfidenceRest),
-	(Confidence > ConfidenceRest ->
-		Best = First;
-		Best = BestRest
-	).
+	calculate_confidence(Target, [X, Y], Confidence, Reasons).
 
 % Debug function to write the targets computed for a given situation
 % to the file 'doc/Project\ Reports/2021/white-birds/visualization/input.txt'.
+% Used for our own little visualization tool.
 print_potential_targets() :-
 	tell('doc/Project Reports/2021/white-birds/visualization/input.txt'),
 	set_prolog_flag(answer_write_options,[max_depth(0)]),
 	gather_polygon_coordinates(PolygonList),
 	establish_attack_space(PolygonList, AttackPoints),
 	calculate_shots(_, AttackPoints, AttackPointsWithShots),
-	findall((Target, [TX, TY], Shot, Pigs, Confidence), (
+	findall((Target, [TX, TY], Shot, Reasons, Confidence), (
 		member((Target, [TX,TY], Shot), AttackPointsWithShots),
-		calculate_confidence(Target, [TX, TY], Shot, Confidence, Pigs)
+		calculate_confidence(Target, [TX, TY], Shot, Confidence, Reasons)
 	), ConfidentAttacks),
 	write(PolygonList),
 	nl,
@@ -65,11 +45,6 @@ print_potential_targets() :-
 	nl,
 	write(ConfidentAttacks),
 	told().
-
-% Whether or not a confidence is above a general confidence threshold.
-% TODO: Find suitable threshold.
-confident_enough(Confidence) :-
-	Confidence > 0.3.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Gather polygon coordinates %%
@@ -168,7 +143,7 @@ make_tuple([X,Y], (X,Y)).
 % Retrieve a list of potential attack targets. Targets are defined as points
 % on a top surface of a polygon or on the ground. There is an upper bound for 
 % the distance between two neighboring points on the same surface line, defined 
-% in split_attack_space_rec.
+% in split_attack_space_rec (MaxDeltaX).
 % If the ground is covered by a polygon, then this part is excluded from the
 % attack space. Objects attack surfaces are not filtered in any way.
 %
@@ -273,7 +248,8 @@ object_attack_space([(Name, [(PX,PY)|Polygon]) |PolygonList], AttackSpace) :-
 	object_attack_space(PolygonList, RestAttackSpace),
 	rightleaning_vectors(Name, (PX,PY), Polygon, ((LX,LY), LocalAttackSpace) ),
 	( LX < PX ->                                                         
-		% Vektor von Endpunkt zu Startpunkt muss extra getestet werden
+		% Account for the (implicit) connection between the last and the first vertex
+		% of a polygon.
 		append([(Name,[LX,LY,PX,PY])|LocalAttackSpace], RestAttackSpace, AttackSpace);
 		append(LocalAttackSpace, RestAttackSpace, AttackSpace )
 	).
@@ -306,7 +282,6 @@ split_attack_space(AttackSpace, AttackPoints) :-
 
 split_attack_space_rec([], Result, Result).
 split_attack_space_rec([(Name, [X1,Y1,X2,Y2])| RestVectors], Points, Result) :-
-	% TODO: Find a suitable threshold.
 	MaxDeltaX is 5,
 	(MaxDeltaX < (X1 - X2) ->
 		XNew is round(X1 - MaxDeltaX),
@@ -339,8 +314,8 @@ is_reachable(BirdName, AttackPoints, AttackPointWithShot) :-
 	lowest_possible_shot(BirdName, (Target,[X,Y]), Y, AttackPointWithShot).
 
 % Step size for the computation of the lowest possible shot.
-% TODO: Find suitable value.
 upwards_iteration_step_size(20).
+tap_time(0.99).
 
 % Find the lowest possible shot at a location above the point (X, Y),
 % such that the egg can freely drop onto (X, Y).
@@ -349,12 +324,15 @@ lowest_possible_shot(BirdName, (Target, [X,Y]), Height, AttackPointWithShot) :-
 	Height > StepSize,
 	NewHeight is Height - StepSize,
 	upwards_step_free(X, Height, NewHeight, Target),
-	shots_at_point(BirdName, X, NewHeight, AvailableShots),
+	shots_at_point(BirdName, Target, X, NewHeight, AvailableShots),
 	obstacle_free_shots(AvailableShots, ObstacleFreeShots),	
 	(
-		(ObstacleFreeShots = [Shot|_], 
-		AttackPointWithShot = (Target, [X,Y], Shot)), !
-		;
+		(
+			member([UUID, _], ObstacleFreeShots),
+			tap_time(TapTime),
+			shot_params_dict(UUID, TapTime, Shot, _),
+			AttackPointWithShot = (Target, [X,Y], Shot), !
+		);
 		lowest_possible_shot(BirdName, (Target, [X,Y]), NewHeight, AttackPointWithShot)
 	).
 
@@ -383,35 +361,28 @@ drop_point_obstacle(Xs, LowerY, UpperY, Target) :-
 	object_on_vline(Obstacle, X, UpperY, LowerY, _),
 	Obstacle \= Target.
 
+% Filter a list of shots to select only those without obstacles in their way.
 obstacle_free_shots([], []).
-obstacle_free_shots([[TX,TY, Angle, A, B, Obstacles, TimeOfFlight, RX, RY] | Shots], FreeShots) :-
+obstacle_free_shots([[UUID, Obstacles] | Shots], FreeShots) :-
 	obstacle_free_shots(Shots, RecursiveFreeShots),
 	([]==Obstacles ->
-		append([[TX,TY, Angle, A, B, Obstacles, TimeOfFlight, RX, RY]], RecursiveFreeShots, FreeShots);
+		append([[UUID, Obstacles]], RecursiveFreeShots, FreeShots);
 		FreeShots = RecursiveFreeShots
 	).
 
 
-convert_to_shot([TX, TY, _, _, _, _, TimeOfFlight, ReleaseX, ReleaseY], shot{sling_x:SlingX, sling_y:SlingY, drag_x:ReleaseX, drag_y:ReleaseY, target_x:TX, target_y:TY, tap_time:TapTime}) :-
-	slingshotPivot(X0,Y0),
-	SlingX is round(X0),
-	SlingY is round(Y0),
-	TapTime is round(TimeOfFlight * 0.99).
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Simulate explosions %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Explosionsradius Algorithmus:
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Simulier entlang der Angriffsfläche den Effekt der Explosion in regelmäßigen Abstand.
-%% Vektoren, die horizontal zu lang sind werden gespalten. Merk immer den besten Wert für einen Vektor.
-
+% -- unused --
+% Annotate shots by the collateral damage they would cause.
 simulate_explosion_for_shots(AttackPointsWithShots, EvaluatedShots) :-
 	findall(ShotWithVictims, simulate_explosion(AttackPointsWithShots, ShotWithVictims), ShotsWithVictims),
 	maplist(calculate_damage, ShotsWithVictims, EvaluatedShots).
-%TODO: Sortieren
-%        sortbyconf( RestZielListe, Besttarget, ZielListe )           %% Neues Ziel wird in Liste einsortiert
 
-%% Explosion simulieren, indem erst alle Objekte im Radius gesammelt werden und dann conf-Werte fuer diese Objekte ermitteln und ausgeben
+% -- unused --
+% Find all objects within a pre-defined explosion radius from the attack point.
 simulate_explosion(AttackPointsWithShots, ShotWithVictims) :-
 	member((Target, [X,Y], Shot), AttackPointsWithShots),
 	findall( shape(Name, Form, CX, CY, Mass, Coord), shape(Name, Form, CX, CY, Mass, Coord), AllObjects),
@@ -419,15 +390,18 @@ simulate_explosion(AttackPointsWithShots, ShotWithVictims) :-
 	findall(Pig, (member(Pig, ObjectsWithinRadius), pig(Pig, _, _, _, _)), Pigs),
 	ShotWithVictims = (Target, [X,Y], Shot, ObjectsWithinRadius, Pigs).
 
-%% Ob sich der Mittelpunkt eines Objektes in der Explosion befindet
+% -- unused --
+% Find objects that are within the explosion radius.
+% 45 is an estimation based on our observations.
+% As comparison: small pigs have a radius of 5, large pigs a radius of 10 units.
 within_explosion_radius( (CX,CY), AllObjects, ObjectWithinRadius) :-
     member(shape(ObjectWithinRadius,_,OX,OY,_,_), AllObjects),
 	DistSquared is (CX-OX)^2 + (CY-OY)^2,
-	ThresholdRadiusSquared is 45^2, %% 45 ist Schaetzwert, fuer den Radius der effektiven Explosionszone; Vergleich: kl.Pig:r=5, gr.Pig:r=10
+	ThresholdRadiusSquared is 45^2,
 	DistSquared < ThresholdRadiusSquared.
 
-
-%% Conf-Werte aller Objekte zusammenrechnen
+% -- unused --
+% Sum up the damage of all objects.
 calculate_damage( (Target, [X,Y], Shot, ObjectsWithinRadius, Pigs),  (Target, [X,Y], Shot, Pigs, Damage)) :-
 	calculate_damage_rec(ObjectsWithinRadius, Damage).
 
@@ -437,53 +411,32 @@ calculate_damage_rec([ObjectWithinRadius|RestObjects], TotalDamage):-
 	whitebird_object_conf(ObjectWithinRadius, Damage),
 	TotalDamage is Damage + RestDamage.
 
-% TODO Braucht weit mehr Verfeinerung; Ist auch ineffektiv für taktischere Züge
-%% Conf-Wert fuer Objekt in WhiteBird-Explosion;
-%% Pigs and TNT are valuable targets; Bars support structures and cause collapses;
-%% WB can destroy Stone, so it can be a required tactic in some levels;
-%% TODO: Bisherige Conf-Werte nur grobe Schätzungen, mach bessere Beurteilungen;
-%% TODO: Verbessere Conf-Wert-Zuweisungen mit Daten aus den situationx-x.pl wie:
-%% hasOrientation(), hasSize(), so wie die ganzen strukturbeschreibenden Angaben
-% whitebird_object_conf(Object, 1.0) :- pig(Object,_,_,_,_), !.
-% whitebird_object_conf(Object, 0.0) :- hill(Object,_,_,_,_), !.
-% whitebird_object_conf(Object, 0.8) :- hasMaterial(Object, tnt, _, _, _, _), !.
-% whitebird_object_conf(Object, 0.01) :- hasMaterial(Object, ice, _, _, _, _), hasForm(Object, bar), !.
-% whitebird_object_conf(Object, 0.002) :- hasMaterial(Object, ice, _, _, _, _), !.
-% whitebird_object_conf(Object, 0.03) :- hasMaterial(Object, wood, _, _, _, _), hasForm(Object, bar), !.
-% whitebird_object_conf(Object, 0.01) :- hasMaterial(Object, wood, _, _, _, _), !.
-% whitebird_object_conf(Object, 0.08) :- hasMaterial(Object, stone, _, _, _, _), hasForm(Object, bar), !.
-% whitebird_object_conf(Object, 0.02) :- hasMaterial(Object, stone, _, _, _, _), !.
-% whitebird_object_conf(_, 0.0).  %% Wenn Objekt in keine der Kategorien passt.
-
-
-%% Sortiert neuen Eintrag in Liste von Angriffstellen nach conf-Wert; Liste ist bereits vorsortiert
-sortbyconf( [], Newtarget, SortedList ) :-
-    append( [Newtarget], [], SortedList ).
-sortbyconf( [(TX,TY,TConf)|Targetlist], (NX,NY,NConf), SortedList ) :-
-    ( TConf < NConf ->
-        append( [(NX,NY,NConf)], [(TX,TY,TConf)|Targetlist], SortedList );
-        sortbyconf( Targetlist, (NX,NY,NConf), RestSortedList),
-        append( [(TX,TY,TConf)], RestSortedList, SortedList )
-	).
-
-
 first_of_list([F|_], F).
 second_of_list([_,S|_], S).
+third_of_list([_,_,T|_], T).
 
-% Takes AttackPointWithShot and returns EvaluatedShot
-% calculate_confidence((Target, [X,Y], Shot), (Target, [X,Y], Shot, Pigs, Confidence)) :-
-calculate_confidence(Target, [X, Y], _, Confidence, PigsSet) :-
+% Assign a confidence to a shot that it would smash at least one pig.
+% Pigs affected are collected and returned in the PigsSet.
+calculate_confidence(Target, [X, Y], Confidence, Reasons) :-
 	findall([Name, CX, CY], (pig(Name, _, _, _, _), shape(Name, _, CX, CY, _, _)), AllPigs),
-	findall([Conf, Pigs], whitebird_conf(Target, X, Y, AllPigs, Conf, Pigs), Strategies),
-	maplist(first_of_list, Strategies, Confs),
-	maplist(second_of_list, Strategies, PigsListList),
-	flatten(PigsListList, PigsList),
-	list_to_set(PigsList, PigsSet),
-	max_list(Confs, Confidence).
+	findall([WeightedConf, IntermediateReasons, Weight], (
+			whitebird_conf(Target, X, Y, AllPigs, Conf, IntermediateReasons),
+			length(IntermediateReasons, Weight),
+			WeightedConf is Weight * Conf
+		), Strategies),
+	maplist(first_of_list, Strategies, WeightedConfs),
+	maplist(second_of_list, Strategies, ReasonsListList),
+	maplist(third_of_list, Strategies, WeightList),
+	flatten(ReasonsListList, ReasonsList),
+	reasons_set(ReasonsList, Reasons),
+	sum_list(WeightList, SumWeights),
+	sum_list(WeightedConfs, SumWeightedConfs),
+	SumWeights > 0,
+	Confidence is SumWeightedConfs / SumWeights.
 
 % Strategy: Direct-Hit! drop egg directly next to a pig to kill it. 
 % Objects in between have no influence and can here be neglected.
-whitebird_conf(_, X, Y, AllPigs, Confidence, Pigs) :-
+whitebird_conf(_, X, Y, AllPigs, Confidence, Reasons) :-
 	explosion_radius_inner(RadiusInner),
 	explosion_radius_outer(RadiusOuter),
 	RadiusInnerSquared is RadiusInner ^ 2,
@@ -501,11 +454,12 @@ whitebird_conf(_, X, Y, AllPigs, Confidence, Pigs) :-
 	length(Pigs, NumberOfPigs),
 	NumberOfPigs > 0,
 	sumlist(Confs, ConfSum),
-	Confidence is (ConfSum / NumberOfPigs) * (1.0 + (NumberOfPigs - 1) * 0.3).
+	Confidence is (ConfSum / NumberOfPigs),
+	merge_reasons(Pigs, [], [], Reasons).
 
 % Strategy: Damage! A pig is too far away but a lot of damage is done in its surounding.
-% Something has to be in the direct explision radius though.
-whitebird_conf(_, X, Y, AllPigs, Conf, [Pig]) :-
+% Something has to be in the direct explosion radius though.
+whitebird_conf(_, X, Y, AllPigs, Conf, [free(Pig)]) :-
 	member([Pig, _, _], AllPigs),
 	explosion_radius_outer(ExplosionRadius),
 	collateral_damage_radius(CollateralRadius),
@@ -521,10 +475,10 @@ whitebird_conf(_, X, Y, AllPigs, Conf, [Pig]) :-
 		ObjectsWithinCollateral),
 	maplist(whitebird_object_conf, ObjectsWithinCollateral, AllObjectConfs),
 	sumlist(AllObjectConfs, ConfSum),
-	Conf is min(ConfSum + ExplosionSum, 1.1).
+	Conf is min(ConfSum + ExplosionSum, 1.0).
 
 % Strategy: TNT! Target TNT which blows up pig
-whitebird_conf(_, X, Y, AllPigs, Conf, Pigs) :-
+whitebird_conf(_, X, Y, AllPigs, 1, Reasons) :-
 	hasMaterial(TNT, tnt),
 	explosion_radius_outer(Radius),
 	within_radius(TNT, X, Y, Radius),
@@ -533,11 +487,10 @@ whitebird_conf(_, X, Y, AllPigs, Conf, Pigs) :-
 		canExplode(TNT, Pig)
 		), PigsList),
 	list_to_set(PigsList, Pigs),
-	length(Pigs, NumberOfPigs),
-	Conf is 0.95 + (NumberOfPigs - 1) * 0.3.
+	merge_reasons([TNT|Pigs], [], [], Reasons).
 
-% Strategy: TNT! Target TNT which blows up belonging structure
-whitebird_conf(_, X, Y, AllPigs, Conf, Pigs) :-
+% Strategy: TNT! Target TNT which blows up an associated structure
+whitebird_conf(_, X, Y, AllPigs, Conf, Reasons) :-
 	hasMaterial(TNT, tnt),
 	explosion_radius_outer(Radius),
 	within_radius(TNT, X, Y, Radius),
@@ -553,8 +506,8 @@ whitebird_conf(_, X, Y, AllPigs, Conf, Pigs) :-
 		)
 		), PigsList),
 	list_to_set(PigsList, Pigs),
-	length(Pigs, NumberOfPigs),
-	Conf is 0.9 + (NumberOfPigs - 1) * 0.3.
+	Conf is 0.6,
+	merge_reasons([TNT], Pigs, [], Reasons).
 
 
 explosion_radius_inner(35).
@@ -571,11 +524,10 @@ whitebird_object_conf(Object, 0.06) :- hasMaterial(Object, wood, _, _, _, _), ha
 whitebird_object_conf(Object, 0.02) :- hasMaterial(Object, wood, _, _, _, _), !.
 whitebird_object_conf(Object, 0.05) :- hasMaterial(Object, stone, _, _, _, _), hasForm(Object, bar), !.
 whitebird_object_conf(Object, 0.01) :- hasMaterial(Object, stone, _, _, _, _), !.
-whitebird_object_conf(_, 0.0).  %% Wenn Objekt in keine der Kategorien passt.
+whitebird_object_conf(_, 0.0).
 
 within_radius(Object, X, Y, Radius) :-
 	shape(Object, _, CX, CY, _, _),
 	DistanceSquared is ((X - CX) ^ 2 + (Y - CY) ^ 2),
 	RadiusSquared is Radius ^ 2,
 	DistanceSquared < RadiusSquared.
-

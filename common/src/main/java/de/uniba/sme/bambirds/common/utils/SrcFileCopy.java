@@ -1,6 +1,13 @@
 package de.uniba.sme.bambirds.common.utils;
 
-import java.io.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -16,23 +23,25 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Stream;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+public final class SrcFileCopy {
+	private static final Logger LOG = LogManager.getLogger(SrcFileCopy.class);
 
-public class SrcFileCopy {
-	private static final Logger log = LogManager.getLogger(SrcFileCopy.class);
+	private SrcFileCopy() {
+	}
 
-	static private void copyResourceFolder(String sourceFolder, String destinationFolder) {
-		List<String> resFiles = getFilenamesForRessourceDir(sourceFolder);
+	private static void copyResourceFolder(final String sourceFolder, final String destinationFolder) {
+		List<String> resFiles = getFilenamesForResourceDir(sourceFolder);
 		try {
 			for (String fileStr : resFiles) {
 				File file = new File(destinationFolder, fileStr);
-				if (file.exists()) {
-					file.delete();
+				if (file.exists() && !file.delete()) {
+					throw new IOException("Failed to remove existing file " + file);
 				}
 				File parent = file.getParentFile();
-				parent.mkdirs();
-				log.debug("Copying file: " + fileStr);
+				if (!parent.mkdirs()) {
+					throw new IOException("Failed to create parent directories for file " + file);
+				}
+				LOG.debug("Copying file: " + fileStr);
 
 				InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileStr);
 
@@ -50,11 +59,11 @@ public class SrcFileCopy {
 
 			}
 		} catch (IOException e) {
-			log.error("Resource Folder could not be copied", e);
+			LOG.error("Resource Folder could not be copied", e);
 		}
 	}
 
-	static private List<String> getFilenamesForRessourceDir(String directoryName) {
+	private static List<String> getFilenamesForResourceDir(final String directoryName) {
 		List<String> filenames = new ArrayList<>();
 		try {
 			URL url = Thread.currentThread().getContextClassLoader().getResource(directoryName);
@@ -67,10 +76,11 @@ public class SrcFileCopy {
 					Enumeration<JarEntry> entries = jar.entries();
 					while (entries.hasMoreElements()) {
 						JarEntry entry = entries.nextElement();
-						log.debug("Has resource: " + entry);
+						LOG.debug("Has resource: " + entry);
 						String name = entry.getName();
-						if (name.startsWith(dirname) && !dirname.equals(name) && !name.endsWith("/"))
+						if (name.startsWith(dirname) && !dirname.equals(name) && !name.endsWith("/")) {
 							filenames.add(name);
+						}
 					}
 					jar.close();
 				} else if (url.getProtocol().equals("file")) {
@@ -82,19 +92,19 @@ public class SrcFileCopy {
 								.forEach((p) -> filenames.add(p.toString().replace(rootPath, directoryName)));
 					}
 				} else {
-					log.error("Resource protocol {} not supported", url.getProtocol());
+					LOG.error("Resource protocol {} not supported", url.getProtocol());
 				}
 			}
 		} catch (IOException e) {
-			log.error("The filenames could not be gathered", e);
+			LOG.error("The filenames could not be gathered", e);
 		} catch (URISyntaxException e) {
-			log.error("The resource url could not be parsed to a uri", e);
+			LOG.error("The resource url could not be parsed to a uri", e);
 		}
 		return filenames;
 	}
 
-	public static void extract(String source, String target) {
-		log.debug("exporting " + source + " to " + target);
+	public static void extract(final String source, final String target) {
+		LOG.debug("exporting " + source + " to " + target);
 		copyResourceFolder(source, target);
 	}
 }

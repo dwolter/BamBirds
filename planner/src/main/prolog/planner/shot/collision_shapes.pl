@@ -15,7 +15,6 @@
 %%% enlarging polygons for shot planning
 %%%
 :- dynamic(col_shape/6).
-col_shape(dummy, unknown, 0, 0, 1, 0).
 
 assert_collision_shape(Object, poly, CX, CY, A, [N | POINTS], RADIUS) :-
 	extend_polygon(POINTS, RADIUS, EXT_POINTS),
@@ -26,8 +25,8 @@ assert_collision_shape(Object, ball, CX, CY, A, [R], RADIUS) :-
 	assertz(col_shape(Object, ball, CX, CY, A, [R2])).
 
 assert_collision_shape(Object, rect, CX, CY, A, [H,W,Angle], RADIUS) :-
-	H2 is (H + RADIUS),
-	W2 is (W + RADIUS),
+	H2 is (H + (RADIUS * 2)),
+	W2 is (W + (RADIUS * 2)),
 	assertz(col_shape(Object, rect, CX, CY, A, [H2, W2, Angle])).
 
 assert_collision_shape(_, unknown, _, _, _, _, _). 
@@ -41,13 +40,16 @@ bird_safety_margin(white, RB, R) :-
 bird_safety_margin(_, R, R2) :-
 	R2 is (R+1).
 
-generate_collision_shapes :-
+current_bird_safety_margin(M) :-
 	in_slingshot(B0),
 	hasColor(B0, BC),
 	((shape(B0, ball, _, _, _, [RB]), R is RB+1) ; R is 8),
-	bird_safety_margin(BC, R, RC),
+	bird_safety_margin(BC, R, M).
+
+generate_collision_shapes :-
+	current_bird_safety_margin(M),
 	forall(shape(Object, Type, CX, CY, Area, ShapeData),
-		assert_collision_shape(Object, Type, CX, CY, Area, ShapeData, RC)),!.
+		assert_collision_shape(Object, Type, CX, CY, Area, ShapeData, M)),!.
 
 purge_collision_shapes :-
 	retractall(col_shape(_,_,_,_,_,_)).
@@ -76,8 +78,9 @@ object_on_parabola(Obj, X0, Y0, DXMAX, A, B, HITX) :-
 	(hasMaterial(Obj,_,X, _Y, W, _H) ;  % X,Y ist Ecke links oben; +W, +H rechts unten
 	 hill(Obj, X, _Y, W, _H) ),
 	DX is X - X0,
-	(X+W+10)-X0 > 0, % 10 as safety margin
-	DX < DXMAX, %% object not behind target
+	current_bird_safety_margin(M),
+	(DX+W+M) > 0, % Object not left of slingshot
+	(DX-M) < DXMAX, %% Object not behind target
 
 	% Uhoh: the following test only compares bounding box of object to Y coordinates of the parabola
 	% on the left and at the right side of the box. This ignores the possibility that the parabola

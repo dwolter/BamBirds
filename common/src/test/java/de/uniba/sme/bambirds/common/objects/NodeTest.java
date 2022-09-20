@@ -1,5 +1,7 @@
 package de.uniba.sme.bambirds.common.objects;
 
+import de.uniba.sme.bambirds.common.database.AbstractScene;
+import de.uniba.sme.bambirds.common.database.Node;
 import de.uniba.sme.bambirds.common.objects.ab.ABObject;
 import de.uniba.sme.bambirds.common.objects.ab.ABType;
 import de.uniba.sme.bambirds.common.objects.ab.Slingshot;
@@ -15,49 +17,49 @@ import java.awt.geom.Point2D;
 
 public class NodeTest {
 
-    @ParameterizedTest
-    @ValueSource(ints = {0,1})
-    public void adaptShotBecauseOfNewScalingFactor(int lowOrHigh) {
-        // Given
-        double initialScalingFactor = 1.005;
-        Point2D.Double target = new Point2D.Double(336, 219);
-        Slingshot sling = new Slingshot(new Rectangle(117, 327, 20, 55), new Point2D.Double(128.2, 337.8));
-        ABObject bird = new Circle(117,327,8,ABType.RedBird);
-        ExampleScene scene = new ExampleScene(sling, bird);
+	@ParameterizedTest
+	@ValueSource(ints = {0, 1})
+	public void adaptShotBecauseOfNewScalingFactor(int lowOrHigh) {
+		// Given
+		double initialScalingFactor = 1.005;
+		Point2D.Double target = new Point2D.Double(336, 219);
+		Slingshot sling = new Slingshot(new Rectangle(117, 327, 20, 55), new Point2D.Double(128.2, 337.8));
+		ABObject bird = new Circle(117, 327, 8, ABType.RedBird);
+		ExampleScene scene = new ExampleScene(sling, bird);
 
-        ShotHelper.setProperties(initialScalingFactor, ABType.RedBird);
-        Point releasePoint = getReleasePoint(sling, target, lowOrHigh);
+		ShotHelper.setProperties(initialScalingFactor, ABType.RedBird);
+		Point releasePoint = getReleasePoint(sling, target, lowOrHigh);
 
-        Plan plan = new Plan("redbird0","pig0", 42, "targetPig", 1.0, new String[]{}, new Shot(sling.x, sling.y, releasePoint.x, releasePoint.y, target.x, target.y, 0, 1300), ThinkerType.NEWPLANNER);
-        Node node = new Node(plan, scene);
+		Plan plan = new Plan("redbird0", "pig0", 42, "targetPig", 1.0, new String[]{}, new Shot(sling.x, sling.y, releasePoint.x, releasePoint.y, target.x, target.y, 0, 1300), ThinkerType.NEWPLANNER);
+		Node node = new Node(plan, scene);
 
-        // When
-        double newScalingFactor = 1.023267;
-        node.adaptNodesToNewScalingFactor(initialScalingFactor, newScalingFactor);
+		// When
+		double newScalingFactor = 1.023267;
+		node.adaptNodesToNewScalingFactor(initialScalingFactor, newScalingFactor);
 
-        // Then
-        ShotHelper.setProperties(newScalingFactor, ABType.RedBird);
-        Point newReleasePoint = getReleasePoint(sling, target, lowOrHigh);
+		// Then
+		ShotHelper.setProperties(newScalingFactor, ABType.RedBird);
+		Point newReleasePoint = getReleasePoint(sling, target, lowOrHigh);
 
-        System.out.println(releasePoint);
-        System.out.println(newReleasePoint);
-        System.out.println(node.getShot().getDragX() + " " + node.getShot().getDragY());
+		System.out.println(releasePoint);
+		System.out.println(newReleasePoint);
+		System.out.println(node.getShot().getDragX() + " " + node.getShot().getDragY());
 
-        Assertions.assertEquals(newReleasePoint.x,node.getShot().getDragX(), "X value of the nodes ReleasePoint should equal the new releasePoint after scene scale change");
-        Assertions.assertEquals(newReleasePoint.y,node.getShot().getDragY(), "Y value of the nodes ReleasePoint should equal the new releasePoint after scene scale change");
-    }
+		Assertions.assertEquals(newReleasePoint.x, node.getShot().getDragX(), "X value of the nodes ReleasePoint should equal the new releasePoint after scene scale change");
+		Assertions.assertEquals(newReleasePoint.y, node.getShot().getDragY(), "Y value of the nodes ReleasePoint should equal the new releasePoint after scene scale change");
+	}
 
-    private Point getReleasePoint(Slingshot sling, Point2D.Double target, int lowOrHigh) {
-        double highAngle = ShotHelper.estimateLaunchPoint(sling, target)[lowOrHigh];
-        return ShotHelper.angleToReleasePoint(highAngle, sling);
-    }
+	private Point getReleasePoint(Slingshot sling, Point2D.Double target, int lowOrHigh) {
+		double highAngle = ShotHelper.estimateLaunchPoint(sling, target)[lowOrHigh];
+		return ShotHelper.angleToReleasePoint(highAngle, sling);
+	}
 
-    private static class ExampleScene extends AbstractScene {
+	private static class ExampleScene extends AbstractScene {
 
-        public ExampleScene(Slingshot slingshot, ABObject bird) {
-            super(null);
-            this.birds.add(bird);
-            this.slingshot = slingshot;
-        }
-    }
+		public ExampleScene(Slingshot slingshot, ABObject bird) {
+			super(null);
+			this.birds.add(bird);
+			this.slingshot = slingshot;
+		}
+	}
 }

@@ -3,6 +3,7 @@ package de.uniba.sme.bambirds.planner;
 import com.google.gson.*;
 
 import de.uniba.sme.bambirds.common.PlanParser;
+import de.uniba.sme.bambirds.common.gson.BamBirdsGson;
 import de.uniba.sme.bambirds.common.gson.JsonDeserializerWithRequired;
 import de.uniba.sme.bambirds.common.objects.Plan;
 import de.uniba.sme.bambirds.common.objects.ThinkerType;
@@ -19,9 +20,7 @@ public class PrologPlanParser implements PlanParser {
 	private final Gson gson;
 
 	public PrologPlanParser() {
-		gson = new GsonBuilder()
-				.registerTypeAdapter(Plan.class, new JsonDeserializerWithRequired<Plan>())
-				.create();
+		gson = BamBirdsGson.getGson();
 	}
 
 	/**

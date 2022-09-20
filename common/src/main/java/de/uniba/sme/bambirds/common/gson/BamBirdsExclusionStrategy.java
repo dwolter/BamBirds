@@ -5,12 +5,12 @@ import com.google.gson.FieldAttributes;
 
 public class BamBirdsExclusionStrategy implements ExclusionStrategy {
 
-	public boolean shouldSkipField(FieldAttributes f) {
-		 return f.getAnnotation(Exclude.class) != null;
+	public boolean shouldSkipField(final FieldAttributes f) {
+		return f.getAnnotation(Exclude.class) != null;
 	}
 
-	public boolean shouldSkipClass(Class<?> clazz) {
-		 return clazz.getAnnotation(Exclude.class) != null;
+	public boolean shouldSkipClass(final Class<?> clazz) {
+		return clazz.getAnnotation(Exclude.class) != null;
 	}
 
 }

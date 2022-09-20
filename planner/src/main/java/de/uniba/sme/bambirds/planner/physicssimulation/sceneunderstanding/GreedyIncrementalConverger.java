@@ -94,7 +94,6 @@ public class GreedyIncrementalConverger implements SceneUnderStanding {
                 for (int j = -modificationStepsPerIteration/2; j < modificationStepsPerIteration/2+1; j++) {
                     manipulator.increment();
 
-                    //noinspection PointlessBooleanExpression
                     if (manipulator.getCurrentPropertyState().getValue() == initialValue ) {
                         continue;
                     }

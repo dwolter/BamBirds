@@ -103,8 +103,11 @@ export_parabola(Out, A, B, HITX) :-
 	draw_parabola(Out, 10, HITX, A, B, SX, SY),
 	writeln(Out, ';').
 
+% export_custom_shot(Out, Shot) :-
+	
+% 	true.
 
-export_plan(Out, [Target, Angle, _Strategy, _Confidence, _Pigs | _Rest]) :-
+export_plan(Out, [_, Shot]) :-
 %    shape(Target, _, TX, TY, _, _),
 %    RA is ((pi*Angle)/180.0),
 %    TXScaled is (TX*0.05),
@@ -113,29 +116,28 @@ export_plan(Out, [Target, Angle, _Strategy, _Confidence, _Pigs | _Rest]) :-
 %    SY is (TYScaled - 5*sin(RA)),
 %    EX is (TXScaled - 0.2*cos(RA)),
 %    EY is (TYScaled - 0.2*sin(RA)),
-	(parabola(Target,[HITX, HITY], Angle, A, B) ->
-			(export_parabola(Out, A, B, HITX),
+	(parabola(_, Shot.uuid, [HITX, HITY], _, A, B) ->
+		(
+			export_parabola(Out, A, B, HITX),
 			format(Out, '\\fill[red] (~f,~f) circle(0.1cm);~n', [0.05*HITX, -0.05*HITY]),
 			slingshotPivot(X0, _),
 			DXMAX is (HITX-X0),
 			shot_obstacles(A, B, DXMAX, Obstacles),
-			forall(member([_,HX,HY], Obstacles), format(Out, '\\fill[orange] (~f,~f) circle(0.1cm);~n', [0.05*HX, -0.05*HY])));
-			true).
+			forall(member([_,HX,HY], Obstacles), format(Out, '\\fill[orange] (~f,~f) circle(0.1cm);~n', [0.05*HX, -0.05*HY]))
+		);
+		true
+	).
 %    format(Out, '\\draw[dashed,->] (~f,~f) -- (~f,~f);~n', [SX, SY, EX, EY]).
-
-
-export_plan(Out, [Target, Angle, Strategy, Confidence]) :-
-	export_plan(Out, [Target, Angle, Strategy, Confidence, []]).
 
 export_plan(Out, P) :-
 	is_dict(P),
-	export_plan(Out, [P.target_object, P.impact_angle, P.strategy, P.confidence, P.reasons]).
+	export_plan(Out, [P.target_object, P.shot]).
 
-describe_plan(Out, [Target, _Angle, Strategy, Confidence, Pigs]) :-
+describe_plan(Out, [Target, Strategy, Confidence, Pigs]) :-
 % format(Out,'~w & ~w & ~w & ~2f & $~w$\\\\\n', [Target, Angle, Strategy, Confidence, Pigs]).
 	format(Out,'~w & ~w & ~2f & $~w$\\\\\n', [Target, Strategy, Confidence, Pigs]).
 
-describe_plan(Out, [Target, _Angle, Strategy, Confidence, Pigs, ShotDesc]) :-
+describe_plan(Out, [Target, Strategy, Confidence, Pigs, ShotDesc]) :-
 % format(Out,'~w & ~w & ~w (~w) & ~2f & $~w$\\\\\n', [Target, Angle, Strategy, ShotDesc, Confidence, Pigs]).
 	format(Out,'~w & ~w (~w) & ~2f & $~w$\\\\\n', [Target, Strategy, ShotDesc, Confidence, Pigs]).
 
@@ -144,7 +146,7 @@ describe_plan(Out, [Target, Angle, Strategy, Confidence]) :-
 
 describe_plan(Out, P) :-
 	is_dict(P),
-	describe_plan(Out, [P.target_object, P.impact_angle, P.strategy, P.confidence, P.reasons]).
+	describe_plan(Out, [P.target_object, P.strategy, P.confidence, P.reasons]).
 
 table_of_plans(Out, Plans) :-
 	((length(Plans, NumberOfPlans), NumberOfPlans =< 5)->
@@ -169,9 +171,12 @@ write_tikz(Plans) :-
 	exportname(SceneName),
 	string_concat(SceneName, '.tex', TexName),
 	open(TexName, write, Out),
-	((current_prolog_flag(windows, true); \+ getenv('CONVERT_ENABLE', true))
-			-> writeln(Out, '\\documentclass[tikz]{standalone}');
-			writeln(Out, '\\documentclass[tikz,convert={outext=.jpg,size=1500}]{standalone}')
+	(\+ getenv('CONVERT_ENABLE', true) ->
+			writeln(Out, '\\documentclass[tikz]{standalone}');
+			(current_prolog_flag(windows, true) ->
+				writeln(Out, '\\documentclass[tikz,convert={outext=.jpg,size=1500,{convertexe={magick.exe}}}]{standalone}');
+				writeln(Out, '\\documentclass[tikz,convert={outext=.jpg,size=1500}]{standalone}')
+			)
 	),
 	writeln(Out, '\\usetikzlibrary{matrix,backgrounds}'),
 	writeln(Out, '\\definecolor{ice}{rgb}{0.6,0.7,1.0}'),
@@ -201,9 +206,9 @@ write_tikz(Plans) :-
 	(Plans\=[] ->
 		table_of_plans(Out, Plans);
 		forall(
-			isHittable(Object, IA),
+			isHittable(Object, UUID),
 			(
-				parabola(Object,[HITX,HITY],IA,A,B),
+				parabola(Object,UUID,[HITX,HITY],_,A,B),
 				format(Out, '\\draw[dotted, very thick] (~f,~f)', [0.05*SX, -0.05*SY]),
 				draw_parabola(Out, 10, HITX, A, B, SX, SY),
 				writeln(Out, ';'),

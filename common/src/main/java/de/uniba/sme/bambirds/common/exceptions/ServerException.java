@@ -6,16 +6,17 @@ public class ServerException extends Exception {
 	 */
 	private static final long serialVersionUID = 6539471423424464197L;
 
+
 	public enum Reason {
 		INVALID_RESPONSE, SHUTDOWN
 	}
 
-	public Reason reason;
+	private Reason reason;
 
-	static private String messageForReason(Reason reason) {
+	private static String messageForReason(final Reason reason) {
 		switch (reason) {
 			case INVALID_RESPONSE:
-				return "The server answered with an unkown response";
+				return "The server answered with an unknown response";
 			case SHUTDOWN:
 				return "Server is shutting down. It will not respond to any requests";
 			default:
@@ -23,32 +24,35 @@ public class ServerException extends Exception {
 		}
 	}
 
-	public ServerException(Reason reason) {
+	public ServerException(final Reason reason) {
 		super(messageForReason(reason));
 		this.reason = reason;
 	}
 
-	public ServerException(String message) {
+	public ServerException(final String message) {
 		super(message);
 	}
 
-	public ServerException(String message, Reason reason){
+	public ServerException(final String message, final Reason reason) {
 		super(message);
 		this.reason = reason;
 	}
 
-	public ServerException(Reason reason, Throwable t) {
+	public ServerException(final Reason reason, final Throwable t) {
 		super(messageForReason(reason), t);
 		this.reason = reason;
 	}
 
-	public ServerException(String message, Throwable t) {
+	public ServerException(final String message, final Throwable t) {
 		super(message, t);
 	}
 
-	public ServerException(String message, Reason reason, Throwable t){
+	public ServerException(final String message, final Reason reason, final Throwable t) {
 		super(message, t);
 		this.reason = reason;
 	}
 
+	public Reason getReason() {
+		return reason;
+	}
 }

@@ -38,7 +38,7 @@ public class ParabolaTester {
 					new Rectangle(186, 319, 17, 64) // using VisionMBR
 			), null);
 	private ABType birdType;
-	static private VisualDebugger DBG = new VisualDebugger("ParabolaTeter");
+	static private VisualDebugger DBG = new VisualDebugger("ParabolaTester");
 	static {
 		DBG.enableDebug(false, false);
 	}
@@ -113,7 +113,7 @@ public class ParabolaTester {
 			ShotParabola prbl = shootAndGetParabola(Math.toRadians(deg));
 			allParabolas[i] = prbl.unnormalized;
 			if (i > 0) {
-				Point2D.Double np = ParabolaMath.intersection(allParabolas[i - 1], allParabolas[i], sling.pivot);
+				Point2D.Double np = ParabolaMath.intersection(allParabolas[i - 1], allParabolas[i], sling.getPivot());
 				avgPoint.x += np.x;
 				avgPoint.y += np.y;
 				log.debug(String.format("new pivot: %1.3f %1.3f", avgPoint.x / i, avgPoint.y / i));
@@ -122,7 +122,7 @@ public class ParabolaTester {
 				DBG.setImage(Client.get().doScreenShot());
 				DBG.drawQuadratic(prbl.unnormalized, 0xff00);
 				DBG.drawBoundingBox(sling, Color.WHITE);
-				DBG.drawTarget(sling.pivot, Color.WHITE);
+				DBG.drawTarget(sling.getPivot(), Color.WHITE);
 				DBG.saveToFile("ParabolaTester" + DBG.incrementCounter());
 			}
 		}
@@ -146,11 +146,11 @@ public class ParabolaTester {
 	private void shootRandomPoints(ABType bird) throws ServerException {
 		this.birdType = bird;
 		loadLevel(birdType);
-		Point2D.Double target = sling.pivot;
+		Point2D.Double target = sling.getPivot();
 		//target.y -= 200;
 		for (int b = 0; b < 9; b++) {
 			//target.x += 100;
-			target = new Point2D.Double(sling.pivot.x + 100 + Math.random() * 200, sling.pivot.y - Math.random() * 280);
+			target = new Point2D.Double(sling.getPivot().x + 100 + Math.random() * 200, sling.getPivot().y - Math.random() * 280);
 
 			ShotPlanner sp = new ShotPlanner(sling, scaling, this.birdType);
 			double[] release = sp.predict(target);
@@ -165,12 +165,12 @@ public class ParabolaTester {
 			if (DBG.canOutputImage()) {
 				double[] w = sp.parabolaForActualAngle(theta);
 				DBG.setImage(Client.get().doScreenShot());
-				DBG.drawQuadraticWithOffset(w, sling.pivot, 0xff00);
+				DBG.drawQuadraticWithOffset(w, sling.getPivot(), 0xff00);
 				DBG.drawTarget(target, Color.RED);
 				if (tap != null)
 					DBG.drawTarget(tap, Color.BLUE);
 				DBG.drawBoundingBox(sling, Color.WHITE);
-				DBG.drawTarget(sling.pivot, Color.WHITE);
+				DBG.drawTarget(sling.getPivot(), Color.WHITE);
 				DBG.saveToFile("ParabolaTester" + DBG.incrementCounter());
 			}
 		}
@@ -261,7 +261,7 @@ public class ParabolaTester {
 		double w[] = ShotHelper.angleToParabola(theta, sling.getSceneScale());
 		double x = ParabolaMath.tangentToX(w, impact);
 		double y = w[0] * x * x + w[1] * x;
-		Point2D.Double tapPoint = new Point2D.Double(sling.pivot.x + x, sling.pivot.y - y);
+		Point2D.Double tapPoint = new Point2D.Double(sling.getPivot().x + x, sling.getPivot().y - y);
 		int time = ShotHelper.predictTime(theta, sling, tapPoint);
 		if (!clickableArea.contains(tapPoint) || time > 7000 || time < 100)
 			return false;
@@ -390,8 +390,8 @@ public class ParabolaTester {
 		VisionTraj vision = new VisionTraj(ImageUtil.removeABUI(Client.get().doScreenShot(), 0));
 		List<Point2D.Double> pts = new LinkedList<>();
 		Point2D.Double actualTap = vision.findTrajectory(sling, null, pts);
-		pts = vision.filteredTrajectory(pts, actualTap, sling.pivot, theta, sling.width, false, true);
-		return new ShotParabola(theta, sling.pivot, sling.getSceneScale(), pts);
+		pts = vision.filteredTrajectory(pts, actualTap, sling.getPivot(), theta, sling.width, false, true);
+		return new ShotParabola(theta, sling.getPivot(), sling.getSceneScale(), pts);
 	}
 
 	/**
@@ -402,7 +402,7 @@ public class ParabolaTester {
 	private void shoot(double theta, int time) throws ServerException {
 		// Dont use angleToReleasePoint() since evaluation should not be biased with actualToLaunch() conversion
 		Point rel = new Point((int)(- 1000 * Math.cos(theta)), (int)(+ 1000 * Math.sin(theta)));
-		Shot shot = new Shot((int)sling.pivot.x, (int)sling.pivot.y, rel.x, rel.y,0, 0, 0, time);
+		Shot shot = new Shot((int) sling.getPivot().x, (int) sling.getPivot().y, rel.x, rel.y,0, 0, 0, time);
 		Client.get().shootFast(shot);
 		try { Thread.sleep((birdType == ABType.BlackBird ? 7000 : 5000)); } catch (Exception ignored) {}
 	}

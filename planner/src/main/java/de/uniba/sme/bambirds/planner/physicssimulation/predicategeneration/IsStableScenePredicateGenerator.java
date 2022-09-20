@@ -76,8 +76,8 @@ public class IsStableScenePredicateGenerator implements IPredicateGenerator {
     }
     
     private boolean isSimilarToInitialScene(Scene finalScene) {
-        for (SceneEntityBase initialEntity: initialScene.getAllBlocks()) {
-            for (SceneEntityBase finalEntity: finalScene.getAllBlocks()) {
+        for (SceneEntityBase initialEntity: initialScene.getAllDestroyableObjects()) {
+            for (SceneEntityBase finalEntity: finalScene.getAllDestroyableObjects()) {
                 if (initialEntity.getGlobalID().equals(finalEntity.getGlobalID())) {
                     float xOffset = Math.abs(initialEntity.getCenterX() - finalEntity.getCenterX());
                     float yOffset = Math.abs(initialEntity.getCenterY() - finalEntity.getCenterY());

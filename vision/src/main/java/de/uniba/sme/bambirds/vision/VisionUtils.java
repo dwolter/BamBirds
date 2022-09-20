@@ -465,7 +465,7 @@ public class VisionUtils {
 			r.draw(g2d, 1);
 			g2d.setColor(fontColor);
 			g2d.drawRect(r.x, r.y, r.width, r.height);
-			g2d.drawString(r.globalID + "", (int)r.getCenterX(), (int)r.getCenterY());
+			g2d.drawString(r.getGlobalID() + "", (int)r.getCenterX(), (int)r.getCenterY());
 		}
 		return canvas;
 	}
@@ -540,8 +540,7 @@ public class VisionUtils {
 
 
 		// get game state
-		GameStateExtractor game = new GameStateExtractor();
-		GameState state = game.getGameState(screenshot);
+		GameState state = GameStateExtractor.getGameState(screenshot);
 	//	CustomLogger.info(state.toString());
 
 		if (state != GameState.PLAYING) {

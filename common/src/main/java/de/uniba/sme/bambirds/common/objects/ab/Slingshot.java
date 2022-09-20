@@ -1,5 +1,7 @@
 package de.uniba.sme.bambirds.common.objects.ab;
 
+import de.uniba.sme.bambirds.common.utils.MathUtil;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -14,45 +16,61 @@ public class Slingshot extends ABObject {
 	 */
 	private static final long serialVersionUID = -7335214223585382801L;
 
-	private double _sceneScale = 1.0;
-	public Point2D.Double pivot;
+	private final double sceneScale;
+	private final Point2D.Double pivot;
+	private final Rectangle bounds;
 
-	public Slingshot(Rectangle bounds) {
+	public Slingshot(final Rectangle bounds) {
 		this(bounds, null);
 	}
 
-	public Slingshot(Rectangle bounds, Point2D.Double pivot) {
+	public Slingshot(final Rectangle bounds, final Point2D.Double pivot) {
 		super(bounds, ABType.Sling);
-		globalID = "sling";
-		_sceneScale = getWidth() + getHeight();
-		if (pivot == null)
-			pivot = calculatePivot();
-		this.pivot = pivot;
+		setGlobalID("sling");
+		sceneScale = getWidth() + getHeight();
+		this.pivot = pivot == null ? calculatePivot() : pivot;
+		this.bounds = bounds;
 	}
 
-	public double getSceneScale() { return _sceneScale; }
-	public Point getPivotPoint() { return new Point((int)pivot.x, (int)pivot.y); }
+	public double getSceneScale() {
+		return sceneScale;
+	}
 
-	public Point2D.Double getPivotPoint2D() { return pivot; }
+	public Rectangle getBounds() {
+		return bounds;
+	}
+
+	public Point getPivotPoint() {
+		return new Point(MathUtil.round(getPivot().x), MathUtil.round(getPivot().y));
+	}
+
+	public Point2D.Double getPivotPoint2D() {
+		return getPivot();
+	}
 
 	private Point2D.Double calculatePivot() {
-		if (USE_NEW_SLING_DETECTION)
+		if (USE_NEW_SLING_DETECTION) {
 			return new Point2D.Double(getX() + 0.56 * getWidth(), getY() + 0.54 * getWidth()); // new detection
-		else
+		} else {
 			return new Point2D.Double(getX() + 0.562 * getWidth(), getY() + 0.665 * getWidth()); // original detection
+		}
 //		return new Point2D.Double(bounds.x + 0.564 * bounds.width, bounds.y + 0.167 * bounds.height);
 	}
 
 	@Override
-	public void draw(Graphics2D g, boolean fill, Color color, double padding) {
+	public void draw(final Graphics2D g, final boolean fill, final Color color, final double padding) {
 		super.draw(g, fill, color, padding);
 		g.setColor(color);
-		g.drawOval(round(pivot.getX()-2), round(pivot.getY()-2), 4, 4);
+		g.drawOval(MathUtil.round(getPivot().getX() - 2), MathUtil.round(getPivot().getY() - 2), 4, 4);
 	}
 
-	@Override 
+	@Override
 	public String toString() {
 		return String.format("(Slingshot [%.1f, %.1f, %.1f, %.1f] pivot [%.3f, %.3f] scale: %.1f)",
-				getX(), getY(), getWidth(), getHeight(), pivot.x, pivot.y, _sceneScale);
+				getX(), getY(), getWidth(), getHeight(), getPivot().x, getPivot().y, sceneScale);
+	}
+
+	public Point2D.Double getPivot() {
+		return pivot;
 	}
 }

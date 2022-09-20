@@ -121,9 +121,9 @@ public class VisionRealShape
     public List<ABObject> findBirds()
     {
         if (_birds != null) return _birds;
-        if (_sling == null) return null;
-        
         _birds = new LinkedList<ABObject>();
+        if (_sling == null) return _birds;
+        
         
         // scan the birds from left to right
         int xSling = _sling.x + (int) _sling.getWidth();
@@ -152,7 +152,7 @@ public class VisionRealShape
                     Circle b = (Circle) c.getBody();
                     if ((bound[0] + bound[2]) / 2 <= xLast + 1) {
                         int last = _birds.size()-1;
-                        if ( _birds.get(last).area < b.area) {
+                        if ( _birds.get(last).getArea() < b.getArea()) {
                             _birds.remove(last);
                         } else {
                             continue;
@@ -183,7 +183,7 @@ public class VisionRealShape
             if (c.getType() == ImageSegmenter.PIG)
             {
                 Body b = c.getBody();
-                if (b == null || ( b.centerX < xMin))
+                if (b == null || ( b.getCenterX() < xMin))
                     continue;
                 if (leftmostPig == null)
                     leftmostPig = b;
@@ -209,7 +209,7 @@ public class VisionRealShape
               if (c.getType() == ImageSegmenter.HILLS)
               {
                   Body b = c.getBody();
-                  if (b == null || ( b.centerX < xMin))
+                  if (b == null || ( b.getCenterX() < xMin))
                       continue;
                   hills.add(b);
                   _draw.add(c);
@@ -232,7 +232,7 @@ public class VisionRealShape
             if ((c.getType() > ImageSegmenter.PIG && c.getType() <= ImageSegmenter.DUCK))
             {
                 Body b = c.getBody();
-                if (b == null || ( b.centerX < xMin))
+                if (b == null || ( b.getCenterX() < xMin))
                     continue;
                 blocks.add(b);
                 _draw.add(c);
@@ -340,8 +340,8 @@ public class VisionRealShape
         	{	
         		b.draw(g, false, Color.RED);
         		g.setColor(Color.black);
-        		if(b.id != unassigned)
-        			g.drawString(b.globalID + "", (int)b.centerX - 5, (int)b.centerY + 5);// 10: font size
+        		if(b.getId() != unassigned)
+        			g.drawString(b.getGlobalID() + "", (int) b.getCenterX() - 5, (int) b.getCenterY() + 5);// 10: font size
         	}
             
         canvas.createGraphics().drawImage(image, 0, 0, null);

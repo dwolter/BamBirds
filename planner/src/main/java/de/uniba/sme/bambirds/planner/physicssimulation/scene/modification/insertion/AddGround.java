@@ -66,10 +66,10 @@ public class AddGround implements ISceneModifier {
 
         // log.debug("Lowest Point for GroundTop = " + groundPositionY);
         Rect rect = new Rect(sceneCenterOfMass.x, groundPositionY-1, 2, 30000, 0 , ABType.Ground );
-        rect.globalID = "Ground_for_Simulation";
-        rect.id = -1;
         SceneRectangle groundRectangle = new SceneRectangle(rect);
-        
+        groundRectangle.setGlobalID("Ground_for_Simulation");
+        groundRectangle.setId(-1);
+
         scene.addSceneEntity(groundRectangle);
     }
 }

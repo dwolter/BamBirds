@@ -3,16 +3,14 @@ package de.uniba.sme.bambirds.planner;
 import de.uniba.sme.bambirds.common.PlanParser;
 import de.uniba.sme.bambirds.common.Strategy;
 import de.uniba.sme.bambirds.common.StrategyConsumer;
-import de.uniba.sme.bambirds.common.objects.Level;
+import de.uniba.sme.bambirds.common.database.Level;
+import de.uniba.sme.bambirds.common.database.Node;
 import de.uniba.sme.bambirds.common.objects.Plan;
 import de.uniba.sme.bambirds.common.utils.SWIConnector;
 import de.uniba.sme.bambirds.common.utils.Settings;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -23,6 +21,8 @@ import java.util.Set;
 import de.uniba.sme.bambirds.planner.physicssimulation.SimulationUtils;
 import de.uniba.sme.bambirds.planner.predicates.PredicateGeneratorManager;
 import de.uniba.sme.bambirds.planner.physicssimulation.scene.SerializableScene;
+
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -95,21 +95,28 @@ public class PrologPlanner implements Strategy {
 	public void plan(StrategyConsumer consumer, long timeOut) {
 		connector.sendCommand("\"" + knowledgeBaseFilename + "\".");
 		long end = System.currentTimeMillis() + timeOut;
-		Set<String> unfilteredPlans = new HashSet<>();
+		Set<String> intermediatePlans = new HashSet<>();
 		try {
 			while(true) {
 				long cur = System.currentTimeMillis();
 				String result = connector.getResult(end - cur).trim();
 				if (result.startsWith("%")) {
 					result = result.substring(1);
-					if (unfilteredPlans.add(result)) {
-						Plan unfilteredPlan = parser.parsePlan(result);
-						unfilteredPlan.setConfidence(unfilteredPlan.getConfidence()-10);
-						consumer.post(unfilteredPlan);
+					if (intermediatePlans.add(result)) {
+						Plan intermediatePlan = parser.parsePlan(result);
+						Node node = consumer.post(intermediatePlan);
+						if (node != null) {
+							// Set all intermediate plans filtered (wil onlly be executed if no other plans are available anymore)
+							node.setFiltered(true);
+						}
 					}
 				} else {
 					List<Plan> finalPlans = parser.parsePlans(result);
-					consumer.post(finalPlans);
+					List<Node> finalNodes = consumer.post(finalPlans);
+					// Set all final Nodes to not be filtered
+					for (Node node : finalNodes) {
+						node.setFiltered(false);
+					}
 					break;
 				}
 			}
@@ -171,64 +178,66 @@ public class PrologPlanner implements Strategy {
 	}
 
 	public static void compileExecutable() {
-		ClassLoader cl = ClassLoader.getSystemClassLoader();
-
-		URL[] urls = ((URLClassLoader)cl).getURLs();
+		String[] classpath = System.getProperty("java.class.path").split(SystemUtils.IS_OS_WINDOWS ? ";" : ":");
 		boolean prologFound = false;
 		boolean btcLibFound = false;
-		String destinationPath = "";
-		String btcLibDir = "";
-		for(URL url: urls){
-			String file;
-//			log.info("Url: {}",url);
-			try {
-				file = url.toURI().getPath();
-				if (file.endsWith("start.pl") ) {
-					log.debug("Planner start found: {}", file);
-					Settings.PLANNER_START = file;
-					destinationPath = new File(file).getParentFile().getAbsolutePath();
-					prologFound = true;
-				} else if (file.matches(".*prolog/?$")) {
-					log.debug("Lib Folder found: {}", file);
-					File libDirectory = new File(file);
-					log.debug(libDirectory.getAbsolutePath());
-					if (!libDirectory.isDirectory()) {
-						// Gradle is does not set the classpath correctly in the distribution
-						File parentDirectory = libDirectory.getParentFile();
-						if(!parentDirectory.isDirectory())
-							continue;
-						libDirectory = parentDirectory;
-					}
-					destinationPath = libDirectory.getAbsolutePath();
-					File startFile = new File(libDirectory, "planner/start.pl");
-					if (startFile.isFile()) {
-						Settings.PLANNER_START = startFile.getAbsolutePath();
-						prologFound = true;
-					}
-				} else if (file.endsWith("behind_the_corner.so")) {
-					File libDirectory = new File(file).getParentFile();
-					btcLibDir = libDirectory.getAbsolutePath();
-					btcLibFound = true;
+		Path destinationPath = null;
+		Path btcLibDir = null;
+		for(String path: classpath){
+			if (path.endsWith("start.pl") ) {
+				log.debug("Planner start found: {}", path);
+				Settings.PLANNER_START = Paths.get(path);
+				destinationPath = new File(path).getParentFile().toPath();
+				prologFound = true;
+			} else if (path.matches(".*prolog/?$")) {
+				log.debug("Lib Folder found: {}", path);
+				File libDirectory = new File(path);
+				log.debug(libDirectory.getAbsolutePath());
+				if (!libDirectory.isDirectory()) {
+					// Gradle is does not set the classpath correctly in the distribution
+					File parentDirectory = libDirectory.getParentFile();
+					if(!parentDirectory.isDirectory())
+						continue;
+					libDirectory = parentDirectory;
 				}
-				if (prologFound && btcLibFound) break;
-			} catch (URISyntaxException e) {
-				log.error(e);
+				destinationPath = libDirectory.toPath();
+				File startFile = new File(libDirectory, "planner/start.pl");
+				if (startFile.isFile()) {
+					Settings.PLANNER_START = startFile.toPath();
+					prologFound = true;
+				}
+			} else if (path.endsWith("behind_the_corner.so")) {
+				File libDirectory = new File(path).getParentFile();
+				btcLibDir = libDirectory.toPath();
+				btcLibFound = true;
 			}
+			if (prologFound && btcLibFound) break;
 		}
 		if (!prologFound) {
 			log.fatal("Could not find prolog planner start");
 			System.exit(1);
 		}
-		if (!btcLibFound) {
+		if (!btcLibFound && !SystemUtils.IS_OS_WINDOWS) {
 			log.error("Could not locate behind_the_corner library");
 			System.exit(1);
 		}
-		Settings.PLANNER_EXECUTABLE = destinationPath + "/bambirds-planner";
+		Settings.PLANNER_EXECUTABLE = destinationPath.resolve("bambirds-planner");
 		Settings.PLANNER_LIB_DIR = btcLibDir;
 		try {
 			log.info("Compiling prolog planner ...");
-			Process process = Runtime.getRuntime().exec(new String[] {"swipl", "-p", "lib="+Settings.PLANNER_LIB_DIR ,"-o", Settings.PLANNER_EXECUTABLE, "-c", Settings.PLANNER_START });
+			Process process = Runtime.getRuntime().exec(new String[] {
+				"swipl", 
+				"-p", 
+				"lib="+ (Settings.PLANNER_LIB_DIR != null ? Settings.PLANNER_LIB_DIR.toString() : "") ,
+				"-o", 
+				Settings.PLANNER_EXECUTABLE.toString(), 
+				"-c", 
+				Settings.PLANNER_START.toString() 
+			});
 			process.waitFor();
+			if (process.exitValue() != 0) {
+				throw new IOException("Prolog compilation returned exit value " + process.exitValue());
+			}
 			log.debug("done");
 		} catch (IOException | InterruptedException e) {
 			log.error("Failed to compile planner", e);

@@ -24,7 +24,7 @@
 		hasOrientation/2,
 		hasSize/2,
 		hill/5,
-		parabola/5,
+		parabola/6,
 		pig/5,
 		protects/2,
 		scene_scale/2,
@@ -62,7 +62,7 @@
 :- dynamic(hasOrientation/2).
 :- dynamic(hasSize/2).
 :- dynamic(hill/5).
-:- dynamic(parabola/5).
+:- dynamic(parabola/6).
 :- dynamic(pig/5).
 :- dynamic(protects/2).
 :- dynamic(scene_scale/2).
@@ -100,7 +100,7 @@ purge :-
 	retractall(hasOrientation(_,_)),
 	retractall(hasSize(_,_)),
 	retractall(hill(_,_,_,_,_)),
-	retractall(parabola(_,_,_,_,_)),
+	retractall(parabola(_,_,_,_,_,_)),
 	retractall(pig(_,_,_,_,_)),
 	retractall(protects(_,_)),
 	retractall(scene_scale(_,_)),

@@ -9,11 +9,10 @@ import java.util.*;
 import java.util.concurrent.*;
 
 
-import de.uniba.sme.bambirds.common.objects.Level;
+import de.uniba.sme.bambirds.common.database.Level;
 import de.uniba.sme.bambirds.common.utils.Settings;
 import de.uniba.sme.bambirds.planner.behind_the_corner.BehindTheCornerPredicateGenerator;
 import de.uniba.sme.bambirds.planner.knowledge.Knowledge;
-import de.uniba.sme.bambirds.planner.physicssimulation.exceptions.PredicateGenerationException;
 import de.uniba.sme.bambirds.planner.physicssimulation.predicategeneration.SupportPredicateGenerator;
 import de.uniba.sme.bambirds.planner.physicssimulation.scene.Scene;
 import de.uniba.sme.bambirds.planner.physicssimulation.scene.preprocessing.DefaultPreprocessor;
@@ -113,7 +112,7 @@ public class PredicateGeneratorManager {
      * writes the generated results
      */
     private Path writeProlog(List<Predicate> predicates, String filename) {
-		Path filepath = Paths.get(filename + Settings.PROLOG_FILE_EXTENSION).toAbsolutePath().normalize();
+		Path filepath = Settings.TEMP_DIR.resolve(filename + Settings.PROLOG_FILE_EXTENSION).toAbsolutePath().normalize();
 
 		try (BufferedWriter bw = Files.newBufferedWriter(filepath)) {
 			for (Predicate predicate : predicates) {

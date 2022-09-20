@@ -5,20 +5,20 @@ plugins {
 }
 
 dependencies {
-    implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
-    testImplementation group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
+    testImplementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
 
     // Should actually include all necessary dependencies for JBox2D + testbed
     // https://mvnrepository.com/artifact/org.jbox2d/jbox2d-testbed
     implementation group: 'org.jbox2d', name: 'jbox2d-testbed', version: '2.2.1.1'
 
-    // Required for JBox2D library (may be unnecassary)
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
-
     // Actual JBox2D library (may already included above)
     // https://mvnrepository.com/artifact/org.jbox2d/jbox2d-library
     implementation group: 'org.jbox2d', name: 'jbox2d-library', version: '2.2.1.1'
+
+    // Required for JBox2D library (may be unnecassary)
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
 
     testImplementation fileTree(dir: 'build/prolog/planner', includes: ['start.pl'])
 }
@@ -43,7 +43,7 @@ class PrologExec extends DefaultTask {
     void run() {
         def sout = new StringBuilder(), serr = new StringBuilder()
         def input = mainFile.get().asFile
-        def proc = ["swipl", input].execute()
+        def proc = ["swipl", "--on-error=halt", input].execute()
         proc.consumeProcessOutput(sout, serr)
         proc.waitFor()
         logger.quiet("stdout> ${sout}\nstderr> ${serr}")

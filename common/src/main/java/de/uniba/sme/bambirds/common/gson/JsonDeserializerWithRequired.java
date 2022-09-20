@@ -1,5 +1,13 @@
 package de.uniba.sme.bambirds.common.gson;
-import com.google.gson.*;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.SerializedName;
 
 import java.lang.reflect.Field;
@@ -20,13 +28,11 @@ public class JsonDeserializerWithRequired<T> implements JsonDeserializer<T> {
 	 * @param je   Source json string.
 	 * @param type Object's model.
 	 * @param jdc  Unused in this case.
-	 *
 	 * @return Parsed object.
-	 *
 	 * @throws JsonParseException When parsing is impossible.
-	 * */
+	 */
 	@Override
-	public T deserialize(JsonElement je, Type type, JsonDeserializationContext jdc)
+	public T deserialize(final JsonElement je, final Type type, final JsonDeserializationContext jdc)
 			throws JsonParseException {
 
 
@@ -52,12 +58,11 @@ public class JsonDeserializerWithRequired<T> implements JsonDeserializer<T> {
 	/**
 	 * Checks whether all required fields were provided in the class.
 	 *
-	 * @param fields Fields to be checked.
-	 * @param pojo   Instance to check fields in.
-	 *
+	 * @param je             Fields to be checked.
+	 * @param specifiedClass Instance to check fields in.
 	 * @throws JsonParseException When some required field was not met.
-	 * */
-	private void checkRequiredFields(JsonElement je, Class<?> specifiedClass)
+	 */
+	private void checkRequiredFields(final JsonElement je, final Class<?> specifiedClass)
 			throws JsonParseException {
 		// Checking nested list items too.
 		if (je.isJsonArray()) {
@@ -75,11 +80,11 @@ public class JsonDeserializerWithRequired<T> implements JsonDeserializer<T> {
 				if (f.getAnnotation(JsonRequired.class) != null) {
 					try {
 						String fieldName = f.getName();
-						if ((f.getAnnotation(SerializedName.class)) != null){
+						if ((f.getAnnotation(SerializedName.class)) != null) {
 							fieldName = f.getAnnotation(SerializedName.class).value();
 						}
 						if (jo.has(fieldName) && !jo.get(fieldName).isJsonNull()) {
-							checkRequiredFields(jo.get(fieldName),f.getType());
+							checkRequiredFields(jo.get(fieldName), f.getType());
 							if (!(f.getType().isPrimitive() || f.getType().isEnum()) || !jo.get(fieldName).isJsonPrimitive()) {
 								checkSuperClasses(jo.get(fieldName), f.getType());
 							}
@@ -88,19 +93,18 @@ public class JsonDeserializerWithRequired<T> implements JsonDeserializer<T> {
 									specifiedClass.getSimpleName(),
 									f.getName()));
 						}
-					}
-
-					// Exceptions while reflection.
-					catch (IllegalArgumentException e) {
+					} catch (IllegalArgumentException e) {
+						// Exceptions while reflection.
 						throw new JsonParseException(e);
 					}
 				}
 			}
 		} else if (!
-				(je.isJsonPrimitive() && (
-						specifiedClass.isPrimitive() ||
-								(je.getAsJsonPrimitive().isString() && (
-									specifiedClass.isEnum() || specifiedClass == String.class)
+				(je.isJsonPrimitive()
+						&& (specifiedClass.isPrimitive()
+						|| (je.getAsJsonPrimitive().isString()
+						&& (specifiedClass.isEnum()
+						|| specifiedClass == String.class)
 				)))
 		) {
 			throw new JsonSyntaxException(String.format("Json Element %1$s does not correspond with Type %2$s",
@@ -114,11 +118,11 @@ public class JsonDeserializerWithRequired<T> implements JsonDeserializer<T> {
 	/**
 	 * Checks whether all super classes have all required fields.
 	 *
-	 * @param pojo Object to check required fields in its superclasses.
-	 *
+	 * @param jsonElement    Object to check required fields in its superclasses.
+	 * @param specifiedClass Class of the Element
 	 * @throws JsonParseException When some required field was not met.
-	 * */
-	private void checkSuperClasses(JsonElement jsonElement, Class<?> specifiedClass) throws JsonParseException {
+	 */
+	private void checkSuperClasses(final JsonElement jsonElement, final Class<?> specifiedClass) throws JsonParseException {
 
 		Class<?> superclass = specifiedClass;
 		while ((superclass = superclass.getSuperclass()) != null && superclass != Object.class) {

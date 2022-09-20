@@ -8,10 +8,12 @@
 	parabola_for_target_point/5,
 	radiantAtX/4,
 	angleAtX/4,
-	parabola_y_value/4
+	parabola_y_value/4,
+	parabola_is_flat/2
 	]).
 :- use_module(constants).
 :- use_module(planner(geometric/angles)).
+:- use_module(planner(geometric/common)).
 :- use_module(planner(data)).
 
 %% computes A*X^2 + B*X + C
@@ -91,6 +93,7 @@ correct_estimate_high_shot(BC, TRX, TRY, ANGLE, LOWER, UPPER) :-
 
 predict_launch_params(BC, TX, TY, [[CA1, V1], [CA2, V2]]) :-
 	slingshotPivot(X0, Y0),
+	TX > X0,
 	scene_scale(S,_),
 	TRX is ((TX-X0)/S), % relative target points
 	TRY is ((Y0-TY)/S),
@@ -176,3 +179,7 @@ angle_to_release_point(BC, Angle, RX, RY) :-
 time_of_flight(V, A, DX, TOF) :-
 	scene_scale(S,_),
 	TOF is (815 * (DX/S) / (V*cos(A))). % magic 815
+
+parabola_is_flat(A,B) :-
+	radiantAtX(A,B,0,Radiant),
+	Radiant < (pi / 4).

@@ -8,7 +8,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import de.uniba.sme.bambirds.common.objects.Level.State;
+import de.uniba.sme.bambirds.common.database.Level.State;
 import de.uniba.sme.bambirds.common.utils.Settings;
 
 public class LevelSelectionTest {
@@ -249,7 +249,7 @@ public class LevelSelectionTest {
     predictions.put(7, new PredictionTuple<>(27478, 1.0));
     predictions.put(8, new PredictionTuple<>(27478, 1.0));
 
-    Map<Integer, de.uniba.sme.bambirds.common.objects.Level.State> levelStates = new HashMap<>();
+    Map<Integer, State> levelStates = new HashMap<>();
     levelStates.put(1, State.WON);
     levelStates.put(2, State.WON);
     levelStates.put(3, State.LOST);

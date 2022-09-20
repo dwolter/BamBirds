@@ -8,13 +8,16 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 
+import de.uniba.sme.bambirds.common.database.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.uniba.sme.bambirds.common.objects.Level;
 import de.uniba.sme.bambirds.common.objects.ShotParabola;
 import de.uniba.sme.bambirds.common.objects.ab.ABObject;
 import de.uniba.sme.bambirds.common.objects.ab.Slingshot;
+import de.uniba.sme.bambirds.common.exceptions.InvalidParabolaException;
+import de.uniba.sme.bambirds.common.exceptions.MissingSlingshotException;
+import de.uniba.sme.bambirds.common.exceptions.MissingTrajectoryPointsException;
 import de.uniba.sme.bambirds.common.exceptions.SceneInitialisationException;
 import de.uniba.sme.bambirds.common.utils.ImageUtil;
 import de.uniba.sme.bambirds.common.utils.ShotHelper;
@@ -24,6 +27,26 @@ import java.awt.geom.Point2D;
 
 public class VisionHelper {
 	private static final Logger log = LogManager.getLogger(VisionHelper.class);
+	private static Point2D.Double savedEstTapPoint;
+	private static double savedTheta;
+	private static Point2D.Double savedOrigin;
+	private static double savedVelocity;
+
+	public static Point2D.Double getSavedEstTapPoint(){
+		return savedEstTapPoint;
+	}
+
+	public static double getSavedTheta(){
+		return savedTheta;
+	}
+
+	public static Point2D.Double getSavedOrigin(){
+		return savedOrigin;
+	}
+
+	public static double getSavedVelocity(){
+		return savedVelocity;
+	}
 
 	static private VisualDebugger DBG = new VisualDebugger("VisionSling");
 	{ DBG.enableDebug(false, false); }
@@ -189,28 +212,39 @@ public class VisionHelper {
 		} catch (Exception e) {
 			log.error("error masking birds, returning regular screenshot...");
 		}
-		DBG.saveToFileDirectly("preshot-stable-" + DBG.incrementCounter(), screenShot);
+		if(DBG.canOutputImage()){
+			DBG.saveToFileDirectly("preshot-stable-" + DBG.incrementCounter(), screenShot);
+		}
 		return screenShot;
 	}
 
-	/** After a shot get the display parabola */
+	/** After a shot get the display parabola 
+	 * @throws MissingTrajectoryPointsException
+	 * @throws InvalidParabolaException
+	 * @throws MissingSlingshotException
+	 */
 	public static double calculateScalingFactor(final BufferedImage img, Level currentLevel, Point releasePoint,
-			long tapTime) {
+																							long tapTime) throws MissingTrajectoryPointsException, InvalidParabolaException, MissingSlingshotException {
 		// never ever write here to img, it is used in Meta later
 		VisionTraj vision = new VisionTraj(img);
 		double scalingFactor = currentLevel.getScalingFactor();
 		Slingshot slingshot = currentLevel.getSlingshot();
+		if (slingshot == null) {
+			throw new MissingSlingshotException("Cannot calculate scaling factor because level slingshot is null");
+		}
 		VisionSling v = new VisionSling(img);
 		Rectangle sling = v.findSlingshot();
 		// If the current screen is moved to the castle, the parameters need to be adjusted
 		if (sling != null){
 			Slingshot currentSlinghot = new Slingshot(sling);
-			if (currentSlinghot.pivot.distance(slingshot.pivot) > 5) {
-				releasePoint.x += currentSlinghot.pivot.x - slingshot.pivot.x;
-				releasePoint.y += currentSlinghot.pivot.y - slingshot.pivot.y;
+			if (currentSlinghot.getPivot().distance(slingshot.getPivot()) > 5) {
+				releasePoint.x += currentSlinghot.getPivot().x - slingshot.getPivot().x;
+				releasePoint.y += currentSlinghot.getPivot().y - slingshot.getPivot().y;
 				slingshot = currentSlinghot;
 			}
 		}
+
+		BufferedImage parabolaImage = ImageUtil.deepCopy(img);
 
 		// TODO: Setting the Properties for ShotHelper this ways seems wrong...
 		ShotHelper.setProperties(scalingFactor, currentLevel.currentScene.getBirdTypeOnSling());
@@ -218,21 +252,32 @@ public class VisionHelper {
 		// Estimate tap point and get list of trajectory points
 		double theta = ShotHelper.releasePointToAngle(releasePoint);
 		Point2D.Double estTapPoint = ShotHelper.predictLocationAfterTime(theta, slingshot, tapTime);
+		savedEstTapPoint = estTapPoint;
+		savedTheta = theta;
+		savedOrigin = slingshot.getPivot();
 
 		List<Point2D.Double> pts = new LinkedList<>();
 		Point2D.Double actualTap = vision.findTrajectory(slingshot, estTapPoint, pts);
-		pts = vision.filteredTrajectory(pts, actualTap, slingshot.pivot, theta, slingshot.getWidth(), false, true);
-		if (pts == null || pts.size() < 6)
-			return scalingFactor;
+		pts = vision.filteredTrajectory(pts, actualTap, slingshot.getPivot(), theta, slingshot.getWidth(), false, true);
+		if (pts == null || pts.size() < 6) {
+			throw new MissingTrajectoryPointsException("Not enough trajectory points");
+		}
 
-		ShotParabola para = new ShotParabola(theta, slingshot.pivot, slingshot.getSceneScale(), pts);
-		if (para.velocity == 0 || Double.isNaN(para.velocity))
-			return scalingFactor;
+		ShotParabola para = new ShotParabola(theta, slingshot.getPivot(), slingshot.getSceneScale(), pts);
+		if (para.velocity == 0 || Double.isNaN(para.velocity)) {
+			throw new InvalidParabolaException("Parabola from trajectory points is not valid");
+		}
 
-		DBG.saveToFileDirectly("parabola-" + DBG.incrementCounter(), para.draw(ImageUtil.deepCopy(img), estTapPoint));
+		savedVelocity = para.velocity;
+		parabolaImage = para.draw(parabolaImage, estTapPoint);
+		if(DBG.canOutputImage()){
+			DBG.saveToFileDirectly("parabola-" + DBG.incrementCounter(), parabolaImage);
+		}
 		double factor = ShotHelper.recalculateScalingFactor(para.velocity, theta);
-		if (!Double.isNaN(factor))
-			scalingFactor = factor;
+		if (Double.isNaN(factor)) {
+			throw new InvalidParabolaException("Parabola from trajectory points does not lead to a valid scaling factor");
+		}
+		scalingFactor = factor;
 		log.info(String.format("New scaling factor: %1.6f", scalingFactor));
 		return scalingFactor;
 	}

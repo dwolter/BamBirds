@@ -2,22 +2,18 @@ package de.uniba.sme.bambirds.level_selection;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
+import de.uniba.sme.bambirds.common.database.Level;
 import de.uniba.sme.bambirds.common.utils.SelectionAlgorithms;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import de.uniba.sme.bambirds.common.objects.Level;
-import de.uniba.sme.bambirds.common.objects.Level.State;
 
 /**
  * Class for evaluating probabilities of levels from predictions and level
  * states
  */
 public class Decision {
-	private static final Logger log = LogManager.getLogger(Decision.class);
+	private static final Logger LOG = LogManager.getLogger(Decision.class);
 
 	private final boolean primitiveCombination;
 
@@ -46,18 +42,18 @@ public class Decision {
 	 *         probability}
 	 */
 	public Map<Integer, Double> calculateProbabilityDistribution(Map<Integer, Integer> maxScores,
-			Map<Integer, Long> costs, Map<Integer, PredictionTuple<Integer, Double>> predictions,
-			Map<Integer, Level.State> levelStates, long timeLeft) {
+																															 Map<Integer, Long> costs, Map<Integer, PredictionTuple<Integer, Double>> predictions,
+																															 Map<Integer, Level.State> levelStates, long timeLeft) {
 
 		double brierScoreLoss = ErrorCalculation.calculateBrierScoreLoss(levelStates, predictions);
-		log.debug("Error classifier: " + brierScoreLoss);
+		LOG.debug("Error classifier: " + brierScoreLoss);
 
 		double scoresError = ErrorCalculation.calculateScoreError(maxScores, predictions);
-		log.debug("Error scores: " + scoresError);
+		LOG.debug("Error scores: " + scoresError);
 
 		Map<Integer, Double> improvementPredictions = calculateImprovementPrediction(maxScores, costs, predictions,
 				brierScoreLoss, scoresError, levelStates, timeLeft);
-		log.debug("Improvement predictions: " + improvementPredictions.toString());
+		LOG.debug("Improvement predictions: " + improvementPredictions.toString());
 
 		return SelectionAlgorithms.softmax(improvementPredictions);
 	}
@@ -81,12 +77,12 @@ public class Decision {
 	 *         difference important
 	 */
 	private Map<Integer, Double> calculateImprovementPrediction(Map<Integer, Integer> maxScores, Map<Integer, Long> costs,
-			Map<Integer, PredictionTuple<Integer, Double>> predictions, double brierScoreLoss, double scoresError,
-			Map<Integer, State> levelStates, long timeLeft) {
+																															Map<Integer, PredictionTuple<Integer, Double>> predictions, double brierScoreLoss, double scoresError,
+																															Map<Integer, Level.State> levelStates, long timeLeft) {
 		Map<Integer, Double> improvementPrediction = new HashMap<>();
 
 		predictions.forEach((key, predictionTuple) -> {
-			if (levelStates.get(key) != State.RESIGNED) {
+			if (levelStates.get(key) != Level.State.RESIGNED) {
 				double value = 0;
 				int improvement = predictionTuple.getScore() - maxScores.get(key);
 				double improvementWithWon = predictionTuple.getScore() * predictionTuple.getWinProbability()

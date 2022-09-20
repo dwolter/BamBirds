@@ -872,3 +872,5 @@ MigrationBackup/
 
 
 !src/main/dist
+scene.tex
+changed_pix/*

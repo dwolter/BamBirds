@@ -1,7 +1,7 @@
-# BamBird 2021
+# BamBirds 2022
 
-- [BamBird 2021](#bambird-2021)
-  - [Team Description](#team-descriptiondocteam-descriptionsteam_description_2021md)
+- [BamBirds 2022](#bambirds-2022)
+  - [\[Team Description\](doc/Team Descriptions/team\_description\_2022.md)](#team-descriptiondocteam-descriptionsteam_description_2022md)
   - [Repository structure](#repository-structure)
   - [Prerequisities](#prerequisities)
     - [Using AngryBirds (via Chromium)](#using-angrybirds-via-chromium)
@@ -21,7 +21,7 @@
 
 > If you want to contribute / collaborate with us, please contact [Diedrich Wolter](mailto:diedrich.wolter@uni-bamberg.de)
 
-## [Team Description](doc/Team Descriptions/team_description_2021.md)
+## [Team Description](doc/Team Descriptions/team_description_2022.md)
 
 ## Repository structure
 
@@ -51,12 +51,13 @@ Additional Resources and Information can be found here:
 
 ## Prerequisities
 
-- Install Java 8
-- [Install SWI-Prolog >= 8.2](https://www.swi-prolog.org/Download.html)
+- Install Java >= 8, <= 17 (Optimally >= 12 so the same jdk can be used for ScienceBirds)
+- [Install SWI-Prolog >= 8.2.4](https://www.swi-prolog.org/Download.html)
   - Make sure to set `PATH_TO_SWIPL` in [`config.properties`](#configuration) to the executable on the system if is not located on the `PATH` (System Variables on Windows)
 - A c++ compiler for native prolog libraries
   - Windows:
-    - Currently not supported unless running in [wsl](https://docs.microsoft.com/en-us/windows/wsl/)
+    - To get it fully working use [wsl](https://docs.microsoft.com/en-us/windows/wsl/) and follow linux instructions
+    - Otherwise the native prolog libraries will not be included (would be used for advanced rebound calculations)
   - Linux, MacOS, WSL:
     - G++ compiler with support for C++11 (gcc, clang)
     - libboost-dev ([Boost C++ development libraries](https://www.boost.org/))
@@ -87,7 +88,7 @@ To run the agent, run the command
 ./bin/bambirds
 ```
 
-Configuration can be done either with the `config.properties` file or with commandline options.
+[Configuration](#configuration) can be done either with the `config/config.properties` file or with commandline options.
 
 For more information run
 
@@ -129,7 +130,7 @@ directory this very file is located in).
    Now the server application should have detected a connected client. Press
    _Start_ in the server application.
 
-   > Make sure to set `SERVER_TYPE=ANGRY_BIRDS` in `config.properties`
+   > Make sure to set `SERVER_TYPE=ANGRY_BIRDS` in [the configuration](#configuration)
 
 4. Shutdown:
 
@@ -208,7 +209,7 @@ docker-compose exec agent <your command>
    ./gradlew :run
    ```
 
-   > Make sure to set `SERVER_TYPE=SCIENCE_BIRDS` in `config.properties`
+   > Make sure to set `SERVER_TYPE=SCIENCE_BIRDS` in [the configuration](#configuration)
 
 4. Shutdown:
 
@@ -235,7 +236,7 @@ Use one of the following tasks:
 
   Execute the BamBird agent (`de.uniba.sme.bambirds.BamBirds`).
 
-  [Configuration](#configuration) should be done via the `config.properties` file.
+  [Configuration](#configuration) should be done via the `config/config.properties` file.
 
   For testing purposes the default values should be just fine.
 
@@ -266,12 +267,12 @@ Use one of the following tasks:
 
 ### Configuration
 
-All configuration is saved in `config.properties` (file is created on the first execution of the agent):
+All configuration is saved in `config/config.properties` (file is created on the first execution of the agent):
 
 | Name                                    |             Options/Type              | Use                                                                                                                                                                                                                             | Access in source                                 |
 | :-------------------------------------- | :-----------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------- |
 | `HOST`                                  |        any server domain or ip        | the location of ABServer or SBServer                                                                                                                                                                                            | `Settings.SERVER_HOST`                           |
-| `GAME_MODE`                             | `COMPETITION` \| `TRAINING` \| `DEMO` | can be used for changing mode of Agent between competition or training. The demo mode enables the visual export of the generated plans and display in Java (only supported on Unix Systems, requires `pdflatex` and `convert`). | `Settings.GAME_MODE`                             |
+| `GAME_MODE`                             | `COMPETITION` \| `TRAINING` \| `DEMO` | can be used for changing mode of Agent between competition or training. The demo mode enables the visual export of the generated plans and display in Java (requires `pdflatex` and `convert`, for windows install [ImageMagick](https://imagemagick.org/script/download.php#windows) and [GhostScript](https://www.ghostscript.com/releases/gsdnld.html)). | `Settings.GAME_MODE`                             |
 | `ROUNDS`                                |              `int` value              | when level-selection disabled the number of complete rounds to play, `-1` for unlimited                                                                                                                                         | `Settings.ROUNDS`                                |
 | `TEAM_ID`                               |             `uint` value              | The id used to connect to server                                                                                                                                                                                                | `Settings.TEAM_ID`                               |
 | `SERVER_TYPE`                           |   `ANGRY_BIRDS` \| `SCIENCE_BIRDS`    | Switch between the ABServer and SBServer (they have slightly different APIs)                                                                                                                                                    | `Settings.SERVER_TYPE`                           |
@@ -308,7 +309,7 @@ python main.py --help
 - Verify that Gradle picks the correct Java version by running `./gradlew --version`.
 - Verify that you have the correct [Chromium version](http://aibirds.org/basic-game-playing-software/offline-chrome.html)
 - Verify that you can execute swi-prolog from the command line: `swipl` (or the path you have set in `config.properties`)
-
+- (DEMO Mode on windows) Verify that you have both ImageMagick and GhostScript installed and available from the command line. Try `magick.exe situation1-1.pdf situation1-1.jpg`
 ### Debugging
 
 The Debugging can be done also via gradle with an external debugger like in eclipse, intellij or vscode (with the "Debugger for Java" extension)

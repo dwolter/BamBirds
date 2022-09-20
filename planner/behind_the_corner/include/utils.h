@@ -1,5 +1,6 @@
 #ifndef _BEHIND_THE_CORNER_UTILS_H_INCLUDED
 #define _BEHIND_THE_CORNER_UTILS_H_INCLUDED
+
 #include <vector>
 #include <tuple>
 #include <cmath>

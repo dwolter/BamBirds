@@ -16,9 +16,9 @@ test(shot_params) :-
 
     (
       nth0(Index, FullShots, [_, _, _, A1, B1, _, _, RX1, RY1]),
-      nth0(Index, Angles, [ImpactAngle | _]),
-      parabola(target, _, ImpactAngle, A2, B2),
-      shot_params(ImpactAngle, _, _, RX2, RY2, _,_),
+      nth0(Index, Angles, [UUID | _]),
+      parabola(target, UUID, _, _, A2, B2),
+      shot_params(UUID, _, _, RX2, RY2, _,_),
       assertion(A1 == A2),
       assertion(B1 == B2),
       assertion(RX1 == RX2),

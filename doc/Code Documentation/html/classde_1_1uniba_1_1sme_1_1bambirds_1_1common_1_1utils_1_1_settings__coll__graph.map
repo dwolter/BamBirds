@@ -1,7 +1,9 @@
 <map id="de.uniba.sme.bambirds.common.utils.Settings" name="de.uniba.sme.bambirds.common.utils.Settings">
-<area shape="rect" id="node1" title=" " alt="" coords="468,78,711,119"/>
-<area shape="rect" id="node2" title=" " alt="" coords="96,5,157,32"/>
-<area shape="rect" id="node3" title=" " alt="" coords="90,56,163,83"/>
-<area shape="rect" id="node4" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_settings_1_1_server_type.html" title=" " alt="" coords="5,107,248,149"/>
-<area shape="rect" id="node5" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_settings_1_1_game_mode.html" title=" " alt="" coords="5,173,248,214"/>
+<area shape="rect" id="node1" title=" " alt="" coords="503,141,775,182"/>
+<area shape="rect" id="node2" title=" " alt="" coords="108,5,175,32"/>
+<area shape="rect" id="node3" title=" " alt="" coords="101,56,182,83"/>
+<area shape="rect" id="node4" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_settings_1_1_server_type.html" title=" " alt="" coords="5,107,277,149"/>
+<area shape="rect" id="node5" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_settings_1_1_game_mode.html" title=" " alt="" coords="5,173,277,214"/>
+<area shape="rect" id="node6" title=" " alt="" coords="55,239,227,265"/>
+<area shape="rect" id="node7" title=" " alt="" coords="116,365,167,392"/>
 </map>

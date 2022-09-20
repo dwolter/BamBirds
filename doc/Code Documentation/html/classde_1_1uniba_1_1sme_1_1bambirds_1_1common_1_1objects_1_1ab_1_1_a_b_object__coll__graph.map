@@ -1,7 +1,8 @@
 <map id="de.uniba.sme.bambirds.common.objects.ab.ABObject" name="de.uniba.sme.bambirds.common.objects.ab.ABObject">
-<area shape="rect" id="node1" title=" " alt="" coords="372,78,651,119"/>
-<area shape="rect" id="node2" title=" " alt="" coords="105,5,185,32"/>
-<area shape="rect" id="node3" title=" " alt="" coords="114,56,175,83"/>
-<area shape="rect" id="node4" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_type.html" title=" " alt="" coords="5,107,284,149"/>
-<area shape="rect" id="node5" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_shape.html" title=" " alt="" coords="5,173,284,214"/>
+<area shape="rect" id="node1" title=" " alt="" coords="408,99,719,141"/>
+<area shape="rect" id="node2" title=" " alt="" coords="117,5,204,32"/>
+<area shape="rect" id="node3" title=" " alt="" coords="65,56,256,83"/>
+<area shape="rect" id="node4" title=" " alt="" coords="127,107,194,133"/>
+<area shape="rect" id="node5" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_type.html" title=" " alt="" coords="5,158,316,199"/>
+<area shape="rect" id="node6" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_shape.html" title=" " alt="" coords="5,223,316,265"/>
 </map>

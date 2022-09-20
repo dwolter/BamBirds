@@ -1,3 +1,13 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_traj.html" title=" " alt="" coords="5,5,203,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,307,92,334"/>
+<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_invalid_parabola_exception.html" title=" " alt="" coords="197,5,512,47"/>
+<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_missing_slingshot_exception.html" title=" " alt="" coords="197,71,512,112"/>
+<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_missing_trajectory_points_exception.html" title=" " alt="" coords="197,136,512,177"/>
+<area shape="rect" id="node5" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_scene_initialisation_exception.html" title=" " alt="" coords="197,201,512,243"/>
+<area shape="rect" id="node6" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_server_exception.html" title=" " alt="" coords="197,267,512,308"/>
+<area shape="rect" id="node7" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_shot_rejected_by_server_exception.html" title=" " alt="" coords="197,332,512,373"/>
+<area shape="rect" id="node8" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1exceptions_1_1_modification_exception.html" title=" " alt="" coords="140,397,569,439"/>
+<area shape="rect" id="node9" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1exceptions_1_1_no_stable_scene_exception.html" title=" " alt="" coords="140,463,569,504"/>
+<area shape="rect" id="node10" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1exceptions_1_1_predicate_generation_exception.html" title=" " alt="" coords="140,528,569,569"/>
+<area shape="rect" id="node11" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1exceptions_1_1_simulation_failed_exception.html" title=" " alt="" coords="140,593,569,635"/>
 </map>

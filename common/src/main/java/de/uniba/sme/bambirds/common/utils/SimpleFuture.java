@@ -1,21 +1,20 @@
 package de.uniba.sme.bambirds.common.utils;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /**
- * A simple future that just returns a value of the type <V>
+ * A simple future that just returns a value of the type <V>.
  *
  * @param <V> Type of value to return
  */
 public class SimpleFuture<V> implements Future<V> {
-	
-	private V v;
-	
+
+	private final V v;
+
 	/**
-	 * Create a new SimpleFuture that returns v on get calls
+	 * Create a new SimpleFuture that returns v on get calls.
+	 *
 	 * @param v the value to return on get calls
 	 */
 	public SimpleFuture(V v) {
@@ -23,17 +22,17 @@ public class SimpleFuture<V> implements Future<V> {
 	}
 
 	@Override
-	public boolean cancel(boolean mayInterruptIfRunning) {
+	public boolean cancel(final boolean mayInterruptIfRunning) {
 		return false;
 	}
 
 	@Override
-	public V get() throws InterruptedException, ExecutionException {
+	public V get() {
 		return v;
 	}
 
 	@Override
-	public V get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+	public V get(final long timeout, final TimeUnit unit) {
 		return v;
 	}
 

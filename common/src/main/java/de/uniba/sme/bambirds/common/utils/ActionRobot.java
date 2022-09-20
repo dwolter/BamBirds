@@ -3,78 +3,111 @@
  ** Copyright (c) 2014,XiaoYu (Gary) Ge, Stephen Gould,Jochen Renz
  **  Sahan Abeyasinghe, Jim Keys,   Andrew Wang, Peng Zhang
  ** All rights reserved.
-**This work is licensed under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-**To view a copy of this license, visit http://www.gnu.org/licenses/
+ **This work is licensed under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ **To view a copy of this license, visit http://www.gnu.org/licenses/
  *****************************************************************************/
 package de.uniba.sme.bambirds.common.utils;
 
-import java.awt.image.BufferedImage;
-
 import de.uniba.sme.bambirds.common.exceptions.ServerException;
 
+import java.awt.image.BufferedImage;
+
 /**
- * Interface for all basic Server Messages
+ * Interface for all basic Server Messages.
  */
 public interface ActionRobot {
 
-
-	public byte simpleMessage(byte msg) throws ServerException;
-	public byte[] simpleMessage(byte msg, int responseLength) throws ServerException;
-	public byte simpleMessage(byte[] msg) throws ServerException;
-	public byte[] simpleMessage(byte[] msg, int responseLength) throws ServerException;
+	/**
+	 * Send a simple single-byte message to the Server.
+	 *
+	 * @param msg the message in one byte
+	 * @return a single byte as response
+	 * @throws ServerException if the server is shutting down, sends an unknown response or is the communication fails
+	 */
+	byte simpleMessage(byte msg) throws ServerException;
 
 	/**
-	 * Register at Server
-	 * @param team_id as 4 byte array
-	 * @return [round info][time limit][available levels]
-	 * @throws ServerException
+	 * Send a simple single-byte message to the Server with a multibyte response.
+	 *
+	 * @param msg            the message in one byte
+	 * @param responseLength the length of the response
+	 * @return an array of bytes as response of length responseLength
+	 * @throws ServerException if the server is shutting down, sends an unknown response or is the communication fails
 	 */
-	public byte[] configure(byte[] team_id) throws ServerException;
+	byte[] simpleMessage(byte msg, int responseLength) throws ServerException;
 
-	public byte setSimulationSpeed(byte[] speed) throws ServerException;
+	/**
+	 * Send a simple multibyte message to the Server with a single-byte response.
+	 *
+	 * @param msg the message as an array of bytes
+	 * @return a single byte as response
+	 * @throws ServerException if the server is shutting down, sends an unknown response or is the communication fails
+	 */
+	byte simpleMessage(byte[] msg) throws ServerException;
 
-	public BufferedImage doScreenShot() throws ServerException;
+	/**
+	 * Send a simple multibyte message to the Server with a multibyte response.
+	 *
+	 * @param msg            the message as an array of bytes
+	 * @param responseLength the length of the response
+	 * @return an array of bytes as response of length responseLength
+	 * @throws ServerException if the server is shutting down, sends an unknown response or is the communication fails
+	 */
+	byte[] simpleMessage(byte[] msg, int responseLength) throws ServerException;
 
-	public byte getState() throws ServerException;
+	/**
+	 * Register at Server.
+	 *
+	 * @param teamId as 4 byte array
+	 * @return [round info][time limit][available levels]
+	 * @throws ServerException if the server is shutting down, sends an unknown response or is the communication fails
+	 */
+	byte[] configure(byte[] teamId) throws ServerException;
 
-	public byte[] getBestScores() throws ServerException;
+	byte setSimulationSpeed(byte[] speed) throws ServerException;
 
-	public byte[] getCurrentLevel() throws ServerException;
+	BufferedImage doScreenShot() throws ServerException;
 
-	public byte[] getNumberOfLevels() throws ServerException;
+	byte getState() throws ServerException;
 
-	public byte[] getMyScore() throws ServerException;
+	byte[] getBestScores() throws ServerException;
 
-	public byte shoot(byte[] fx, byte[] fy, byte[] dx, byte[] dy, byte[] t1, byte[] t2, boolean polar) throws ServerException;
+	byte[] getCurrentLevel() throws ServerException;
 
-	public byte shootFast(byte[] fx, byte[] fy, byte[] dx, byte[] dy, byte[] t1, byte[] t2, boolean polar) throws ServerException;
+	byte[] getNumberOfLevels() throws ServerException;
 
-	public byte[] shootSequence(byte[]... shots) throws ServerException;
+	byte[] getMyScore() throws ServerException;
 
-	public byte[] shootSequenceFast(byte[]... shots) throws ServerException;
+	byte shoot(byte[] fx, byte[] fy, byte[] dx, byte[] dy, byte[] t1, byte[] t2, boolean polar) throws ServerException;
 
-	public byte fullyZoomOut() throws ServerException;
+	byte shootFast(byte[] fx, byte[] fy, byte[] dx, byte[] dy, byte[] t1, byte[] t2, boolean polar) throws ServerException;
 
-	public byte fullyZoomIn() throws ServerException;
+	byte[] shootSequence(byte[]... shots) throws ServerException;
 
-	public byte clickInCenter() throws ServerException;
+	byte[] shootSequenceFast(byte[]... shots) throws ServerException;
 
-	public byte loadLevel(byte... i) throws ServerException;
+	byte fullyZoomOut() throws ServerException;
 
-	public byte[] selectNextLevel() throws ServerException;
+	byte fullyZoomIn() throws ServerException;
 
-	public byte restartLevel() throws ServerException;
+	byte clickInCenter() throws ServerException;
 
-	public byte[] getGroundTruth(boolean withScreenshot, boolean noisy) throws ServerException;
+	byte loadLevel(byte... i) throws ServerException;
 
-	public byte[] getCurrentLevelScore() throws ServerException;
+	byte[] selectNextLevel() throws ServerException;
 
-	public byte reportNoveltyLikelihood(byte... info) throws ServerException;
+	byte restartLevel() throws ServerException;
 
-	public byte[] readyForNewSet() throws ServerException;
+	byte[] getGroundTruth(boolean withScreenshot, boolean noisy) throws ServerException;
 
-	public byte[] requestNoveltyInformation() throws ServerException;
+	byte[] getCurrentLevelScore() throws ServerException;
 
-	public void close();
+	byte reportNoveltyLikelihood(byte... info) throws ServerException;
+
+	byte[] readyForNewSet() throws ServerException;
+
+	byte[] requestNoveltyInformation() throws ServerException;
+
+	void close();
 
 }

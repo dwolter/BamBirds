@@ -81,7 +81,7 @@ public class VisionTraj {
 		traj.sort(Comparator.comparing(rect -> rect.x));
 
 		//TODO: move this to a better location
-		DBG.setBlack();
+		DBG.setImage(image);
 		DBG.drawPoints(traj, 0xFF0000); // red means deleted points
 		if (tapPoint != null)
 			DBG.drawTarget(tapPoint, Color.ORANGE); // calculated tap point
@@ -131,12 +131,13 @@ public class VisionTraj {
 		}
 
 		// TODO: move this to a better location
-		DBG.drawPoints(filteredList, 0xFFFFFF); // white means remaining points
-		DBG.drawPoint(origin, 0x00FFFF); // sling pivot
+		DBG.drawPoints(filteredList, 0x00FF00); // green means remaining points
+		DBG.drawPoint(origin, 0xFF00FF); // purple sling pivot
 		if (actualTapPoint != null)
 			DBG.drawTarget(actualTapPoint, Color.cyan); // actual tap point
-		DBG.saveToFile(String.format("%s_parabola", identifier));
-
+		if(DBG.canOutputImage()){
+			DBG.saveToFile(String.format("parabola_%d", DBG.incrementCounter()));
+		}
 		return filteredList;
 	}
 }

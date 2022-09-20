@@ -7,10 +7,11 @@
 :- use_module(obstacles).
 :- use_module(collision_shapes).
 :- use_module(planner(data)).
-:- use_module(planner(ab/relations)).
+:- use_module(planner(ab)).
 :- use_module(planner(physics/projectile_motion)).
 :- use_module(planner(geometric/common)).
 :- use_module(planner(geometric/polygon)).
+:- use_module(library(uuid)).
 
 all_hittable([]).
 all_hittable([T|Ts]) :-
@@ -18,16 +19,16 @@ all_hittable([T|Ts]) :-
 	all_hittable(Ts).
 
 retract_unhittable :-
-	forall(isHittable(Object, Angle),
-		(shot_obstacles(Object, [], Angle) ->
+	forall(isHittable(Object, UUID),
+		(shot_obstacles(Object, [], UUID) ->
 			true
 			;
-			data:retract(isHittable(Object, Angle)))
+			data:retract(isHittable(Object, UUID)))
 	).
 
 assert_hittable :-
-	forall(shot_obstacles(Object, [], Angle),
-		data:assertz(isHittable(Object, Angle))).
+	forall(shot_obstacles(Object, [], UUID),
+		data:assertz(isHittable(Object, UUID))).
 
 assert_parabolas_and_hittable :-
 	in_slingshot(Bird),
@@ -43,17 +44,19 @@ assert_parabolas_and_hittable :-
 			); 
 				[ActualHitX,ActualHitY] = [HitX, HitY]
 			),
-			data:assertz(parabola(Object, [ActualHitX,ActualHitY], ImpactAngle, A, B)),
-			(shot_obstacles(Object, [], ImpactAngle)->(
-				data:assertz(isHittable(Object, ImpactAngle))
-				);
+			uuid(UUID),
+			
+			data:assertz(parabola(Object, UUID, [ActualHitX,ActualHitY], ImpactAngle, A, B)),
+			(shot_obstacles(Object, [], UUID)->
+				data:assertz(isHittable(Object, UUID))
+				;
 				true
 			)
 		)
 	).
 
 hit_point(Object, HitPoint) :-
-	col_shape(Object, Shape, X, Y, Area, Spec),
+	shape(Object, Shape, X, Y, Area, Spec),
 	hit_point(Shape, X, Y, Area, Spec, HitPoint).
 hit_point(Shape, X, Y, _, _, [X, Y]) :-
 	\+ Shape == poly.
@@ -61,18 +64,30 @@ hit_point(ball, X, Y, Area, [R], HitPoint) :-
 	( Area > 150 ->
 		(
 			between(0, 7, K),
-			TX is X + ((R * 0.6) * cos(K * (pi/4))),
-			TY is Y + ((R * 0.6) * sin(K * (pi/4))),
+			TX is X + ((R) * cos(K * (pi/4))),
+			TY is Y + ((R) * sin(K * (pi/4))),
 			HitPoint = [TX, TY]
 		);
 		false
 	).
 	
 hit_point(rect, X, Y, Area, [W, H, A], HitPoint) :-
-	Area > 200,
+	Area >= 200,
 	XRa is (0.5*H),
 	YRa is (0.5*W),
 	rot_shift(A, X, Y, [[-XRa,-YRa], [-XRa,YRa], [XRa,YRa], [XRa,-YRa]], Points),
+	member(HitPoint, Points).
+hit_point(rect, X, Y, Area, [W, H, A], HitPoint) :-
+	Area >= 50,
+	H > 1.5 * W,
+	XRa is (0.25*H),
+	rot_shift(A, X, Y, [[-XRa,0], [XRa,0]], Points),
+	member(HitPoint, Points).
+hit_point(rect, X, Y, Area, [W, H, A], HitPoint) :-
+	Area >= 50,
+	W > 1.5 * H,
+	YRa is (0.3*W),
+	rot_shift(A, X, Y, [[0,-YRa], [0,YRa]], Points),
 	member(HitPoint, Points).
 hit_point(poly, _, _, _Area, [_NPoints | Points], HitPoint) :-
 	% TODO: Generate hitpoints on edges in regular distances 

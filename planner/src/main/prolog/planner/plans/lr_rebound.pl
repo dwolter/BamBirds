@@ -10,11 +10,12 @@
 
 
 plans_common:plan_last_resort(Bird, Target, plan{bird:Bird, shot:Shot, target_object:Target, impact_angle:ImpactAngle, strategy:"reboundLR", confidence:C, reasons:Reasons}) :-
+	\+ whitebird(Bird),
 	catch_with_backtrace(
 		(behind_the_corner:connect ->
 			(
 				load_scene_representation(Handle),
-				rebound(Handle, Bird, Target, ImpactAngle, C, Reasons, Shot)
+				rebound(Handle, Bird, Target, C, Reasons, Shot, ImpactAngle)
 			);
 			resource_error(behind_the_corner)
 		),
@@ -79,7 +80,7 @@ unnormalized_velocity(Bird,Angle,Velocity) :-
 	UnnormalizeSlingshotScalingFactor is sqrt(SlingshotScale),
 	Velocity is (VNormalized*UnnormalizeSlingshotScalingFactor) / ScalingFactor.
 
-rebound(FileHandle, Bird, Target, ImpactAngle, C, Reasons, Shot) :-
+rebound(FileHandle, Bird, Target, C, [destroy(Target)], Shot, ImpactAngle) :-
 	target_size(Target, TSize),
 	abType(Target,TType),
 	slingshotPivot(SX,SY),
@@ -121,12 +122,10 @@ rebound(FileHandle, Bird, Target, ImpactAngle, C, Reasons, Shot) :-
 	),
 	member(Result, ResultsForShots),
 	% write_ln(Result),
-	createShot(Bird, Result, C, ImpactAngle, Shot),
-	Reasons = [Target].
+	createShot(Bird, Target, Result, C, Shot, ImpactAngle).
 
-createShot(Bird, Result, C, ImpactAngle, shot{sling_x:X0_INT, sling_y:Y0_INT, drag_x:RX, drag_y:RY, target_x:FirstHitPointX, target_y:FirstHitPointY, tap_time:0}) :-
+createShot(Bird, Target, Result, C, Shot, ImpactAngle) :-
 	Result =.. [Functor,AngleRangeStart,AngleRangeEnd,FirstHitPointX,FirstHitPointY, Distance],
-	slingshotPivot(X0, Y0),
 	(Functor == btc_result ->
 		% Normal plans should still be preferred if possible
 		C = 0.9;
@@ -134,10 +133,9 @@ createShot(Bird, Result, C, ImpactAngle, shot{sling_x:X0_INT, sling_y:Y0_INT, dr
 		C is 0.7 - Distance
 	),
 	shots_at_point(Bird, FirstHitPointX, FirstHitPointY, Shots),
-	member([_,_,Angle,A,B,_,_,RX,RY], Shots),
+	member([_,_,Angle,A,B,_,_,_,_], Shots),
 	AngleRangeStartWithTolerance is AngleRangeStart - 0.1,
 	AngleRangeEndWithTolerance is AngleRangeEnd + 0.1,
 	bounded_number(AngleRangeStartWithTolerance, AngleRangeEndWithTolerance, Angle),
-	angleAtX(A,B,FirstHitPointX,ImpactAngle),
-	X0_INT is round(X0),
-	Y0_INT is round(Y0).
+	assert_parabola_for_shot(Target, FirstHitPointX, FirstHitPointY, A, B, UUID),
+	shot_params_dict(UUID, Shot, ImpactAngle).

@@ -57,8 +57,8 @@ public abstract class SceneEntityBase implements SceneEntity, Serializable {
      */
     public SceneEntityBase(ABObject abShapeBody) {
         
-        globalID = abShapeBody.globalID;
-        id = abShapeBody.id;
+        globalID = abShapeBody.getGlobalID();
+        id = abShapeBody.getId();
         abOriginalObject = abShapeBody;
         positionCenterX = (float) abShapeBody.getCenterX();
         positionCenterY = (float) abShapeBody.getCenterY();
@@ -66,9 +66,9 @@ public abstract class SceneEntityBase implements SceneEntity, Serializable {
         mbrHeight = (float) abShapeBody.getHeight();
         mbrWidth = (float) abShapeBody.getWidth();
         
-        angle = (float) abShapeBody.angle - 0.5f * (float) Math.PI;
+        angle = (float) abShapeBody.getAngle() - 0.5f * (float) Math.PI;
         
-        abType = abShapeBody.type;
+        abType = abShapeBody.getType();
         
         properties = new DefaultProperties();
     }
@@ -142,11 +142,11 @@ public abstract class SceneEntityBase implements SceneEntity, Serializable {
     public String toString(){
         String s = "SimEntity: "
         + SimulationUtils.padRight( ": | ID= " + id + " / " + globalID  , 25)
-        + SimulationUtils.padRight(  " | ABShape: " +  abOriginalObject.shape  , 18)
+        + SimulationUtils.padRight(  " | ABShape: " + abOriginalObject.getShape(), 18)
         + SimulationUtils.padRight(  " | ABType: " +  abType  , 18)
         + " | MBR width/height : " + "( " + SimulationUtils.padLeft(String.valueOf(mbrWidth) ,  5)  + " | " +  SimulationUtils.padRight(String.valueOf(mbrHeight) ,  5)  + " )  "
         + SimulationUtils.padRight( "| Center: ( " + positionCenterX + " | " + positionCenterY + " )", 30)
-        + SimulationUtils.padRight(" | Angle: " + abOriginalObject.angle ,  30);
+        + SimulationUtils.padRight(" | Angle: " + abOriginalObject.getAngle(),  30);
         
         return s;
     }

@@ -34,6 +34,7 @@
 #define _BEHIND_THE_CORNER_SCENE_H_INCLUDED
 
 #define BEHIND_THE_CORNER_VERSION "0.1.0"
+
 #include <SWI-Prolog.h>
 #include <vector>
 #include <tuple>

@@ -3,7 +3,7 @@ package de.uniba.sme.bambirds.level_selection;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.uniba.sme.bambirds.common.objects.Level.State;
+import de.uniba.sme.bambirds.common.database.Level.State;
 
 public class ErrorCalculation {
 

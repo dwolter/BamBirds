@@ -1,0 +1,4 @@
+var classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_configure_response =
+[
+    [ "RoundType", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_configure_response_1_1_round_type.html", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_configure_response_1_1_round_type" ]
+];

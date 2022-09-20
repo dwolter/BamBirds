@@ -8,25 +8,35 @@ var annotated_dup =
               [ "ABActionRobot", "classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_a_b_action_robot.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_a_b_action_robot" ],
               [ "ABActionRobotJava", "classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_a_b_action_robot_java.html", null ],
               [ "Client", "classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_client.html", null ],
-              [ "ClientMessageEncoder", "classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_client_message_encoder.html", null ],
-              [ "ClientMessageTable", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_client_message_table.html", null ],
+              [ "ClientMessageEncoder", "classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_client_message_encoder.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_client_message_encoder" ],
+              [ "ClientMessageTable", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_client_message_table.html", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_client_message_table" ],
               [ "SBActionRobotJava", "classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_s_b_action_robot_java.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_s_b_action_robot_java" ],
-              [ "SBMessageEncoder", "classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_s_b_message_encoder.html", null ]
+              [ "SBMessageEncoder", "classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_s_b_message_encoder.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_s_b_message_encoder" ]
             ] ],
             [ "common", null, [
               [ "database", null, [
+                [ "AbstractScene", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_abstract_scene.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_abstract_scene" ],
+                [ "DecisionTree", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_decision_tree.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_decision_tree" ],
+                [ "Level", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_level.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_level" ],
                 [ "LevelStorage", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_level_storage.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_level_storage" ],
+                [ "Node", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_node.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_node" ],
                 [ "ScreenScale", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_screen_scale.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_screen_scale" ]
               ] ],
               [ "exceptions", null, [
+                [ "InvalidParabolaException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_invalid_parabola_exception.html", null ],
+                [ "MissingSlingshotException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_missing_slingshot_exception.html", null ],
+                [ "MissingTrajectoryPointsException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_missing_trajectory_points_exception.html", null ],
                 [ "SceneInitialisationException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_scene_initialisation_exception.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_scene_initialisation_exception" ],
-                [ "ServerException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_server_exception.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_server_exception" ]
+                [ "ServerException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_server_exception.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_server_exception" ],
+                [ "ShotRejectedByServerException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_shot_rejected_by_server_exception.html", null ]
               ] ],
               [ "gson", null, [
                 [ "BamBirdsExclusionStrategy", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1gson_1_1_bam_birds_exclusion_strategy.html", null ],
+                [ "BamBirdsGson", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1gson_1_1_bam_birds_gson.html", null ],
                 [ "Exclude", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1gson_1_1_exclude.html", null ],
                 [ "JsonDeserializerWithRequired", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1gson_1_1_json_deserializer_with_required.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1gson_1_1_json_deserializer_with_required" ],
-                [ "JsonRequired", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1gson_1_1_json_required.html", null ]
+                [ "JsonRequired", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1gson_1_1_json_required.html", null ],
+                [ "PolygonTypeAdapter", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1gson_1_1_polygon_type_adapter.html", null ]
               ] ],
               [ "objects", null, [
                 [ "ab", null, [
@@ -44,29 +54,28 @@ var annotated_dup =
                   [ "LineSegment", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_line_segment.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_line_segment" ],
                   [ "Slingshot", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_slingshot.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_slingshot" ]
                 ] ],
-                [ "AbstractScene", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_abstract_scene.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_abstract_scene" ],
-                [ "DecisionTree", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_decision_tree.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_decision_tree" ],
+                [ "ExecutedNode", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_executed_node.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_executed_node" ],
                 [ "GameState", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_game_state.html", null ],
-                [ "Level", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_level.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_level" ],
-                [ "Node", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_node.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_node" ],
                 [ "Plan", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_plan.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_plan" ],
                 [ "Shot", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_shot.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_shot" ],
+                [ "ShotEffect", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_shot_effect.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_shot_effect" ],
                 [ "ShotParabola", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_shot_parabola.html", null ],
                 [ "ThinkerType", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_thinker_type.html", null ],
+                [ "Timer", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_timer.html", null ],
                 [ "Triplet", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_triplet.html", null ]
               ] ],
               [ "utils", null, [
                 [ "ActionRobot", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_action_robot.html", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_action_robot" ],
                 [ "ActionRobotJava", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_action_robot_java.html", null ],
-                [ "ByteUtil", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_byte_util.html", null ],
-                [ "Connector", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_connector.html", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_connector" ],
+                [ "ByteUtil", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_byte_util.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_byte_util" ],
+                [ "ConfigureResponse", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_configure_response.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_configure_response" ],
                 [ "FileUtil", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_file_util.html", null ],
                 [ "GeometryUtil", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_geometry_util.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_geometry_util" ],
                 [ "ImageSegFrame", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame" ],
                 [ "ImageUtil", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_util.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_util" ],
                 [ "MathUtil", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_math_util.html", null ],
                 [ "ParabolaMath", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_parabola_math" ],
-                [ "PythonConnector", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_python_connector.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_python_connector" ],
+                [ "PythonConnector", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_python_connector.html", null ],
                 [ "SelectionAlgorithms", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_selection_algorithms.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_selection_algorithms" ],
                 [ "Settings", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_settings.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_settings" ],
                 [ "ShotHelper", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_shot_helper.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_shot_helper" ],
@@ -296,6 +305,10 @@ var annotated_dup =
                 [ "PredicateGeneratorManager", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1predicates_1_1_predicate_generator_manager.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1predicates_1_1_predicate_generator_manager" ]
               ] ],
               [ "shot", null, [
+                [ "EffectCalculator", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_effect_calculator.html", null ],
+                [ "FeedbackShotSelection", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_feedback_shot_selection.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_feedback_shot_selection" ],
+                [ "MetaShotSelection", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_meta_shot_selection.html", null ],
+                [ "SceneDifference", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_scene_difference.html", null ],
                 [ "ShotEvaluation", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_shot_evaluation.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_shot_evaluation" ],
                 [ "ShotPlanner", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_shot_planner.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_shot_planner" ],
                 [ "ShotSelection", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_shot_selection.html", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_shot_selection" ],
@@ -343,6 +356,26 @@ var annotated_dup =
       ] ],
       [ "state", null, [
         [ "State", "classrebound_1_1state_1_1_state.html", "classrebound_1_1state_1_1_state" ]
+      ] ]
+    ] ],
+    [ "sciencebirds", null, [
+      [ "feature_extraction", null, [
+        [ "NaiveBayes", null, [
+          [ "NaiveBayes", "classsciencebirds_1_1feature__extraction_1_1_naive_bayes_1_1_naive_bayes.html", null ]
+        ] ]
+      ] ],
+      [ "polygon_operations", null, [
+        [ "Intersect", null, [
+          [ "Point", "classsciencebirds_1_1polygon__operations_1_1_intersect_1_1_point.html", null ]
+        ] ],
+        [ "Polygon", null, [
+          [ "Polygon", "classsciencebirds_1_1polygon__operations_1_1_polygon_1_1_polygon.html", null ]
+        ] ]
+      ] ],
+      [ "watershed", null, [
+        [ "vision_watershed", null, [
+          [ "Watershed", "classsciencebirds_1_1watershed_1_1vision__watershed_1_1_watershed.html", null ]
+        ] ]
       ] ]
     ] ]
 ];

@@ -4,5 +4,5 @@ plugins {
 }
 
 dependencies {
-    implementation 'gov.nist.math:jama:1.0.2'
+    implementation 'gov.nist.math:jama:1.0.3'
 }

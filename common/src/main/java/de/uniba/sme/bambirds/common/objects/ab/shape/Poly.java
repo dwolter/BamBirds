@@ -3,10 +3,14 @@
  ** Copyright (c) 2014, XiaoYu (Gary) Ge, Stephen Gould, Jochen Renz
  **  Sahan Abeyasinghe,Jim Keys,  Andrew Wang, Peng Zhang
  ** All rights reserved.
-**This work is licensed under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-**To view a copy of this license, visit http://www.gnu.org/licenses/
+ **This work is licensed under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ **To view a copy of this license, visit http://www.gnu.org/licenses/
  *****************************************************************************/
 package de.uniba.sme.bambirds.common.objects.ab.shape;
+
+import de.uniba.sme.bambirds.common.objects.ab.ABShape;
+import de.uniba.sme.bambirds.common.objects.ab.ABType;
+import de.uniba.sme.bambirds.common.objects.ab.LineSegment;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -15,56 +19,51 @@ import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.util.List;
 
-import de.uniba.sme.bambirds.common.objects.ab.ABShape;
-import de.uniba.sme.bambirds.common.objects.ab.ABType;
-import de.uniba.sme.bambirds.common.objects.ab.LineSegment;
-
 public class Poly extends Body {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	public Polygon polygon = null;
+
+	private final Polygon polygon;
 
 	/**
-	 * 
 	 * @param lines that make up the polygon
 	 * @param left  offset in x direction
 	 * @param top   offset in y direction
 	 * @param type  Object Type
-	 * @param xs
-	 * @param ys    - coordinates for centerpoint
+	 * @param xs    x coordinate for centerpoint
+	 * @param ys    y coordinates for centerpoint
 	 */
-	public Poly(List<LineSegment> lines, int left, int top, ABType type, double xs, double ys) {
+	public Poly(final List<LineSegment> lines, final int left, final int top, final ABType type, final double xs, final double ys) {
+		super(xs, ys);
 		polygon = new Polygon();
-		shape = ABShape.Poly;
+		setShape(ABShape.Poly);
 		if (lines != null) {
 			for (LineSegment l : lines) {
-				Point start = l._start;
-				polygon.addPoint(start.x + left, start.y + top);
+				Point start = l.getStart();
+				getPolygon().addPoint(start.x + left, start.y + top);
 			}
 		}
-		centerX = xs;
-		centerY = ys;
-		angle = 0;
-		area = getBounds().height * getBounds().width;
-		this.type = type;
-		super.setBounds(polygon.getBounds());
+		setAngle(0);
+		setArea(getBounds().height * getBounds().width);
+		setType(type);
+		super.setBounds(getPolygon().getBounds());
 	}
 
 	@Override
 	public Rectangle getBounds() {
-		return polygon.getBounds();
+		return getPolygon().getBounds();
 	}
 
 	@Override
-	public void draw(Graphics2D g, boolean fill, Color color, double padding) {
+	public void draw(final Graphics2D g, final boolean fill, final Color color, final double padding) {
 		// TODO: padding not so easy with polygon
 		g.setColor(color);
 		if (fill) {
-			g.fillPolygon(polygon);
+			g.fillPolygon(getPolygon());
 		} else {
-			g.drawPolygon(polygon);
+			g.drawPolygon(getPolygon());
 		}
 	}
 
@@ -73,9 +72,15 @@ public class Poly extends Body {
 		return polygon;
 	}
 
+	@Override
 	public String toString() {
-		return String.format("Poly: id:%d type:%s hollow:%b %dpts at x:%3.1f y:%3.1f", globalID, type, hollow,
-				polygon.npoints, centerX, centerY);
+		return String.format("Poly: id:%s type:%s hollow:%b %dpts at x:%3.1f y:%3.1f", getGlobalID(), getType(), isHollow(),
+				getPolygon().npoints, getCenterX(), getCenterY());
 	}
 
+	@Override
+	public void translate(int x, int y) {
+		super.translate(x, y);
+		polygon.translate(x,y);
+	}
 }

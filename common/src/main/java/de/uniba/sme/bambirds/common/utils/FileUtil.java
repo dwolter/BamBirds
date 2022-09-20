@@ -1,36 +1,51 @@
 package de.uniba.sme.bambirds.common.utils;
 
-import java.io.FileWriter;
-import java.io.IOException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * FileUtil
- */
-public class FileUtil {
-	private static final Logger log = LogManager.getLogger();
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-	public static String replacePathDelimiters(String path) {
+/**
+ * Utilities for saving files.
+ */
+public final class FileUtil {
+
+	private FileUtil() {
+	}
+
+	private static final Logger LOG = LogManager.getLogger();
+
+	public static String replacePathDelimiters(final String path) {
 		return path.replace("\\", "/");
 	}
 
-	public static boolean write(String filename, String content) {
-		return write(filename, content, false);
+	public static Path writeTemp(final String filename, final String content) {
+		return writeTemp(filename, content, false);
+	}
+	
+	public static Path writeTemp(final String filename, final String content, final boolean append) {
+		return write(Settings.TEMP_DIR.resolve(filename).toString(), content, append);
 	}
 
-	public static boolean write(String filename, String content, boolean append) {
-		try (FileWriter fw = new FileWriter(filename, append)) {
+	public static Path write(final String filepath, final String content) {
+		return write(filepath, content, false);
+	}
+
+	public static Path write(final String filepath, final String content, final boolean append) {
+		Path filePath = Paths.get(filepath).toAbsolutePath().normalize();
+		try (FileWriter fw = new FileWriter(filePath.toFile(), append)) {
 			fw.write(content);
 		} catch (NullPointerException e) {
-			log.error("Could not open file because pathname is null!",e);
-			return false;
+			LOG.error("Could not open file because pathname is null!", e);
+			return null;
 		} catch (IOException e) {
-			log.error("Could not write to file " + filename,e);
-			return false;
+			LOG.error("Could not write to file " + filepath, e);
+			return null;
 		}
-		return true;
+		return filePath;
 	}
 
 }

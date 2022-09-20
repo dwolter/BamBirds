@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
+import de.uniba.sme.bambirds.common.database.Level;
 import de.uniba.sme.bambirds.common.database.LevelStorage;
 import de.uniba.sme.bambirds.level_selection.model.ClassifierModel;
 import de.uniba.sme.bambirds.level_selection.model.DecisionTreeClassifierModel;
@@ -13,7 +14,6 @@ import de.uniba.sme.bambirds.level_selection.model.LinearRegressorModel;
 import de.uniba.sme.bambirds.level_selection.model.RandomForestClassifierModel;
 import de.uniba.sme.bambirds.level_selection.model.RandomForestRegressorModel;
 import de.uniba.sme.bambirds.level_selection.model.RegressorModel;
-import de.uniba.sme.bambirds.common.objects.Level;
 import de.uniba.sme.bambirds.common.utils.Settings;
 
 /**

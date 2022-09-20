@@ -8,41 +8,42 @@ import de.uniba.sme.bambirds.common.utils.ActionRobotJava;
 import de.uniba.sme.bambirds.common.utils.Settings;
 import de.uniba.sme.bambirds.common.utils.Settings.ServerType;
 
-/**
- * Client
+/** Client wrapping the connection to a AngryBirds or ScienceBirds server.
  */
 public class Client {
-	private static final Logger log = LogManager.getLogger();
+	private static final Logger LOG = LogManager.getLogger();
 
-	private static Client INSTANCE;
+	private static Client instance;
 	private final ActionRobotJava ar;
 
-	public Client(String ip, ServerType serverType) throws ServerException {
-		if (serverType == ServerType.ANGRY_BIRDS)
+	public Client(final String ip, final ServerType serverType) throws ServerException {
+		if (serverType == ServerType.ANGRY_BIRDS) {
 			ar = new ABActionRobotJava(ip);
-		else
+		}	else {
 			ar = new SBActionRobotJava(ip);
+		}
 	}
 
 	public static ActionRobotJava get() throws ServerException {
-		if (INSTANCE == null)
+		if (instance == null) {
 			init();
-		return INSTANCE.ar;
+		}
+		return instance.ar;
 	}
 
 	public static void init() throws ServerException {
-		if (INSTANCE != null) {
+		if (instance != null) {
 			shutdown();
 		}
-		INSTANCE = new Client(Settings.SERVER_HOST, Settings.SERVER_TYPE);
+		instance = new Client(Settings.SERVER_HOST, Settings.SERVER_TYPE);
 	}
 
 	public static void shutdown() {
-		if (INSTANCE != null) {
-			log.info("Shutting down connection to {}", Settings.SERVER_TYPE);
-			INSTANCE.ar.close();
+		if (instance != null) {
+			LOG.info("Shutting down connection to {}", Settings.SERVER_TYPE);
+			instance.ar.close();
 		}
-		INSTANCE = null;
+		instance = null;
 	}
 
 }

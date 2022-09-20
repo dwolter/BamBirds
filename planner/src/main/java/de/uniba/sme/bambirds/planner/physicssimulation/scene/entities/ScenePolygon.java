@@ -3,8 +3,6 @@ package de.uniba.sme.bambirds.planner.physicssimulation.scene.entities;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.LinkedList;
 
 import org.jbox2d.collision.shapes.PolygonShape;
@@ -64,7 +62,7 @@ public class ScenePolygon extends SceneEntityBase {
         super(poly);
         this.originalPoly = poly;
         
-        Polygon polygon = poly.polygon;
+        Polygon polygon = poly.getPolygon();
         vertices = new Vec2[polygon.npoints];
         
         for (int i = 0; i < vertices.length; i++) {

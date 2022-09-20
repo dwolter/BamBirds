@@ -2,12 +2,12 @@
 
 ## Prerequisities
 
-- Some JRE/JDK 8.x (Application was compiled with JDK 8)
-- SWI-Prolog >= 8.2
+- Some JRE/JDK  >= 8, <= 17 (Application was compiled with JDK 8)
+- SWI-Prolog >= 8.2.4
 - On unix:
   - glibc >= 2.27 (i.e. debian buster / ubuntu bionic / CentOS 8 or later versions)
 
-> Windows is currently not supported!
+> Windows is currently not fully supported (advanced rebound calculations will not work)!
 
 ## Execution
 

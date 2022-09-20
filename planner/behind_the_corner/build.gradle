@@ -4,7 +4,6 @@ configurations {
     prolog {
         canBeConsumed = true
         canBeResolved = false
-        extendsFrom runtime
     }
 }
 
@@ -61,10 +60,13 @@ def compileSwiplLibrary = tasks.register("compileSwiplLibrary", SwiplLibraryBuil
     sourceDirectory = file('src')
     includeDirectory = file('include')
     libDirectory = file('lib')
-    cFlags = os.isWindows() ? ['-g'] : ['-g', '-cc-options,-std=c++11']
+    cFlags = ['-g', '-cc-options,-std=c++11']
     outputFile = project.layout.buildDirectory.file("libs/${project.name}${os.isWindows() ? '.dll' : '.so'}")
 }
 
 artifacts {
-    prolog(compileSwiplLibrary.flatMap{it.outputFile})
+    // FIXME: build on windows should be supported at some point
+    if (!os.isWindows()) {
+        prolog(compileSwiplLibrary.flatMap{it.outputFile})
+    }
 }

@@ -1,12 +1,13 @@
 <map id="de.uniba.sme.bambirds.planner.PrologPlanner" name="de.uniba.sme.bambirds.planner.PrologPlanner">
-<area shape="rect" id="node1" title=" " alt="" coords="807,85,1013,127"/>
-<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1_strategy.html" title=" " alt="" coords="469,5,683,47"/>
-<area shape="rect" id="node3" title=" " alt="" coords="221,78,283,105"/>
-<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_s_w_i_connector.html" title=" " alt="" coords="455,144,697,185"/>
-<area shape="rect" id="node5" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_connector.html" title=" " alt="" coords="131,135,373,176"/>
-<area shape="rect" id="node6" title=" " alt="" coords="5,142,81,169"/>
-<area shape="rect" id="node7" title=" " alt="" coords="206,201,298,227"/>
-<area shape="rect" id="node8" title=" " alt="" coords="201,251,303,278"/>
-<area shape="rect" id="node9" title=" " alt="" coords="131,303,373,344"/>
-<area shape="rect" id="node10" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1_plan_parser.html" title=" " alt="" coords="469,209,683,251"/>
+<area shape="rect" id="node1" title=" " alt="" coords="835,97,1067,139"/>
+<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1_strategy.html" title=" " alt="" coords="461,5,701,47"/>
+<area shape="rect" id="node3" title=" " alt="" coords="108,78,175,105"/>
+<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_s_w_i_connector.html" title=" " alt="" coords="445,193,717,235"/>
+<area shape="rect" id="node5" title=" " alt="" coords="5,135,277,176"/>
+<area shape="rect" id="node6" title=" " alt="" coords="90,201,193,227"/>
+<area shape="rect" id="node7" title=" " alt="" coords="85,251,198,278"/>
+<area shape="rect" id="node8" title=" " alt="" coords="116,303,167,330"/>
+<area shape="rect" id="node9" title=" " alt="" coords="47,354,235,381"/>
+<area shape="rect" id="node10" title=" " alt="" coords="5,405,277,447"/>
+<area shape="rect" id="node11" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1_plan_parser.html" title=" " alt="" coords="461,259,701,300"/>
 </map>

@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-import de.uniba.sme.bambirds.common.objects.AbstractScene;
+import de.uniba.sme.bambirds.common.database.AbstractScene;
 import de.uniba.sme.bambirds.common.objects.ab.ABObject;
 import de.uniba.sme.bambirds.common.utils.VisualDebugger;
 
@@ -33,6 +33,13 @@ public class SaveScreenshots {
 			slingshotList.add(scene.getSlingshot());
 			writeScreenshotWithIDs(scene.getImage(), filename, slingshotList, "slingshot", Color.BLUE);
 			writeScreenshotWithIDs(scene.getImage(), filename, scene.getBirds(), "birds", Color.BLUE);
+		}
+	}
+
+	public static void writeOneScreenshotWithIDs(AbstractScene scene, String filename) {
+		log.debug("Should now save screenshots to {}",filename);
+		if (DBG.canSaveFile()) {
+			writeScreenshotWithIDs(scene.getImage(), filename, scene.getPigs(), "pigs", Color.RED);
 		}
 	}
 

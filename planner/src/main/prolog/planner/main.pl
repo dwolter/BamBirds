@@ -48,7 +48,7 @@ main :-
 			(
 				load_data,
 				initiate_planner(AllPlans),
-				json_write(current_output, AllPlans, [width(0)]),
+				json_write(current_output, AllPlans, [width(0),serialize_unknown(true)]),
 				write_ln(""),
 				flush_output()
 			)
@@ -69,7 +69,7 @@ demo_main :-
 	initiate_planner(AllPlans),
 	prune_list(AllPlans,5,FilteredPlans),
 	write_tikz(FilteredPlans),
-	json_write(current_output, AllPlans, [width(0)]),
+	json_write(current_output, AllPlans, [width(0),serialize_unknown(true)]),
 	write_ln(""),
 	flush_output(),
 	halt.

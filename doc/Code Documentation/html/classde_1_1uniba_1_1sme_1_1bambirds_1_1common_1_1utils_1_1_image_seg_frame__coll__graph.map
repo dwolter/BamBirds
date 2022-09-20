@@ -1,11 +1,12 @@
 <map id="de.uniba.sme.bambirds.common.utils.ImageSegFrame" name="de.uniba.sme.bambirds.common.utils.ImageSegFrame">
-<area shape="rect" id="node1" title=" " alt="" coords="51,199,293,240"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,102,67,129"/>
-<area shape="rect" id="node3" title=" " alt="" coords="79,5,145,32"/>
-<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html" title=" " alt="" coords="179,95,421,136"/>
-<area shape="rect" id="node5" title=" " alt="" coords="169,5,231,32"/>
-<area shape="rect" id="node6" title=" " alt="" coords="255,5,345,32"/>
-<area shape="rect" id="node7" title=" " alt="" coords="369,5,476,32"/>
-<area shape="rect" id="node8" title=" " alt="" coords="501,5,606,32"/>
-<area shape="rect" id="node9" title=" " alt="" coords="630,5,687,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="68,199,340,240"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,102,72,129"/>
+<area shape="rect" id="node3" title=" " alt="" coords="43,5,109,32"/>
+<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html" title=" " alt="" coords="255,95,527,136"/>
+<area shape="rect" id="node5" title=" " alt="" coords="623,5,686,32"/>
+<area shape="rect" id="node6" title=" " alt="" coords="133,5,232,32"/>
+<area shape="rect" id="node7" title=" " alt="" coords="256,5,373,32"/>
+<area shape="rect" id="node8" title=" " alt="" coords="397,5,512,32"/>
+<area shape="rect" id="node9" title=" " alt="" coords="710,5,773,32"/>
+<area shape="rect" id="node10" title=" " alt="" coords="537,5,599,32"/>
 </map>

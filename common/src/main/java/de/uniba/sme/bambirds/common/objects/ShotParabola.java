@@ -11,14 +11,14 @@ import java.util.List;
 
 public class ShotParabola {
 
-	public double[] unnormalized = new double[] {0,0,0};
-	public double[] normalized = new double[] {0,0,0};
-	public double actualAngle;
+	public double[] unnormalized = new double[]{0, 0, 0};
+	public double[] normalized = new double[]{0, 0, 0};
+	public final double actualAngle;
 	public double launchAngle = 0;
 	public double velocity = 0;
 
-	public Point2D.Double origin;
-	public double sceneScale;
+	public final Point2D.Double origin;
+	public final double sceneScale;
 
 	public ShotParabola(double theta, Point2D.Double origin, double sceneScale, List<Point2D.Double> points) {
 		this.actualAngle = theta;
@@ -49,7 +49,10 @@ public class ShotParabola {
 			ImageUtil.drawTarget(img, origin, Color.WHITE);
 			ImageUtil.drawQuadraticWithOffset(img, normalized, origin, 0xff0000); // actual parabola
 			double[] w = ShotHelper.angleToParabola(actualAngle, sceneScale);
-			ImageUtil.drawQuadraticWithOffset(img, w, origin, 0xff00); // predicted parabola
+			ImageUtil.drawQuadraticWithOffset(img, w, origin, 0x00ff00); // predicted parabola
+			double[] o = ShotHelper.angleToParabola(launchAngle, sceneScale);
+			ImageUtil.drawQuadraticWithOffset(img, o, origin, 0x00ffff); // predicted parabola but from normalized
+
 		return img;
 	}
 
@@ -59,7 +62,8 @@ public class ShotParabola {
 				normalized[0], normalized[1], unnormalized[0], unnormalized[1], unnormalized[2]);
 	}
 
-	@Override public String toString() {
+	@Override
+	public String toString() {
 		return String.format("Parabola @%.1f° rad: %.7f (%.7f) v: %.7f :: %.7fx^2%+.7fx :: %.7fx^2%+.7fx%+.7f",
 				Math.toDegrees(actualAngle), actualAngle, (launchAngle - actualAngle), velocity,
 				normalized[0], normalized[1], unnormalized[0], unnormalized[1], unnormalized[2]);

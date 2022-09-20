@@ -8,10 +8,11 @@
  *****************************************************************************/
 package de.uniba.sme.bambirds.common.objects;
 
-import java.io.Serializable;
 import com.google.gson.annotations.SerializedName;
-
 import de.uniba.sme.bambirds.common.gson.JsonRequired;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 public class Shot implements Serializable {
 
@@ -19,7 +20,7 @@ public class Shot implements Serializable {
 	 *
 	 */
 	private static final long serialVersionUID = -5997041186996223322L;
-	
+
 	// point, where bird spawns
 	@JsonRequired
 	@SerializedName("sling_x")
@@ -29,7 +30,7 @@ public class Shot implements Serializable {
 	private int slingY;
 
 	// point, where you are dragging the point at for releasing it in the
-	// slingshot
+	// slingshot (relative to slingX and slingY)
 	@JsonRequired
 	@SerializedName("drag_x")
 	private int dragX;
@@ -50,7 +51,7 @@ public class Shot implements Serializable {
 	// time of tap
 	@SerializedName("tap_time")
 	private long tapTime;
-	
+
 	// how long is the bird going to fly
 	private long timeOfFlight;
 
@@ -71,63 +72,61 @@ public class Shot implements Serializable {
 	}
 
 	/**
-	 * 
-	 * @param sling_x coordinate where Bird is
-	 * @param sling_y coordinate where Bird is
-	 * @param drag_x coordinate where to drag the Bird to
-	 * @param drag_y coordinate where to drag the Bird to
-	 * @param shot_time the release time (0 for immediate)
-	 * @param tap_time the gap between the release time and the tap time
+	 * @param slingX   coordinate where Bird is
+	 * @param slingY   coordinate where Bird is
+	 * @param dragX    coordinate where to drag the Bird to
+	 * @param dragY    coordinate where to drag the Bird to
+	 * @param targetX  coordinate of the targeted point (used to update shot params when scene scale changes)
+	 * @param targetY  coordinate of the targeted point (used to update shot params when scene scale changes)
+	 * @param shotTime the release time (0 for immediate)
+	 * @param tapTime  the gap between the release time and the tap time
 	 */
-	public Shot(int sling_x, int sling_y, int drag_x, int drag_y, double target_x, double target_y, long shot_time, long tap_time) {
+	public Shot(final int slingX, final int slingY, final int dragX, final int dragY, final double targetX, final double targetY, final long shotTime, final long tapTime) {
 		this();
-		this.slingX = sling_x;
-		this.slingY = sling_y;
-		this.dragX = drag_x;
-		this.dragY = drag_y;
-		this.targetX = target_x;
-		this.targetY = target_y;
-		this.shotTime = shot_time;
-		this.tapTime = tap_time;
+		this.slingX = slingX;
+		this.slingY = slingY;
+		this.dragX = dragX;
+		this.dragY = dragY;
+		this.targetX = targetX;
+		this.targetY = targetY;
+		this.shotTime = shotTime;
+		this.tapTime = tapTime;
 	}
 
 	/**
-	 * 
-	 * @param sling_x coordinate where Bird is
-	 * @param sling_y coordinate where Bird is
-	 * @param drag_x coordinate where to drag the Bird to
-	 * @param drag_y coordinate where to drag the Bird to
-	 * @param shot_time the release time (0 for immediate)
+	 * @param slingX   coordinate where Bird is
+	 * @param slingY   coordinate where Bird is
+	 * @param dragX    coordinate where to drag the Bird to
+	 * @param dragY    coordinate where to drag the Bird to
+	 * @param shotTime the release time (0 for immediate)
 	 */
-	public Shot(int sling_x, int sling_y, int drag_x, int drag_y, long shot_time) {
+	public Shot(final int slingX, final int slingY, final int dragX, final int dragY, final long shotTime) {
 		this();
-		this.slingX = sling_x;
-		this.slingY = sling_y;
-		this.dragX = drag_x;
-		this.dragY = drag_y;
-		this.shotTime = shot_time;
+		this.slingX = slingX;
+		this.slingY = slingY;
+		this.dragX = dragX;
+		this.dragY = dragY;
+		this.shotTime = shotTime;
 	}
 
 	/**
-	 * 
-	 * @param sling_x coordinate where Bird is
-	 * @param sling_y coordinate where Bird is
-	 * @param shot_time the release time (0 for immediate)
-	 * @param tap_time the gap between the release time and the tap time
+	 * @param slingX   coordinate where Bird is
+	 * @param slingY   coordinate where Bird is
+	 * @param shotTime the release time (0 for immediate)
+	 * @param tapTime  the gap between the release time and the tap time
 	 */
-	public Shot(int sling_x, int sling_y, int shot_time, int tap_time) {
+	public Shot(int slingX, int slingY, int shotTime, int tapTime) {
 		this();
-		this.slingX = sling_x;
-		this.slingY = sling_y;
-		this.shotTime = shot_time;
-		this.tapTime = tap_time;
+		this.slingX = slingX;
+		this.slingY = slingY;
+		this.shotTime = shotTime;
+		this.tapTime = tapTime;
 	}
 
 	/**
-	 * 
 	 * @param s Another Shot to recreate
 	 */
-	public Shot(Shot s) {
+	public Shot(final Shot s) {
 		super();
 		this.slingX = s.slingX;
 		this.slingY = s.slingY;
@@ -137,15 +136,15 @@ public class Shot implements Serializable {
 		this.targetY = s.targetY;
 		this.shotTime = s.shotTime;
 		this.tapTime = s.tapTime;
+		this.timeOfFlight = s.timeOfFlight;
+		this.velocity = s.velocity;
 	}
 
 	/**
-	 *
 	 * @param description Shot description of the format "/x/y/dx/dy/tap"
-	 *
 	 * @throws IllegalArgumentException if values are not integers or the format is otherwise not valid
 	 */
-	public Shot(String description) {
+	public Shot(final String description) {
 		super();
 		String[] values = description.split("/");
 		try {
@@ -159,11 +158,11 @@ public class Shot implements Serializable {
 		}
 	}
 
-	public void setTOF(long time){
+	public void setTOF(final long time) {
 		this.timeOfFlight = time;
 	}
-	
-	public long getTOF(){
+
+	public long getTOF() {
 		return timeOfFlight;
 	}
 
@@ -171,7 +170,7 @@ public class Shot implements Serializable {
 		return dragX;
 	}
 
-	public void setDragX(int dragX) {
+	public void setDragX(final int dragX) {
 		this.dragX = dragX;
 	}
 
@@ -179,7 +178,7 @@ public class Shot implements Serializable {
 		return dragY;
 	}
 
-	public void setDragY(int dragY) {
+	public void setDragY(final int dragY) {
 		this.dragY = dragY;
 	}
 
@@ -187,7 +186,7 @@ public class Shot implements Serializable {
 		return slingX;
 	}
 
-	public void setSlingX(int slingX) {
+	public void setSlingX(final int slingX) {
 		this.slingX = slingX;
 	}
 
@@ -195,7 +194,7 @@ public class Shot implements Serializable {
 		return slingY;
 	}
 
-	public void setSlingY(int slingY) {
+	public void setSlingY(final int slingY) {
 		this.slingY = slingY;
 	}
 
@@ -203,7 +202,7 @@ public class Shot implements Serializable {
 		return targetX;
 	}
 
-	public void setTargetX(int targetX) {
+	public void setTargetX(final int targetX) {
 		this.targetX = targetX;
 	}
 
@@ -211,7 +210,7 @@ public class Shot implements Serializable {
 		return targetY;
 	}
 
-	public void setTargetY(int targetY) {
+	public void setTargetY(final int targetY) {
 		this.targetY = targetY;
 	}
 
@@ -219,7 +218,7 @@ public class Shot implements Serializable {
 		return shotTime;
 	}
 
-	public void setShotTime(long l) {
+	public void setShotTime(final long l) {
 		this.shotTime = l;
 	}
 
@@ -227,20 +226,26 @@ public class Shot implements Serializable {
 		return tapTime;
 	}
 
-	public void setTapTime(long tapTime) {
+	public void setTapTime(final long tapTime) {
 		this.tapTime = tapTime;
 	}
 
 	public String prettyPrint() {
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		if (slingX == 0 && slingY == 0) {
-			if (tapTime != 0)
-				result += "tap at:  " + tapTime;
-		} else
-			result += "Shoot from: (" + (slingX + dragX) + "  " + (slingY + dragY) + " )"
-					+ " at time  " + shotTime;
-
-		return result;
+			if (tapTime != 0) {
+				result.append("tap at:  ").append(tapTime);
+			}
+		} else {
+			result.append("Shoot from: (")
+					.append(slingX + dragX)
+					.append("  ")
+					.append(slingY + dragY)
+					.append(" )")
+					.append(" at time  ")
+					.append(shotTime);
+		}
+		return result.toString();
 	}
 
 	@Override
@@ -252,22 +257,27 @@ public class Shot implements Serializable {
 		return velocity;
 	}
 
-	public void setVelocity(double velocity) {
+	public void setVelocity(final double velocity) {
 		this.velocity = velocity;
 	}
-	
+
 	@Override
-	public boolean equals(Object obj) {
+	public int hashCode() {
+		return Objects.hash(slingX, slingY, dragX, dragY, targetX, targetY, shotTime, tapTime, timeOfFlight, velocity);
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
 		// TODO Auto-generated method stub
-		if ( obj instanceof Shot) {
+		if (obj instanceof Shot) {
 			Shot s = (Shot) obj;
-			return this.slingX == s.slingX &&
-					this.slingY == s.slingY &&
-					this.dragX == s.dragX &&
-					this.dragY == s.dragY &&
-					this.shotTime == s.shotTime &&
-					this.tapTime == s.tapTime;
-		} else {			
+			return this.slingX == s.slingX
+					&& this.slingY == s.slingY
+					&& this.dragX == s.dragX
+					&& this.dragY == s.dragY
+					&& this.shotTime == s.shotTime
+					&& this.tapTime == s.tapTime;
+		} else {
 			return super.equals(obj);
 		}
 	}

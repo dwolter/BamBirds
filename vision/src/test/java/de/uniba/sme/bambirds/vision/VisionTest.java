@@ -2,7 +2,6 @@ package de.uniba.sme.bambirds.vision;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.awt.Rectangle;
 import java.util.List;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -11,7 +10,6 @@ import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 
 import de.uniba.sme.bambirds.common.objects.ab.ABType;
-import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -133,11 +131,11 @@ class VisionTest {
 
 		List<ABObject> pigs = v.findPigsRealShape();
 		List<ABObject> birds = v.findBirdsRealShape();
-		List<ABObject> redBirds = birds.stream().filter(a -> a.type == ABType.RedBird).collect(Collectors.toList());
-		List<ABObject> blueBirds = birds.stream().filter(a -> a.type == ABType.BlueBird).collect(Collectors.toList());
-		List<ABObject> yellowBirds = birds.stream().filter(a -> a.type == ABType.YellowBird).collect(Collectors.toList());
-		List<ABObject> blackBirds = birds.stream().filter(a -> a.type == ABType.BlackBird).collect(Collectors.toList());
-		List<ABObject> whiteBirds = birds.stream().filter(a -> a.type == ABType.WhiteBird).collect(Collectors.toList());
+		List<ABObject> redBirds = birds.stream().filter(a -> a.getType() == ABType.RedBird).collect(Collectors.toList());
+		List<ABObject> blueBirds = birds.stream().filter(a -> a.getType() == ABType.BlueBird).collect(Collectors.toList());
+		List<ABObject> yellowBirds = birds.stream().filter(a -> a.getType() == ABType.YellowBird).collect(Collectors.toList());
+		List<ABObject> blackBirds = birds.stream().filter(a -> a.getType() == ABType.BlackBird).collect(Collectors.toList());
+		List<ABObject> whiteBirds = birds.stream().filter(a -> a.getType() == ABType.WhiteBird).collect(Collectors.toList());
 
 		if (numRedBirds != redBirds.size() || numBlueBirds != blueBirds.size() || numYellowBirds != yellowBirds.size() || numBlackBirds != blackBirds.size() || numWhiteBirds != whiteBirds.size()) {
 			BufferedImage edges = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
@@ -164,6 +162,43 @@ class VisionTest {
 		assertEquals(numYellowBirds, yellowBirds.size(), "Number of yellow birds should be equal");
 		assertEquals(numBlackBirds, blackBirds.size(), "Number of black birds should be equal");
 		assertEquals(numWhiteBirds, whiteBirds.size(), "Number of white birds should be equal");
+	}
+
+
+	@ParameterizedTest
+	@CsvSource({
+			// scene,tnt_count
+			"/scene20-1.png,  3",
+	})
+	@EnabledIfEnvironmentVariable(named = "BAMBIRDS_VISION_TEST", matches = "true")
+	void findTnts(String sceneFile, int tnt_count) throws IOException {
+		BufferedImage img = ImageIO.read(getClass().getResource(sceneFile));
+		img = ImageUtil.removeABUI(img, 0);
+		Vision v = new Vision(img);
+
+		List<ABObject> tnts = v.findTNTs();
+
+		if (tnt_count != tnts.size()) {
+			BufferedImage edges = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+			BufferedImage components = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+			BufferedImage classification = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+			BufferedImage tnt_image = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+			VisionUtils.drawBoundingBoxes(tnt_image, tnts, null);
+			ImageSegmenter seg = new ImageSegmenter(img);
+			seg.drawClassification(classification);
+			ImageUtil.saveToDebugFile(classification, sceneFile.replace(".png", "-classificationBefore"));
+			seg.findComponents();
+			seg.drawEdges(edges);
+			seg.drawComponents(components, false);
+			seg.drawClassification(classification);
+			ImageUtil.saveToDebugFile(edges, sceneFile.replace(".png", "-edges"));
+			ImageUtil.saveToDebugFile(components, sceneFile.replace(".png", "-components"));
+			ImageUtil.saveToDebugFile(classification, sceneFile.replace(".png", "-classification"));
+			ImageUtil.saveToDebugFile(tnt_image, sceneFile.replace(".png", "-tnts"));
+
+		}
+
+		assertEquals(tnt_count, tnts.size(), "Number of TNTs should be equal");
 	}
 
 }

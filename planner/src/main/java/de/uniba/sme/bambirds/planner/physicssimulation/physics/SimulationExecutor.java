@@ -45,5 +45,6 @@ public class SimulationExecutor {
 
     public void cancel() {
         executor.shutdownNow();
+        SimulationExecutor.initializeInstance();
     }
 }

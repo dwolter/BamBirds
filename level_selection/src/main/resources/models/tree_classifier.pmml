@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
+<PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.5.31"/>
-		<Timestamp>2020-03-04T17:00:04Z</Timestamp>
+		<Application name="JPMML-SkLearn library" version="1.7.10"/>
+		<Timestamp>2022-07-22T01:05:26Z</Timestamp>
 	</Header>
 	<MiningBuildTask>
-		<Extension>PMMLPipeline(steps=[('classifier', DecisionTreeClassifier(ccp_alpha=0.0, class_weight=None, criterion='entropy',
-                       max_depth=5, max_features=None, max_leaf_nodes=None,
-                       min_impurity_decrease=0.0, min_impurity_split=None,
-                       min_samples_leaf=1, min_samples_split=2,
-                       min_weight_fraction_leaf=0.0, presort='deprecated',
-                       random_state=None, splitter='random'))])</Extension>
+		<Extension name="repr">PMMLPipeline(steps=[('classifier', DecisionTreeClassifier(criterion='entropy', max_depth=5, splitter='random'))])</Extension>
 	</MiningBuildTask>
 	<DataDictionary>
 		<DataField name="game_won" optype="categorical" dataType="string">
@@ -18,232 +13,236 @@
 			<Value value="won"/>
 		</DataField>
 		<DataField name="max_score" optype="continuous" dataType="float"/>
+		<DataField name="num_birds" optype="continuous" dataType="float"/>
 		<DataField name="num_destroyable_objects" optype="continuous" dataType="float"/>
 		<DataField name="num_generated_shots" optype="continuous" dataType="float"/>
 		<DataField name="num_line_segments_hills" optype="continuous" dataType="float"/>
 		<DataField name="num_pigs" optype="continuous" dataType="float"/>
+		<DataField name="num_strategies" optype="continuous" dataType="float"/>
 		<DataField name="num_times_played" optype="continuous" dataType="float"/>
+		<DataField name="numerical_strategies" optype="continuous" dataType="float"/>
 	</DataDictionary>
-	<TransformationDictionary/>
-	<TreeModel functionName="classification" missingValueStrategy="nullPrediction">
+	<TreeModel functionName="classification" algorithmName="sklearn.tree._classes.DecisionTreeClassifier" missingValueStrategy="nullPrediction">
 		<MiningSchema>
 			<MiningField name="game_won" usageType="target"/>
+			<MiningField name="num_generated_shots"/>
+			<MiningField name="num_line_segments_hills"/>
 			<MiningField name="num_destroyable_objects"/>
 			<MiningField name="max_score"/>
-			<MiningField name="num_times_played"/>
-			<MiningField name="num_line_segments_hills"/>
-			<MiningField name="num_generated_shots"/>
+			<MiningField name="num_birds"/>
 			<MiningField name="num_pigs"/>
+			<MiningField name="num_times_played"/>
+			<MiningField name="num_strategies"/>
+			<MiningField name="numerical_strategies"/>
 		</MiningSchema>
 		<Output>
 			<OutputField name="probability(lost)" optype="continuous" dataType="double" feature="probability" value="lost"/>
 			<OutputField name="probability(won)" optype="continuous" dataType="double" feature="probability" value="won"/>
 		</Output>
 		<LocalTransformations>
+			<DerivedField name="double(num_generated_shots)" optype="continuous" dataType="double">
+				<FieldRef field="num_generated_shots"/>
+			</DerivedField>
+			<DerivedField name="double(num_line_segments_hills)" optype="continuous" dataType="double">
+				<FieldRef field="num_line_segments_hills"/>
+			</DerivedField>
 			<DerivedField name="double(num_destroyable_objects)" optype="continuous" dataType="double">
 				<FieldRef field="num_destroyable_objects"/>
 			</DerivedField>
 			<DerivedField name="double(max_score)" optype="continuous" dataType="double">
 				<FieldRef field="max_score"/>
 			</DerivedField>
-			<DerivedField name="double(num_times_played)" optype="continuous" dataType="double">
-				<FieldRef field="num_times_played"/>
-			</DerivedField>
-			<DerivedField name="double(num_line_segments_hills)" optype="continuous" dataType="double">
-				<FieldRef field="num_line_segments_hills"/>
-			</DerivedField>
-			<DerivedField name="double(num_generated_shots)" optype="continuous" dataType="double">
-				<FieldRef field="num_generated_shots"/>
+			<DerivedField name="double(num_birds)" optype="continuous" dataType="double">
+				<FieldRef field="num_birds"/>
 			</DerivedField>
 			<DerivedField name="double(num_pigs)" optype="continuous" dataType="double">
 				<FieldRef field="num_pigs"/>
+			</DerivedField>
+			<DerivedField name="double(num_times_played)" optype="continuous" dataType="double">
+				<FieldRef field="num_times_played"/>
+			</DerivedField>
+			<DerivedField name="double(num_strategies)" optype="continuous" dataType="double">
+				<FieldRef field="num_strategies"/>
+			</DerivedField>
+			<DerivedField name="double(numerical_strategies)" optype="continuous" dataType="double">
+				<FieldRef field="numerical_strategies"/>
 			</DerivedField>
 		</LocalTransformations>
 		<Node>
 			<True/>
 			<Node>
-				<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="68.26724790049123"/>
+				<SimplePredicate field="double(num_generated_shots)" operator="lessOrEqual" value="326.5444708133789"/>
 				<Node>
-					<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="29557.083491271867"/>
+					<SimplePredicate field="double(num_line_segments_hills)" operator="lessOrEqual" value="17.8978298105755"/>
 					<Node>
-						<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="48.101085480349646"/>
+						<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="38.168956007887125"/>
 						<Node>
-							<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="9771.121374550798"/>
-							<Node score="lost" recordCount="290.0">
-								<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="4990.908357166177"/>
-								<ScoreDistribution value="lost" recordCount="195.0"/>
-								<ScoreDistribution value="won" recordCount="95.0"/>
+							<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="43592.76247230487"/>
+							<Node score="lost" recordCount="18">
+								<SimplePredicate field="double(num_birds)" operator="lessOrEqual" value="0.3273503530432239"/>
+								<ScoreDistribution value="lost" recordCount="18"/>
+								<ScoreDistribution value="won" recordCount="0"/>
 							</Node>
-							<Node score="won" recordCount="32.0">
+							<Node score="won" recordCount="283">
 								<True/>
-								<ScoreDistribution value="lost" recordCount="4.0"/>
-								<ScoreDistribution value="won" recordCount="28.0"/>
+								<ScoreDistribution value="lost" recordCount="91"/>
+								<ScoreDistribution value="won" recordCount="192"/>
 							</Node>
 						</Node>
-						<Node score="won" recordCount="52.0">
-							<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="24689.26389269031"/>
-							<ScoreDistribution value="lost" recordCount="4.0"/>
-							<ScoreDistribution value="won" recordCount="48.0"/>
+						<Node score="won" recordCount="63">
+							<SimplePredicate field="double(num_generated_shots)" operator="lessOrEqual" value="192.81701499261754"/>
+							<ScoreDistribution value="lost" recordCount="4"/>
+							<ScoreDistribution value="won" recordCount="59"/>
 						</Node>
-						<Node score="won" recordCount="28.0">
+						<Node score="won" recordCount="11">
 							<True/>
-							<ScoreDistribution value="lost" recordCount="9.0"/>
-							<ScoreDistribution value="won" recordCount="19.0"/>
+							<ScoreDistribution value="lost" recordCount="2"/>
+							<ScoreDistribution value="won" recordCount="9"/>
 						</Node>
 					</Node>
 					<Node>
-						<SimplePredicate field="double(num_times_played)" operator="lessOrEqual" value="1.7319706872720135"/>
-						<Node score="lost" recordCount="24.0">
-							<SimplePredicate field="double(num_line_segments_hills)" operator="lessOrEqual" value="1.161980510299085"/>
-							<ScoreDistribution value="lost" recordCount="17.0"/>
-							<ScoreDistribution value="won" recordCount="7.0"/>
+						<SimplePredicate field="double(num_birds)" operator="lessOrEqual" value="3.8543197130106015"/>
+						<Node score="lost" recordCount="78">
+							<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="12372.70412873137"/>
+							<ScoreDistribution value="lost" recordCount="67"/>
+							<ScoreDistribution value="won" recordCount="11"/>
 						</Node>
-						<Node score="lost" recordCount="112.0">
+						<Node score="won" recordCount="34">
 							<True/>
-							<ScoreDistribution value="lost" recordCount="92.0"/>
-							<ScoreDistribution value="won" recordCount="20.0"/>
+							<ScoreDistribution value="lost" recordCount="15"/>
+							<ScoreDistribution value="won" recordCount="19"/>
 						</Node>
 					</Node>
-					<Node score="lost" recordCount="107.0">
-						<SimplePredicate field="double(num_generated_shots)" operator="lessOrEqual" value="415.9229010576023"/>
-						<ScoreDistribution value="lost" recordCount="99.0"/>
-						<ScoreDistribution value="won" recordCount="8.0"/>
+					<Node score="lost" recordCount="258">
+						<SimplePredicate field="double(num_birds)" operator="lessOrEqual" value="6.099091334780255"/>
+						<ScoreDistribution value="lost" recordCount="142"/>
+						<ScoreDistribution value="won" recordCount="116"/>
 					</Node>
-					<Node score="lost" recordCount="33.0">
+					<Node score="lost" recordCount="5">
 						<True/>
-						<ScoreDistribution value="lost" recordCount="33.0"/>
-						<ScoreDistribution value="won" recordCount="0.0"/>
+						<ScoreDistribution value="lost" recordCount="5"/>
+						<ScoreDistribution value="won" recordCount="0"/>
 					</Node>
 				</Node>
 				<Node>
-					<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="33.95118458380512"/>
+					<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="7461.920542559549"/>
 					<Node>
-						<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="28.7181323895781"/>
-						<Node score="won" recordCount="56.0">
-							<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="4.204324045779334"/>
-							<ScoreDistribution value="lost" recordCount="0.0"/>
-							<ScoreDistribution value="won" recordCount="56.0"/>
+						<SimplePredicate field="double(num_line_segments_hills)" operator="lessOrEqual" value="34.32546151677401"/>
+						<Node score="lost" recordCount="61">
+							<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="4.600224466808244"/>
+							<ScoreDistribution value="lost" recordCount="49"/>
+							<ScoreDistribution value="won" recordCount="12"/>
 						</Node>
-						<Node score="won" recordCount="26.0">
+						<Node score="lost" recordCount="144">
 							<True/>
-							<ScoreDistribution value="lost" recordCount="2.0"/>
-							<ScoreDistribution value="won" recordCount="24.0"/>
+							<ScoreDistribution value="lost" recordCount="129"/>
+							<ScoreDistribution value="won" recordCount="15"/>
 						</Node>
 					</Node>
-					<Node score="won" recordCount="12.0">
-						<SimplePredicate field="double(num_line_segments_hills)" operator="lessOrEqual" value="5.326581888518567"/>
-						<ScoreDistribution value="lost" recordCount="0.0"/>
-						<ScoreDistribution value="won" recordCount="12.0"/>
+					<Node score="lost" recordCount="34">
+						<SimplePredicate field="double(num_times_played)" operator="lessOrEqual" value="1.4454986962701653"/>
+						<ScoreDistribution value="lost" recordCount="22"/>
+						<ScoreDistribution value="won" recordCount="12"/>
 					</Node>
-					<Node score="won" recordCount="21.0">
+					<Node score="lost" recordCount="24">
 						<True/>
-						<ScoreDistribution value="lost" recordCount="7.0"/>
-						<ScoreDistribution value="won" recordCount="14.0"/>
+						<ScoreDistribution value="lost" recordCount="22"/>
+						<ScoreDistribution value="won" recordCount="2"/>
 					</Node>
 				</Node>
 				<Node>
-					<SimplePredicate field="double(num_generated_shots)" operator="lessOrEqual" value="335.57563429119796"/>
-					<Node score="won" recordCount="48.0">
-						<SimplePredicate field="double(num_generated_shots)" operator="lessOrEqual" value="175.3640269699339"/>
-						<ScoreDistribution value="lost" recordCount="5.0"/>
-						<ScoreDistribution value="won" recordCount="43.0"/>
+					<SimplePredicate field="double(num_strategies)" operator="lessOrEqual" value="22.261089800512927"/>
+					<Node score="won" recordCount="48">
+						<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="79438.9675534372"/>
+						<ScoreDistribution value="lost" recordCount="9"/>
+						<ScoreDistribution value="won" recordCount="39"/>
 					</Node>
-					<Node score="won" recordCount="102.0">
+					<Node score="lost" recordCount="13">
 						<True/>
-						<ScoreDistribution value="lost" recordCount="37.0"/>
-						<ScoreDistribution value="won" recordCount="65.0"/>
+						<ScoreDistribution value="lost" recordCount="9"/>
+						<ScoreDistribution value="won" recordCount="4"/>
 					</Node>
 				</Node>
-				<Node score="lost" recordCount="62.0">
-					<SimplePredicate field="double(num_generated_shots)" operator="lessOrEqual" value="425.29742264062975"/>
-					<ScoreDistribution value="lost" recordCount="37.0"/>
-					<ScoreDistribution value="won" recordCount="25.0"/>
+				<Node score="lost" recordCount="31">
+					<SimplePredicate field="double(num_strategies)" operator="lessOrEqual" value="90.09991353568617"/>
+					<ScoreDistribution value="lost" recordCount="22"/>
+					<ScoreDistribution value="won" recordCount="9"/>
 				</Node>
-				<Node score="won" recordCount="4.0">
+				<Node score="won" recordCount="20">
 					<True/>
-					<ScoreDistribution value="lost" recordCount="0.0"/>
-					<ScoreDistribution value="won" recordCount="4.0"/>
+					<ScoreDistribution value="lost" recordCount="7"/>
+					<ScoreDistribution value="won" recordCount="13"/>
 				</Node>
 			</Node>
 			<Node>
-				<SimplePredicate field="double(num_generated_shots)" operator="lessOrEqual" value="448.1774811717577"/>
+				<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="29571.790216635814"/>
 				<Node>
-					<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="95301.4631271602"/>
+					<SimplePredicate field="double(numerical_strategies)" operator="lessOrEqual" value="44.96104454154197"/>
 					<Node>
-						<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="49172.1155364309"/>
-						<Node score="lost" recordCount="226.0">
-							<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="32516.945316664383"/>
-							<ScoreDistribution value="lost" recordCount="208.0"/>
-							<ScoreDistribution value="won" recordCount="18.0"/>
+						<SimplePredicate field="double(num_line_segments_hills)" operator="lessOrEqual" value="2.349749651900376"/>
+						<Node score="lost" recordCount="3">
+							<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="75.61921336763501"/>
+							<ScoreDistribution value="lost" recordCount="2"/>
+							<ScoreDistribution value="won" recordCount="1"/>
 						</Node>
-						<Node score="won" recordCount="4.0">
+						<Node score="won" recordCount="1">
 							<True/>
-							<ScoreDistribution value="lost" recordCount="0.0"/>
-							<ScoreDistribution value="won" recordCount="4.0"/>
+							<ScoreDistribution value="lost" recordCount="0"/>
+							<ScoreDistribution value="won" recordCount="1"/>
 						</Node>
 					</Node>
-					<Node score="won" recordCount="30.0">
-						<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="80.6943561573021"/>
-						<ScoreDistribution value="lost" recordCount="12.0"/>
-						<ScoreDistribution value="won" recordCount="18.0"/>
+					<Node score="lost" recordCount="69">
+						<SimplePredicate field="double(num_times_played)" operator="lessOrEqual" value="1.3212371884478429"/>
+						<ScoreDistribution value="lost" recordCount="63"/>
+						<ScoreDistribution value="won" recordCount="6"/>
 					</Node>
-					<Node score="lost" recordCount="3.0">
+					<Node score="lost" recordCount="89">
 						<True/>
-						<ScoreDistribution value="lost" recordCount="3.0"/>
-						<ScoreDistribution value="won" recordCount="0.0"/>
+						<ScoreDistribution value="lost" recordCount="88"/>
+						<ScoreDistribution value="won" recordCount="1"/>
 					</Node>
 				</Node>
-				<Node>
-					<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="3.202853257862317"/>
-					<Node score="lost" recordCount="2.0">
-						<SimplePredicate field="double(num_times_played)" operator="lessOrEqual" value="2.9461990240710785"/>
-						<ScoreDistribution value="lost" recordCount="1.0"/>
-						<ScoreDistribution value="won" recordCount="1.0"/>
-					</Node>
-					<Node score="won" recordCount="2.0">
-						<True/>
-						<ScoreDistribution value="lost" recordCount="0.0"/>
-						<ScoreDistribution value="won" recordCount="2.0"/>
-					</Node>
+				<Node score="won" recordCount="1">
+					<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="3.5626572959882474"/>
+					<ScoreDistribution value="lost" recordCount="0"/>
+					<ScoreDistribution value="won" recordCount="1"/>
 				</Node>
-				<Node score="won" recordCount="1.0">
-					<SimplePredicate field="double(num_times_played)" operator="lessOrEqual" value="2.616192731361926"/>
-					<ScoreDistribution value="lost" recordCount="0.0"/>
-					<ScoreDistribution value="won" recordCount="1.0"/>
+				<Node score="lost" recordCount="15">
+					<SimplePredicate field="double(numerical_strategies)" operator="lessOrEqual" value="74.37058440194026"/>
+					<ScoreDistribution value="lost" recordCount="15"/>
+					<ScoreDistribution value="won" recordCount="0"/>
 				</Node>
-				<Node score="lost" recordCount="2.0">
+				<Node score="lost" recordCount="20">
 					<True/>
-					<ScoreDistribution value="lost" recordCount="1.0"/>
-					<ScoreDistribution value="won" recordCount="1.0"/>
+					<ScoreDistribution value="lost" recordCount="13"/>
+					<ScoreDistribution value="won" recordCount="7"/>
 				</Node>
-			</Node>
-			<Node score="won" recordCount="10.0">
-				<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="3.880967318490598"/>
-				<ScoreDistribution value="lost" recordCount="0.0"/>
-				<ScoreDistribution value="won" recordCount="10.0"/>
 			</Node>
 			<Node>
-				<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="76.60846931841618"/>
-				<Node score="lost" recordCount="11.0">
-					<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="72.76829413639767"/>
-					<ScoreDistribution value="lost" recordCount="10.0"/>
-					<ScoreDistribution value="won" recordCount="1.0"/>
+				<SimplePredicate field="double(num_generated_shots)" operator="lessOrEqual" value="501.9735522940632"/>
+				<Node>
+					<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="9.74551179574128"/>
+					<Node score="lost" recordCount="24">
+						<SimplePredicate field="double(num_line_segments_hills)" operator="lessOrEqual" value="12.509487751177273"/>
+						<ScoreDistribution value="lost" recordCount="16"/>
+						<ScoreDistribution value="won" recordCount="8"/>
+					</Node>
+					<Node score="won" recordCount="21">
+						<True/>
+						<ScoreDistribution value="lost" recordCount="9"/>
+						<ScoreDistribution value="won" recordCount="12"/>
+					</Node>
 				</Node>
-				<Node score="won" recordCount="15.0">
+				<Node score="won" recordCount="3">
 					<True/>
-					<ScoreDistribution value="lost" recordCount="0.0"/>
-					<ScoreDistribution value="won" recordCount="15.0"/>
+					<ScoreDistribution value="lost" recordCount="0"/>
+					<ScoreDistribution value="won" recordCount="3"/>
 				</Node>
 			</Node>
-			<Node score="lost" recordCount="44.0">
-				<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="39172.89237152454"/>
-				<ScoreDistribution value="lost" recordCount="38.0"/>
-				<ScoreDistribution value="won" recordCount="6.0"/>
-			</Node>
-			<Node score="lost" recordCount="16.0">
+			<Node score="won" recordCount="4">
 				<True/>
-				<ScoreDistribution value="lost" recordCount="9.0"/>
-				<ScoreDistribution value="won" recordCount="7.0"/>
+				<ScoreDistribution value="lost" recordCount="0"/>
+				<ScoreDistribution value="won" recordCount="4"/>
 			</Node>
 		</Node>
 	</TreeModel>

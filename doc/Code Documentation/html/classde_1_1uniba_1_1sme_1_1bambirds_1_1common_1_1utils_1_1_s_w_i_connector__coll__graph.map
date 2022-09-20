@@ -1,9 +1,11 @@
 <map id="de.uniba.sme.bambirds.common.utils.SWIConnector" name="de.uniba.sme.bambirds.common.utils.SWIConnector">
-<area shape="rect" id="node1" title=" " alt="" coords="455,124,697,165"/>
-<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_connector.html" title=" " alt="" coords="131,5,373,47"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,13,81,39"/>
-<area shape="rect" id="node4" title=" " alt="" coords="221,71,283,98"/>
-<area shape="rect" id="node5" title=" " alt="" coords="206,129,298,155"/>
-<area shape="rect" id="node6" title=" " alt="" coords="201,179,303,206"/>
-<area shape="rect" id="node7" title=" " alt="" coords="131,231,373,272"/>
+<area shape="rect" id="node1" title=" " alt="" coords="577,169,849,211"/>
+<area shape="rect" id="node2" title=" " alt="" coords="137,5,409,47"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,13,88,39"/>
+<area shape="rect" id="node4" title=" " alt="" coords="240,71,307,98"/>
+<area shape="rect" id="node5" title=" " alt="" coords="222,129,325,155"/>
+<area shape="rect" id="node6" title=" " alt="" coords="217,179,330,206"/>
+<area shape="rect" id="node7" title=" " alt="" coords="248,234,299,261"/>
+<area shape="rect" id="node8" title=" " alt="" coords="179,285,367,311"/>
+<area shape="rect" id="node9" title=" " alt="" coords="137,336,409,377"/>
 </map>

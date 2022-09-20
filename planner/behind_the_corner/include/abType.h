@@ -20,7 +20,7 @@ enum ABType {
     Watermelon = 15,
     Trajectory = 16,
     TNT = 18,
-    TypeUnknown = -1,
+    Unknown = -1,
 };
 
 #endif

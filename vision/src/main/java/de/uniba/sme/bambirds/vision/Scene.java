@@ -12,7 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.uniba.sme.bambirds.common.exceptions.SceneInitialisationException;
-import de.uniba.sme.bambirds.common.objects.AbstractScene;
+import de.uniba.sme.bambirds.common.database.AbstractScene;
 import de.uniba.sme.bambirds.common.objects.ab.ABObject;
 import de.uniba.sme.bambirds.common.objects.ab.Slingshot;
 import de.uniba.sme.bambirds.common.utils.ActionRobot;
@@ -111,7 +111,7 @@ public class Scene extends AbstractScene {
 		this.groundPlaneY = vision.findGroundPlane((int) Math.round(this.slingshot.getPivotPoint().getY()));
 
 		generateIds();
-		_allObjects = mergeAllObjectsInOneList();
+		allObjects = mergeAllObjectsInOneList();
 	}
 
 }

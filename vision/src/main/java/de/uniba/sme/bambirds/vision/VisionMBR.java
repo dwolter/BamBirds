@@ -808,7 +808,7 @@ public class VisionMBR {
 			// look for overlapping bounding boxes of colour 410
 			for (int m = n + 1; m < _nSegments; m++) {
 				if (_colours[m] != 410
-						&& _colours[m] != 418)
+						&& _colours[m] != 418 || ignore[m])
 					continue;
 				final Rectangle bounds2 = VisionUtils.dialateRectangle(
 						_boxes[m], 2, 2);

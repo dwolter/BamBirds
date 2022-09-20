@@ -6,18 +6,18 @@ import java.util.Map;
 import java.util.List;
 import java.util.HashMap;
 
-import javax.xml.bind.JAXBException;
-
+import jakarta.xml.bind.JAXBException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dmg.pmml.FieldName;
 import org.jpmml.evaluator.Evaluator;
 import org.jpmml.evaluator.EvaluatorUtil;
 import org.jpmml.evaluator.FieldValue;
 import org.jpmml.evaluator.InputField;
 import org.jpmml.evaluator.LoadingModelEvaluatorBuilder;
-import org.jpmml.model.VisitorBattery;
+import org.jpmml.model.visitors.VisitorBattery;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 
 /**
@@ -39,7 +39,7 @@ public class RandomForestRegressorModel implements RegressorModel {
 				.setVisitors(new VisitorBattery())
 				.load(pmml_file_stream)
 				.build();
-		} catch (SAXException | JAXBException e) {
+		} catch (SAXException | ParserConfigurationException | JAXBException e) {
 			// TODO Auto-generated catch block
 			log.fatal("Model loading failed", e);
 		}
@@ -58,10 +58,10 @@ public class RandomForestRegressorModel implements RegressorModel {
 			int levelId = entry.getKey();
 			Map<String, Integer> featureMap = entry.getValue();
 
-			Map<FieldName, FieldValue> arguments = ModelHelper.mapArguments(inputFields,featureMap);
+			Map<String, FieldValue> arguments = ModelHelper.mapArguments(inputFields,featureMap);
 
 			// Evaluating the model with known-good arguments
-			Map<FieldName, ?> results = evaluator.evaluate(arguments);
+			Map<String, ?> results = evaluator.evaluate(arguments);
 
 			// Decoupling results from the JPMML-Evaluator runtime environment
 			Map<String, ?> resultRecord = EvaluatorUtil.decodeAll(results);

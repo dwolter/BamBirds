@@ -2,11 +2,11 @@ package de.uniba.sme.bambirds.planner.shot;
 
 import java.awt.geom.Point2D;
 
+import de.uniba.sme.bambirds.common.database.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.uniba.sme.bambirds.common.objects.AbstractScene;
-import de.uniba.sme.bambirds.common.objects.Level;
+import de.uniba.sme.bambirds.common.database.AbstractScene;
 import de.uniba.sme.bambirds.common.objects.ab.ABType;
 import de.uniba.sme.bambirds.common.objects.ab.Slingshot;
 import de.uniba.sme.bambirds.common.utils.ShotHelper;
@@ -86,7 +86,7 @@ public class ShotPlanner {
 	}
 
 	/**
-	 * @param theta Actual angle, <b>NOT</b> release point. 
+	 * @param theta Actual angle, <b>NOT</b> release point.
 	 *              To convert release point use {@link ShotHelper#launchToActual(double)}
 	 * @return {@code double[3]} parabola weights with {@code [a, b, 0]}
 	 */

@@ -1,4 +1,4 @@
 <map id="de.uniba.sme.bambirds.vision.Scene" name="de.uniba.sme.bambirds.vision.Scene">
-<area shape="rect" id="node1" title=" " alt="" coords="37,95,235,136"/>
-<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_abstract_scene.html" title=" " alt="" coords="5,5,267,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="46,95,269,136"/>
+<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_abstract_scene.html" title=" " alt="" coords="5,5,309,47"/>
 </map>

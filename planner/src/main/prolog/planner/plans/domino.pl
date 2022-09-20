@@ -7,10 +7,12 @@
 :- use_module(planner(data)).
 
 	
-plans_common:plan(Bird,plan{bird:Bird, shot:Shot, target_object:Target, impact_angle:ImpactAngle, strategy:"domino", confidence:C, reasons:Pigs}) :-
-	domino(Bird, Target, ImpactAngle, C, Pigs),
+plans_common:plan(Bird,plan{bird:Bird, shot:Shot, target_object:Target, impact_angle:ImpactAngle, strategy:"domino", confidence:C, reasons:Reasons}) :-
+	\+ whitebird(Bird),
+	\+ blackbird(Bird),
+	domino(Bird, Target, UUID, C, Reasons),
 	>(C, 0.49),
-	shot_params_dict(ImpactAngle, Shot).
+	shot_params_dict(UUID, Shot, ImpactAngle).
 
 %domino plan, increse confidence with more structures that collapse on another
 
@@ -37,17 +39,16 @@ collapsingOnOther(_Bird, _Target, _Structure1, _Structure2, _StructuresAffected,
 	!.
 
 % rule to handle single domino: drop object on target
-domino(Bird, Target, Angle, C, Pigs) :-
-	\+hasColor(Bird, black),
-	\+hasColor(Bird, white),
-	is_goal(Object, Importance),
+domino(_, Target, UUID, 0.8, Reasons) :-
+	is_goal(Object, _),
 	\+isHittable(Object, _),
 	hasMaterial(Target, _, X, Y, W, H),
 	hasMaterial(Object, _, OX, OY, _, _),
 	OY > Y,
 	XH is X+H,
 	between(X, XH, OX),
-	isHittable(Target, Angle),
+	isHittable(Target, UUID),
+	parabola(Target, UUID,_,Angle,_,_),
 	RoundedAngle is round(Angle),
 	between(-50,50, RoundedAngle),
 	>(H, 1.5*W),
@@ -56,21 +57,22 @@ domino(Bird, Target, Angle, C, Pigs) :-
 	YDown is max(OY-2, Y+H),
 	forall(in_vertical_corridor(O, XLeft, XRight, Y, YDown), is_goal(O,_)),
 	(pig(Object) -> Pigs = [Object] ; Pigs = []),
-	C is 0.8*Importance.
+	merge_reasons(Pigs, [], [], Reasons).
 
 
 % domino_(+Bird, -Target, -Confidence)
-domino(Bird, Target, Angle, C, Pigs) :-
+domino(Bird, Target, UUID, C, Reasons) :-
 	object(Target),
 	\+pig(Target),
 	in_slingshot(Bird),
-	\+hasColor(Bird, white),
-	isHittable(Target, Angle),
+	flachschuss(Target, UUID),
+	parabola(Target, UUID,_,Angle,_,_),
 	RoundedAngle is round(Angle),
 	between(-35,35,RoundedAngle),
 	belongsTo(Target, Structure1),
-	findall(A,isHittable(Target,A), AS), % flat shot if possible -> Hat den meisten Effekt hinsichtlich des umkippens
-	max_list(AS,Angle),
+	% This seems wrong?
+	% findall(A,isHittable(Target,A), AS), % flat shot if possible -> Hat den meisten Effekt hinsichtlich des umkippens
+	% max_list(AS,Angle),
 	(((isCollapsable(Structure2); pig(Structure2)),
 	not(Structure1==Structure2),
 	((worth(Structure1) ; worth(Structure2))),
@@ -90,10 +92,10 @@ domino(Bird, Target, Angle, C, Pigs) :-
 	beatablePigsByTower(Structure1, PigsHit),% Höhere Konfidenz, umso mehr Schweine getötet werden können
 	pigs_in_struct(Structure1, _, PigsInStruct),
 	union(PigsHit, PigsInStruct, Pigs),
-	length(PigsHit, PB),
 	formBonus(Target,FB), % Höhere Konfidenz, wenn Target ein Balken ist, Beschreibung s. unten
 	objectsAbove(Target, N), aboveMinus(N, OA), % möglichst wenig aufliegende Steine, jedoch nicht den obersten Stein
-	C is min(1, max(0, 0.12041  - R*0.03749  + PB* 0.13511  + FB*0.53054 - OA*0.07393   + I*0.10136)).	%Werte errechnet über lineare Regression (ml in R)
+	C is min(1, max(0, 0.12041  - R*0.03749 + FB*0.53054 - OA*0.07393   + I*0.10136)),	%Werte errechnet über lineare Regression (ml in R)
+	merge_reasons([], Pigs, [], Reasons).
 
 
 

@@ -9,7 +9,10 @@
 		whitebird/1,
 		num_of_pigs_remaining/1,
 		num_of_birds_remaining/1,
-		abType/2
+		abType/2,
+		destroyable/1,
+		height/2,
+		width/2
 	]).
 :- use_module(planner(data)).
 
@@ -21,6 +24,11 @@ pig(P) :-
 
 hasMaterial(O,M) :-
 	hasMaterial(O,M,_,_,_,_).
+
+destroyable(O) :-
+	abType(O, Type),
+	(between(9, 12, Type); Type = 18).
+
 
 % defines birds
 redbird(Bird) :-
@@ -79,3 +87,8 @@ abType(O, ID) :-
  */
 num_of_birds_remaining(N) :-
 	findall(B,bird(B),Birds), length(Birds,N).
+
+height(Object, H) :-
+	hasMaterial(Object, _,_,_,_,H).
+width(Object, W) :-
+	hasMaterial(Object, _,_,_,W,_).

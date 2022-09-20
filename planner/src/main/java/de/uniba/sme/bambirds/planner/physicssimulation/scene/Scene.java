@@ -10,7 +10,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
-import de.uniba.sme.bambirds.common.objects.AbstractScene;
+import de.uniba.sme.bambirds.common.database.AbstractScene;
 import de.uniba.sme.bambirds.common.objects.ab.ABObject;
 import de.uniba.sme.bambirds.common.objects.ab.ABShape;
 import de.uniba.sme.bambirds.common.objects.ab.ABType;
@@ -274,7 +274,7 @@ public class Scene implements Serializable{
     public Scene(AbstractScene abstractScene) {
         for (ABObject abObject : abstractScene.getBlocks()) {
             // we want to filter out the stupid ice block in the top right of the screencorner
-            if( !(abObject.type == ABType.Ice && abObject.getCenterX() > 600 && abObject.getCenterY() < 100)){
+            if( !(abObject.getType() == ABType.Ice && abObject.getCenterX() > 600 && abObject.getCenterY() < 100)){
                 addABObject(abObject);   
             }
         }
@@ -295,7 +295,7 @@ public class Scene implements Serializable{
         //add Blocks
         for (ABObject abObject : serializableScene.getBlocks()) {
             // we want to filter out the stupid ice block in the top right of the screencorner
-            if( !(abObject.type == ABType.Ice && abObject.getCenterX() > 600 && abObject.getCenterY() < 100)){
+            if( !(abObject.getType() == ABType.Ice && abObject.getCenterX() > 600 && abObject.getCenterY() < 100)){
                 addABObject(abObject);   
             }
         }
@@ -373,16 +373,16 @@ public class Scene implements Serializable{
         SceneEntityBase newEntity = null;
 
 
-        if (abObject.shape == ABShape.Poly) {
+        if (abObject.getShape() == ABShape.Poly) {
             Poly poly = (Poly) abObject;
             newEntity = new ScenePolygon(poly);
         }
-        else if (abObject.shape == ABShape.Circle) {
+        else if (abObject.getShape() == ABShape.Circle) {
             Circle circle = (Circle) abObject;
             newEntity = new SceneCircle(circle);
 
         }
-        else if (abObject.shape == ABShape.Rect){
+        else if (abObject.getShape() == ABShape.Rect){
             if (abObject instanceof Rect){
                 Rect rect = (Rect) abObject;
                 newEntity = new SceneRectangle(rect);
@@ -390,7 +390,7 @@ public class Scene implements Serializable{
                 newEntity = new SceneRectangle(abObject);
             }
         }
-        else if (abObject.shape == ABShape.Triangle){
+        else if (abObject.getShape() == ABShape.Triangle){
             // TODO (if we needed triangles ?)
         }
 
@@ -411,11 +411,15 @@ public class Scene implements Serializable{
         }
     }
 
-    public List<SceneEntityBase> getAllBlocks() {
+    public List<SceneEntityBase> getAllDestroyableObjects() {
 
         List<SceneEntityBase> allBlocks = new LinkedList<>();
         for (SceneEntityBase sceneEntityBase : getAllEntities()) {
-            if(sceneEntityBase.getAbType() == ABType.Ice || sceneEntityBase.getAbType() == ABType.Stone  || sceneEntityBase.getAbType() == ABType.Wood){
+            if(sceneEntityBase.getAbType() == ABType.Ice
+                || sceneEntityBase.getAbType() == ABType.Stone
+                || sceneEntityBase.getAbType() == ABType.Wood
+                || sceneEntityBase.getAbType() == ABType.TNT
+                || sceneEntityBase.getAbType() == ABType.Pig){
                 allBlocks.add(sceneEntityBase);
             }
         }

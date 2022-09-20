@@ -11,5 +11,6 @@ var searchData=
   ['regressortype_8',['RegressorType',['../enumde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_prediction_1_1_regressor_type.html',1,'de::uniba::sme::bambirds::level_selection::Prediction']]],
   ['relation_9',['Relation',['../enumde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1knowledge_1_1_relation.html',1,'de::uniba::sme::bambirds::planner::knowledge']]],
   ['restitutionmodifier_10',['RestitutionModifier',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1sceneunderstanding_1_1proc5cc312cbbbaa904a69c63610512904f.html',1,'de::uniba::sme::bambirds::planner::physicssimulation::sceneunderstanding::propertymodification::modifier']]],
-  ['rotationrandomizer_11',['RotationRandomizer',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1modification_1_1ba41deb7fa109d06dda67cb3361b6c2f.html',1,'de::uniba::sme::bambirds::planner::physicssimulation::scene::modification::randomisation']]]
+  ['rotationrandomizer_11',['RotationRandomizer',['../classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1modification_1_1ba41deb7fa109d06dda67cb3361b6c2f.html',1,'de::uniba::sme::bambirds::planner::physicssimulation::scene::modification::randomisation']]],
+  ['roundtype_12',['RoundType',['../enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_configure_response_1_1_round_type.html',1,'de::uniba::sme::bambirds::common::utils::ConfigureResponse']]]
 ];

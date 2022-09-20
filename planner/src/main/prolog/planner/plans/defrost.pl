@@ -4,11 +4,11 @@
 :- use_module(planner(shot)).
 :- use_module(planner(data)).
 
-plans_common:plan(Bird,plan{bird:Bird, shot:Shot, target_object:Target, impact_angle:ImpactAngle, strategy:"defrost", confidence:C, reasons:Pigs}) :-
-	hasColor(Bird,blue),
-	target_ice(Target, ImpactAngle, C, Pigs),
+plans_common:plan(Bird,plan{bird:Bird, shot:Shot, target_object:Target, impact_angle:ImpactAngle, strategy:"defrost", confidence:C, reasons:Reasons}) :-
+	bluebird(Bird),
+	target_ice(Target, UUID, C, Reasons),
 	>(C, 0.49),
-	shot_params_dict(ImpactAngle, Shot).
+	shot_params_dict(UUID, Shot, ImpactAngle).
 
 connects(XL, YL, WL, HL, XR, YR, _, HR) :-
 	YML is YL + HL div 2,
@@ -18,10 +18,10 @@ connects(XL, YL, WL, HL, XR, YR, _, HR) :-
 
 ice_cluster_center(Target, horizontal, C) :-
 	hasMaterial(Target, ice, X, Y, W, H),
-	isHittable(Left, _),
+	once(isHittable(Left, _)),
 	hasMaterial(Left, ice, XL, YL, WL, HL),
 	connects(XL, YL, WL, HL, X, Y, W, H),
-	isHittable(Right, _),
+	once(isHittable(Right, _)),
 	hasMaterial(Right, ice, XR, YR, WR, HR),
 	connects(X, Y, W, H, XR, YR, WR, HR),
 	C is 0.7.
@@ -33,17 +33,20 @@ ice_cluster_center(Target, horizontal, C) :-
 %    length(BLOCKS, B),
 %    C is B+C2.
 
-target_ice(Target, Angle, BestScore, []) :-
+target_ice(Target, UUID, BestScore, Reasons) :-
 	% find trajectories at pigs that need ice to be removed...
-	findall([P,O,A], (pig(P),shot_obstacles(P,O,A)), OBS), !,
-	member([P,Obstacles,PAngle], OBS),
+	pig(P),
+	shot_obstacles(P,Obstacles,UUID),
+	parabola(P, UUID, _, PAngle,_,_),
 	% ...but without hills inbetween
 	\+ (member(H, Obstacles), hill(H)),
 	member(Target, Obstacles),
-	isHittable(Target, Angle),
+	isHittable(Target, UUID),
+	parabola(Target, UUID, _, Angle,_,_),
 	Angle < PAngle+10,
 	Angle > PAngle-10,
 	hasMaterial(Target,ice,_,_,_,_),
 	findall(CI, (hasOrientation(Target,HW), ice_cluster_center(Target, HW, CI)), Scores),
 	Scores\=[],
-	max_list(Scores, BestScore).
+	max_list(Scores, BestScore),
+	merge_reasons([], [P], [], Reasons).

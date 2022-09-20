@@ -9,8 +9,10 @@
 
 package de.uniba.sme.bambirds.client;
 
+import java.util.Arrays;
 import java.util.List;
 
+import de.uniba.sme.bambirds.common.utils.ConfigureResponse;
 import org.apache.commons.lang3.NotImplementedException;
 
 import de.uniba.sme.bambirds.common.utils.ActionRobotJava;
@@ -23,16 +25,15 @@ import de.uniba.sme.bambirds.common.objects.Shot;
 //Java interface of ClientActionRobot
 public class ABActionRobotJava extends ABActionRobot implements ActionRobotJava {
 
-	public ABActionRobotJava(String ip) throws ServerException {
-		super(ip);
+	public ABActionRobotJava(final String... args) throws ServerException {
+		super(args);
 	}
 
 	// return game state as enum format
 	@Override
 	public GameState getGameState() throws ServerException {
 		byte result = super.getState();
-		GameState state = GameState.values()[result];
-		return state;
+		return GameState.values()[result];
 	}
 
 	// return an array of best scores. the nth slot stores the score of (n+1)th
@@ -40,67 +41,80 @@ public class ABActionRobotJava extends ABActionRobot implements ActionRobotJava 
 	@Override
 	public int[] getBestScoresInt() throws ServerException {
 		byte[] scores = super.getBestScores();
-		int[] _scores = new int[scores.length / 4];
-		for (int i = 0; i < _scores.length; i++) {
-			_scores[i] = ByteUtil.bytesToInt(scores[i * 4], scores[i * 4 + 1], scores[i * 4 + 2], scores[i * 4 + 3]);
+		int[] intScores = new int[scores.length / Integer.BYTES];
+		for (int i = 0; i < intScores.length; i++) {
+			intScores[i] = ByteUtil.bytesToInt(Arrays.copyOfRange(scores, i * Integer.BYTES, Integer.BYTES));
 		}
-		return _scores;
+		return intScores;
 	}
 
 	// send a shot message using int values as input
 	@Override
-	public byte shootSafe(Shot shot) throws ServerException {
+	public boolean shootSafe(final Shot shot) throws ServerException {
 		return shoot(ByteUtil.intToByteArray(shot.getSlingX())/* fx */, ByteUtil.intToByteArray(shot.getSlingY())/* fy */,
 				ByteUtil.intToByteArray(shot.getDragX())/* dx */, ByteUtil.intToByteArray(shot.getDragY())/* dy */,
 				ByteUtil.intToByteArray((int) shot.getShotTime())/* t1 */, ByteUtil.intToByteArray((int) shot.getTapTime())/* t2 */,
-				false);
+				false) == 1;
 	}
 
 	@Override
-	public byte shootFast(Shot shot) throws ServerException {
+	public boolean shootFast(final Shot shot) throws ServerException {
 		return shootFast(ByteUtil.intToByteArray(shot.getSlingX())/* fx */, ByteUtil.intToByteArray(shot.getSlingY())/* fy */,
 				ByteUtil.intToByteArray(shot.getDragX())/* dx */, ByteUtil.intToByteArray(shot.getDragY())/* dy */,
 				ByteUtil.intToByteArray((int) shot.getShotTime())/* t1 */, ByteUtil.intToByteArray((int) shot.getTapTime())/* t2 */,
-				false);
+				false) == 1;
 	}
 
 	// send a shot sequence message using int arrays as input
 	// one array per shot
 	@Override
-	public byte[] shootSequenceSafe(List<Shot> shots) throws ServerException {
-		byte[][] byteShots = new byte[shots.size()][24];
+	public boolean[] shootSequenceSafe(final List<Shot> shots) throws ServerException {
+		byte[][] byteShots = new byte[shots.size()][];
 		int shotCount = 0;
 		for (Shot shot : shots) {
-			byteShots[shotCount] = ClientMessageEncoder.mergeArray(ByteUtil.intToByteArray(shot.getSlingX())/* fx */,
+			byteShots[shotCount] = ClientMessageEncoder.mergeArrays(ByteUtil.intToByteArray(shot.getSlingX())/* fx */,
 					ByteUtil.intToByteArray(shot.getSlingY())/* fy */, ByteUtil.intToByteArray(shot.getDragX())/* dx */,
 					ByteUtil.intToByteArray(shot.getDragY())/* dy */, ByteUtil.intToByteArray((int) shot.getShotTime())/* t1 */,
 					ByteUtil.intToByteArray((int) shot.getTapTime())/* t2 */);
 			shotCount++;
 		}
-		return shootSequence(byteShots);
+		boolean[] succeeded = new boolean[shots.size()];
+		shotCount = 0;
+		for (byte result : shootSequence(byteShots)) {
+			succeeded[shotCount] = result == 1;
+			shotCount++;
+		}
+		return succeeded;
 	}
 
+	@Override
 	public int[] getMyScoreInt() throws ServerException {
 		byte[] scores = super.getMyScore();
-		int[] _scores = new int[scores.length / 4];
-		for (int i = 0; i < _scores.length; i++) {
-			_scores[i] = ByteUtil.bytesToInt(scores[i * 4], scores[i * 4 + 1], scores[i * 4 + 2], scores[i * 4 + 3]);
+		int[] intScores = new int[scores.length / Integer.BYTES];
+		for (int i = 0; i < intScores.length; i++) {
+			intScores[i] = ByteUtil.bytesToInt(Arrays.copyOfRange(scores, i * Integer.BYTES, Integer.BYTES));
 		}
-		return _scores;
+		return intScores;
 	}
 
 	@Override
-	public byte[] configure(int team_id) throws ServerException {
-		return super.configure(ByteUtil.intToByteArray(team_id));
+	public ConfigureResponse configure(final int teamId) throws ServerException {
+		byte[] result = super.configure(ByteUtil.intToByteArray(teamId));
+		return new ConfigureResponse(result[0], result[1], result[2]);
 	}
 
 	@Override
-	public byte loadLevel(int i) throws ServerException {
-		return super.loadLevel((byte)i);
+	public int getNumberOfLevelsInt() throws ServerException {
+		throw new UnsupportedOperationException("ABServer does not support getting the number of levels");
 	}
 
 	@Override
-	public byte[] shootSequenceFast(List<Shot> shots) {
+	public boolean loadLevel(final int i) throws ServerException {
+		return super.loadLevel((byte) i) == 1;
+	}
+
+	@Override
+	public boolean[] shootSequenceFast(final List<Shot> shots) {
 		throw new NotImplementedException("Not implemented yet");
 	}
 
@@ -115,8 +129,8 @@ public class ABActionRobotJava extends ABActionRobot implements ActionRobotJava 
 	}
 
 	@Override
-	public byte reportNoveltyLikelihood(float noveltyLikelihood, float nonNoveltyLikelihood, int[] novelObjectIDs,
-			int noveltyLevel, String noveltyDescription) throws ServerException {
+	public boolean reportNoveltyLikelihood(final float noveltyLikelihood, final float nonNoveltyLikelihood, final int[] novelObjectIDs,
+																				 final int noveltyLevel, final String noveltyDescription) throws ServerException {
 		throw new UnsupportedOperationException("Not supported by ABServer");
 	}
 

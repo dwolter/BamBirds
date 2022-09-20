@@ -1,19 +1,19 @@
 package de.uniba.sme.bambirds.common.objects;
 
-public class Triplet<S extends Shot, P extends Plan, N extends Number > {
+public class Triplet<S extends Shot, P extends Plan, N extends Number> {
 
 	private S shot;
 	private P target;
 	private N damagePoints;
 
-	public Triplet(S first, P second, N damagePoints) {
+	public Triplet(final S first, final P second, final N damagePoints) {
 		this.shot = first;
 		this.target = second;
 		this.damagePoints = damagePoints;
 	}
 
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(final Object o) {
 		if (!(o instanceof Triplet)) {
 			return false;
 		}
@@ -31,7 +31,7 @@ public class Triplet<S extends Shot, P extends Plan, N extends Number > {
 		return shot;
 	}
 
-	public void setShot(S shot) {
+	public void setShot(final S shot) {
 		this.shot = shot;
 	}
 
@@ -39,7 +39,7 @@ public class Triplet<S extends Shot, P extends Plan, N extends Number > {
 		return target;
 	}
 
-	public void setTarget(P target) {
+	public void setTarget(final P target) {
 		this.target = target;
 	}
 
@@ -47,7 +47,7 @@ public class Triplet<S extends Shot, P extends Plan, N extends Number > {
 		return damagePoints;
 	}
 
-	public void setDamage(N damagePoints) {
+	public void setDamage(final N damagePoints) {
 		this.damagePoints = damagePoints;
 	}
 

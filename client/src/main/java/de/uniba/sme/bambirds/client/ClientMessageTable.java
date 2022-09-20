@@ -13,155 +13,75 @@ package de.uniba.sme.bambirds.client;
  * This class maintains all the client messages and its corresponding MIDs.
  */
 public enum ClientMessageTable {
-	configure(1), 
-	setSimulationSpeed(2), 
+	/** Configure the agent at the server. */
+	configure(1),
+	/** Set the simulation speed on the server. */
+	setSimulationSpeed(2),
+	/** Do a Screenshot. */
 	doScreenShot(11),
-	getState(12), 
-	getBestScores(13), 
+	/** Get the current State. */
+	getState(12),
+	/** Get the best scores of this and other connected agents. */
+	getBestScores(13),
+	/** Get the current level. */
 	getCurrentLevel(14),
+	/** Get the number of levels available. */
 	getNumberOfLevels(15),
+	/** Get this agents score. */
 	getMyScore(23),
-	cshoot(31), 
-	pshoot(32),
+	/** Shoot with cartesian coordinates. */
+	cShoot(31),
+	/** Shoot with polar coordinates. */
+	pShoot(32),
+	/** Shoot a sequence of shots. */
 	shootSeq(33),
+	/** Fully zoom out the level. */
 	fullyZoomOut(34),
-	fullyZoomIn(35), 
-	clickInCentre(36),
-	cFastshoot(41), 
-	pFastshoot(42), 
+	/** Fully zoom in the level. */
+	fullyZoomIn(35),
+	/** Click in the center of the level (use for switching between birds and pigs). */
+	clickInCenter(36),
+	/** Shoot fast with cartesian coordinates (no waiting until scene is stable). */
+	cFastShoot(41),
+	/** Shoot fast with polar coordinates (no waiting until scene is stable). */
+	pFastShoot(42),
+	/** Shoot a sequence of shots fast (no waiting until scene is stable). */
 	shootSeqFast(43),
+	/** Load a level. */
 	loadLevel(51),
+	/** Restart the current level. */
 	restartLevel(52),
+	/** Select the next level. */
 	selectNextLevel(53),
+	/** Get ground truth with screenshot. */
 	getGTWithScreenshot(61),
+	/** Get ground truth without screenshot. */
 	getGTWithoutScreenshot(62),
+	/** Get noisy ground truth with screenshot. */
 	getNoisyGTWithScreenshot(63),
+	/** Get noisy ground truth without screenshot. */
 	getNoisyGTWithoutScreenshot(64),
-	getCurrentLevelScore(65), 
-	reportNoveltyLikelihood(66), 
-	readyForNewSet(68), 
+	/** Get the score in the current level. */
+	getCurrentLevelScore(65),
+	/** Report novelty likelihood (is the agent sure if there is some novelty). */
+	reportNoveltyLikelihood(66),
+	/** Tell the server that the agent is ready for a new level set. */
+	readyForNewSet(68),
+	/** Request information about novelties. */
 	requestNoveltyInformation(69);
 
-	private int message_code;
+	/** Code of the message. */
+	private final byte messageCode;
 
-	private ClientMessageTable(int message_code) {
-		this.message_code = message_code;
+	ClientMessageTable(final int messageCodeInput) {
+		this.messageCode = (byte) messageCodeInput;
 	}
 
-	// map message from int to enum
-	public static ClientMessageTable getType(int message_code) {
-		switch (message_code) {
-			case 1:
-				return configure;
-			case 2:
-				return setSimulationSpeed;
-			case 11:
-				return doScreenShot;
-			case 12:
-				return getState;
-			case 13:
-				return getBestScores;
-			case 14:
-				return getCurrentLevel;
-			case 15:
-				return getNumberOfLevels;
-			case 23:
-				return getMyScore;
-			case 31:
-				return cshoot;
-			case 32:
-				return pshoot;
-			case 33:
-				return shootSeq;
-			case 34:
-				return fullyZoomOut;
-			case 35:
-				return fullyZoomIn;
-			case 36:
-				return clickInCentre;
-			case 41:
-				return cFastshoot;
-			case 42:
-				return pFastshoot;
-			case 43:
-				return shootSeqFast;
-			case 51:
-				return loadLevel;
-			case 52:
-				return restartLevel;
-			case 61:
-				return getGTWithScreenshot;
-			case 62:
-				return getGTWithoutScreenshot;
-			case 63:
-				return getNoisyGTWithScreenshot;
-			case 64:
-				return getNoisyGTWithoutScreenshot;
-			case 65:
-				return getCurrentLevelScore;
-		}
-		return null;
-	}
-
-	// map message from enum to byte
-	public static byte getValue(ClientMessageTable message) {
-		switch (message) {
-			case configure:
-				return 1;
-			case setSimulationSpeed:
-				return 2;
-			case doScreenShot:
-				return 11;
-			case getState:
-				return 12;
-			case getBestScores:
-				return 13;
-			case getCurrentLevel:
-				return 14;
-			case getNumberOfLevels:
-				return 15;
-			case getMyScore:
-				return 23;
-			case cshoot:
-				return 31;
-			case pshoot:
-				return 32;
-			case shootSeq:
-				return 33;
-			case fullyZoomOut:
-				return 34;
-			case fullyZoomIn:
-				return 35;
-			case clickInCentre:
-				return 36;
-			case cFastshoot:
-				return 41;
-			case pFastshoot:
-				return 42;
-			case shootSeqFast:
-				return 43;
-			case loadLevel:
-				return 51;
-			case restartLevel:
-				return 52;
-			case getGTWithScreenshot:
-				return 61;
-			case getGTWithoutScreenshot:
-				return 62;
-			case getNoisyGTWithScreenshot:
-				return 63;
-			case getNoisyGTWithoutScreenshot:
-				return 64;
-			case getCurrentLevelScore:
-				return 65;
-			default:
-				break;
-		}
-		return 0;
-	}
-
-	public byte get(){
-		return (byte) message_code;
+	/** get the message code.
+	 * @return the message code
+	 */
+	public byte get() {
+		return messageCode;
 	}
 
 }

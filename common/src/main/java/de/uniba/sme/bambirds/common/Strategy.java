@@ -1,8 +1,8 @@
 package de.uniba.sme.bambirds.common;
 
-import java.util.List;
-
 import de.uniba.sme.bambirds.common.objects.Plan;
+
+import java.util.List;
 
 /**
  * The {@code Strategy} interface is used to execute (ideally concurrent)
@@ -27,16 +27,15 @@ public interface Strategy {
 	 *                 milliseconds
 	 */
 	void plan(StrategyConsumer consumer, long timeOut);
-	
-
 
 	/**
-	 * Start the {@code Strategy}'s planning. The {@code Strategy} will return all found Targets. 
+	 * Start the {@code Strategy}'s planning. The {@code Strategy} will return all found Targets.
 	 * The planning should finish within {@code timeOut} milliseconds, after that it will
 	 * be stopped and if the Strategy supports it unfiltered plans are then returned.
-	 * 
-	 * @param timeOut  The maximum amount of time available for planning in
-	 *                 milliseconds
+	 *
+	 * @param timeOut The maximum amount of time available for planning in
+	 *                milliseconds
+	 * @return A list of plans
 	 */
 	List<Plan> planSynchronously(long timeOut);
 
@@ -47,6 +46,7 @@ public interface Strategy {
 
 	/**
 	 * Returns {@code true} if this strategy was cancelled before it completed normally.
+	 *
 	 * @return {@code true} if this strategy was cancelled before it completed
 	 */
 	boolean isCancelled();

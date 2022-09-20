@@ -1,5 +1,12 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,46,119,73"/>
-<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1contact_listenc3abcb9d13d27d9f9f942423661293ab.html" title=" " alt="" coords="167,5,573,47"/>
-<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1contact_listener_1_1_default_contact_listener.html" title=" " alt="" coords="167,71,573,112"/>
+<area shape="rect" id="node1" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_1_1_i_world_modifier.html" title=" " alt="" coords="5,267,499,308"/>
+<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_1c0fa1501a46bf3066b737cc4f9ca1b51.html" title=" " alt="" coords="547,5,1129,47"/>
+<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_17d791bbfdccaf5b8adbc7b3ef04dfa10.html" title=" " alt="" coords="547,71,1129,112"/>
+<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_150a0b8a1be38c44da4c6dcbf0a62e3b1.html" title=" " alt="" coords="547,136,1129,177"/>
+<area shape="rect" id="node5" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_149f93b254cb518fc46d4fe966d2021d0.html" title=" " alt="" coords="547,201,1129,243"/>
+<area shape="rect" id="node6" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_1_1shooting_1_1_shooter.html" title=" " alt="" coords="561,267,1115,308"/>
+<area shape="rect" id="node7" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_1046b1d80fb3d12a61f77cd7e90da0f32.html" title=" " alt="" coords="564,332,1112,373"/>
+<area shape="rect" id="node8" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_1935ad1ccc76ff7dd090e358d663163e6.html" title=" " alt="" coords="564,397,1112,439"/>
+<area shape="rect" id="node9" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_1c3a8d68062a4bc40a3e295828322aa01.html" title=" " alt="" coords="564,463,1112,504"/>
+<area shape="rect" id="node10" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_15e8689630ae0a892a64c0addb41a3727.html" title=" " alt="" coords="563,528,1113,569"/>
 </map>

@@ -8,7 +8,7 @@ public class SBMessageEncoder extends ClientMessageEncoder {
 	// encode configure message
 	public static byte[] configure(byte[] id) {
 		byte[] msg = new byte[1 + id.length + 1];
-		msg = mergeArray(encodeMessageID(ClientMessageTable.configure), id,
+		msg = mergeArrays(encodeMessageID(ClientMessageTable.configure), id,
 				new byte[] { Settings.GAME_MODE.getValue() });
 
 		return msg;
@@ -25,7 +25,7 @@ public class SBMessageEncoder extends ClientMessageEncoder {
 		if (level.length >= 4) {
 			System.arraycopy(level, 0, levelID, 0, 4);
 		}
-		byte[] msg = mergeArray(
+		byte[] msg = mergeArrays(
 			encodeMessageID(ClientMessageTable.loadLevel), levelID);
 		return msg;
 	}
@@ -49,7 +49,7 @@ public class SBMessageEncoder extends ClientMessageEncoder {
 		byte[] noveltyDescriptionBytesLength = 
 		ByteUtil.intToByteArray(noveltyDescriptionBytes.length);
 
-		byte[] message = mergeArray(
+		byte[] message = mergeArrays(
 			encodeMessageID(ClientMessageTable.reportNoveltyLikelihood),
 			ByteUtil.floatToBytes(noveltyLikelihood),
 			ByteUtil.floatToBytes(nonNoveltyLikelihood),
@@ -66,14 +66,14 @@ public class SBMessageEncoder extends ClientMessageEncoder {
 	}
 
 	public static byte[] cshoot(byte[] dx, byte[] dy, byte[] t1, byte[] t2) {
-		return mergeArray(
-			encodeMessageID(ClientMessageTable.cshoot),
+		return mergeArrays(
+			encodeMessageID(ClientMessageTable.cShoot),
 			dx, dy, t1, t2);
 	}
 
 	public static byte[] cFastshoot(byte[] dx, byte[] dy, byte[] t1, byte[] t2) {
-		return mergeArray(
-			encodeMessageID(ClientMessageTable.cFastshoot),
+		return mergeArrays(
+			encodeMessageID(ClientMessageTable.cFastShoot),
 				dx, dy, t1, t2);
 	}
 

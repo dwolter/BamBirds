@@ -1,5 +1,5 @@
 <map id="de.uniba.sme.bambirds.common.exceptions.SceneInitialisationException" name="de.uniba.sme.bambirds.common.exceptions.SceneInitialisationException">
-<area shape="rect" id="node1" title=" " alt="" coords="380,27,663,69"/>
-<area shape="rect" id="node2" title=" " alt="" coords="107,5,187,32"/>
-<area shape="rect" id="node3" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_scene_initialisation_exception_1_1_reason.html" title=" " alt="" coords="5,57,288,98"/>
+<area shape="rect" id="node1" title=" " alt="" coords="417,27,732,69"/>
+<area shape="rect" id="node2" title=" " alt="" coords="119,5,206,32"/>
+<area shape="rect" id="node3" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_scene_initialisation_exception_1_1_reason.html" title=" " alt="" coords="5,57,320,98"/>
 </map>

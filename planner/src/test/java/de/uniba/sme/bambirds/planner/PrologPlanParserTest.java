@@ -25,7 +25,7 @@ import com.google.gson.JsonSyntaxException;
 
 public class PrologPlanParserTest {
 
-	private final String FULL_PLAN = "{\"bird\":\"redbird0\",\"confidence\":0.75,\"impact_angle\":45,\"reasons\": [\"pig1\", \"pig2\" ],\"shot\": {\"drag_x\":23,\"drag_y\":34,\"sling_x\":234,\"sling_y\":432,\"tap_time\":50},\"strategy\":\"exampleStrategy\",\"target_object\":\"struct1\"}";
+	private final String FULL_PLAN = "{\"bird\":\"redbird0\",\"confidence\":0.75,\"reasons\": [\"pig1\", \"pig2\" ],\"shot\": {\"drag_x\":23,\"drag_y\":34,\"sling_x\":234,\"sling_y\":432,\"tap_time\":50},\"strategy\":\"exampleStrategy\",\"target_object\":\"struct1\"}";
 	
 	PlanParser newPlanner;
 	
@@ -57,7 +57,7 @@ public class PrologPlanParserTest {
 	@Test
 	public void parsePlansParsesToPlan() {
 		Shot s = new Shot(234,432,23,34,0,0,0,50);
-		Plan p = new Plan("redbird0","struct1",45,"exampleStrategy",0.75,new String[]{"pig1","pig2"},s,ThinkerType.NEWPLANNER);
+		Plan p = new Plan("redbird0","struct1", 42,"exampleStrategy",0.75,new String[]{"pig1","pig2"},s,ThinkerType.NEWPLANNER);
 		Plan parsedPlan = newPlanner.parsePlan(FULL_PLAN);
 		assertEquals(parsedPlan, p, "Parsed plan should equal the created plan");
 	}

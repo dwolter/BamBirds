@@ -2,9 +2,12 @@ package de.uniba.sme.bambirds.common.utils;
 
 import java.util.Map;
 
-public class SystemUtil {
+public final class SystemUtil {
 
-	public static String[] envMapToArray(Map<String,String> env) {
+	private SystemUtil() {
+	}
+
+	public static String[] envMapToArray(final Map<String, String> env) {
 		String[] result = new String[env.size()];
 		int index = 0;
 		for (Map.Entry<String, String> entry : env.entrySet()) {

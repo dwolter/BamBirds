@@ -5,10 +5,11 @@
 :- use_module(planner(data)).
 
 
-plans_common:plan(Bird, plan{bird:Bird, shot:Shot, target_object:Target, impact_angle:ImpactAngle, strategy:"heavyObject", confidence:C, reasons:Pigs}) :-
-	heavyObject(Bird, Target, ImpactAngle, C, Pigs),
+plans_common:plan(Bird, plan{bird:Bird, shot:Shot, target_object:Target, impact_angle:ImpactAngle, strategy:"heavyObject", confidence:C, reasons:Reasons}) :-
+	\+ whitebird(Bird),
+	heavyObject(Bird, Target, UUID, C, Reasons),
 	>(C, 0.49),
-	shot_params_dict(ImpactAngle, Shot).
+	shot_params_dict(UUID, Shot, ImpactAngle).
 
 % increasePotential_(+Potential, -NewPotential)
 increasePotential(Potential, NewPotential) :-
@@ -46,43 +47,45 @@ supports_heavy_object(Object,HeavyObject) :-
 	(isLeft(Object,HeavyObject) ; isRight(Object,HeavyObject)).
 
 % heavyObject_(+Bird, -Target, -Confidence)
-heavyObject(_, Target, Angle, C, []) :-
+heavyObject(_, Target, UUID, C, Reasons) :-
 	object(Ball),
 	hasForm(Ball, ball),
 	pig(Pig),
 	((isOver(Ball, Pig) ; (belongsTo(Ball,Struct), worth(Struct))), !),
 	isOn(Ball, Target), % Target: Object the ball is on, object is hittable
 	\+hill(Target),
-	isHittable(Target,Angle),
-	calcHeavyObjectC(Ball, [Pig], 65, C, _).
+	isHittable(Target, UUID),
+	calcHeavyObjectC(Ball, [Pig], 65, C, _),
+	merge_reasons([Pig], [], [], Reasons).
 
 % Reminder: sort-of duplicate deleted.
 
-heavyObject(_, Target, Angle, C, []) :-
+heavyObject(_, Target, UUID, C, Reasons) :-
 	object(Ball),
 	hasForm(Ball, ball),
 	pig(Pig),
 	isOver(Ball, Pig),
 	supports_heavy_object(Target, Ball), % Target: Object that supports the ball
 	\+hill(Target),
-	isHittable(Target, Angle),
-	calcHeavyObjectC(Ball, [Pig], 50, C, _).
+	isHittable(Target, UUID),
+	calcHeavyObjectC(Ball, [Pig], 50, C, _),
+	merge_reasons([Pig], [], [], Reasons).
 
-heavyObject(_, Target, Angle, C, [Pig]) :-
+heavyObject(_, Target, UUID, C, Reasons) :-
 	hasForm(Target, ball),
-	isHittable(Target, Angle),
+	isHittable(Target, UUID),
 	pig(Pig),
 	isOver(Ball, Pig), %% FIXME: add hills and slopes..
-	calcHeavyObjectC(Ball, [Pig], 40, C, _).
+	calcHeavyObjectC(Ball, [Pig], 40, C, _),
+	merge_reasons([Pig], [], [], Reasons).
 
 % WIP / FIXME / TODO : Heavy Object on Slope
 
-heavyObject(_, Ball, Angle, 0.5, []) :-
+heavyObject(_, Ball, UUID, 1, []) :-
 	hasForm(Ball, ball),
-	isHittable(Ball, _),
-	flachschuss(Ball, Angle).
+	flachschuss(Ball, UUID).
 
-heavyObject(_, Target, Angle, C, []) :-
+heavyObject(_, Target, UUID, C, Reasons) :-
 	object(Ball),
 	hasForm(Ball, ball),
 	isOn(Ball,Hill),
@@ -92,5 +95,6 @@ heavyObject(_, Target, Angle, C, []) :-
 	isOver(Ball, Victim),
 	supports_heavy_object(Target, Ball), % Target: Object that supports the ball
 	\+hill(Target),
-	isHittable(Target, Angle),
-	calcHeavyObjectC(Ball, [Victim], 50, C, _).
+	isHittable(Target, UUID),
+	calcHeavyObjectC(Ball, [Victim], 50, C, _),
+	merge_reasons([Victim], [], [], Reasons).

@@ -14,3 +14,40 @@ services:
     ports:
       - 2004:2004
       - 9000:9000
+
+## Put the following uncommented in docker-compose.override.yml
+
+## Run the agent as service (execute commands inside)
+  # agent_build:
+  #   image: registry.sme.uni-bamberg.de/bambirds/testing/build
+  #   working_dir: /bambirds
+  #   # If your user id is not 1000, create a new file docker-compose.override.yml with your user id
+  #   #
+  #   # It is not required, but highly advised to set this, since then all generated gradle files are not
+  #   # created with the wrong permissions
+  #   user: "1000"
+  #   volumes:
+  #     - ./:/bambirds
+  #   command:
+  #     - sh
+  #     - -c
+  #     - while :; do sleep 2073600; done
+
+## Run a built agent
+  # agent_run:
+  #   image: registry.sme.uni-bamberg.de/bambirds/testing/build
+  #   working_dir: /bambirds
+  #   # If your user id is not 1000, create a new file docker-compose.override.yml with your user id
+  #   #
+  #   # It is not required, but highly advised to set this, since then all generated gradle files are not
+  #   # created with the wrong permissions
+  #   user: "1000"
+  #   volumes:
+  #     - ./:/bambirds
+  #   command:
+  #     - ./gradlew
+  #     - :run
+  #     - --args=-h abserver
+  #   depends_on:
+  #     - abserver
+  #     - game

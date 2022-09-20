@@ -1,4 +1,4 @@
-:- module(geometric_common, [point_line_rel/7, some_point_on_side/6]).
+:- module(geometric_common, [point_line_rel/7, some_point_on_side/6, distance/3]).
 
 point_line_rel(PX, PY, XS, YS, XE, YE, R) :-
 	S is (PX-XS)*(-YE+YS) + (PY-YS)*(XE-XS),

@@ -1,7 +1,8 @@
 <map id="de.uniba.sme.bambirds.level_selection.model.RandomForestRegressorModel" name="de.uniba.sme.bambirds.level_selection.model.RandomForestRegressorModel">
-<area shape="rect" id="node1" title=" " alt="" coords="127,200,430,241"/>
-<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_regressor_model.html" title=" " alt="" coords="5,96,224,137"/>
-<area shape="rect" id="node3" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_model.html" title=" " alt="" coords="21,5,208,47"/>
-<area shape="rect" id="node4" title=" " alt="" coords="248,103,309,130"/>
-<area shape="rect" id="node5" title=" " alt="" coords="333,103,408,130"/>
+<area shape="rect" id="node1" title=" " alt="" coords="649,93,985,135"/>
+<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_regressor_model.html" title=" " alt="" coords="265,5,508,47"/>
+<area shape="rect" id="node3" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_model.html" title=" " alt="" coords="5,5,216,47"/>
+<area shape="rect" id="node4" title=" " alt="" coords="353,71,420,98"/>
+<area shape="rect" id="node5" title=" " alt="" coords="307,123,466,164"/>
+<area shape="rect" id="node6" title=" " alt="" coords="345,189,429,215"/>
 </map>

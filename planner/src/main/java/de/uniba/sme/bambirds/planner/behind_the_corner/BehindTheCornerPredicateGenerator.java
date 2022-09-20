@@ -1,7 +1,7 @@
 package de.uniba.sme.bambirds.planner.behind_the_corner;
 
-import de.uniba.sme.bambirds.common.objects.AbstractScene;
-import de.uniba.sme.bambirds.common.objects.Level;
+import de.uniba.sme.bambirds.common.database.AbstractScene;
+import de.uniba.sme.bambirds.common.database.Level;
 import de.uniba.sme.bambirds.common.objects.ab.ABObject;
 import de.uniba.sme.bambirds.common.objects.ab.ABType;
 import de.uniba.sme.bambirds.common.utils.FileUtil;
@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,17 +37,17 @@ public class BehindTheCornerPredicateGenerator implements IPredicateGenerator {
         String filename = "scene-representation-" + level.levelId + "-" + Math.abs(new Random().nextInt());
         String path = writeSceneRepresentation(filename);
 
-        return Collections.singletonList(new Predicate("sceneRepresentation","\""+path+"\""));
+        return Collections.singletonList(new Predicate("sceneRepresentation","\""+path.replace("\\", "\\\\")+"\""));
     }
 
     private String writeSceneRepresentation(String filename) {
         filename += "-rep";
-        log.debug("Should now save scene representation to {}",filename);
+        log.debug("Should now save scene representation to tmp/{}",filename);
         BufferedImage img = new BufferedImage(Settings.IMAGE_WIDTH, scene.getGroundPlane()+1,BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = img.createGraphics();
 
         // Draw the ground separately with normal vector (0,-1)
-        g2d.setColor(new Color(ABType.Ground.id, 127, 0));
+        g2d.setColor(new Color(ABType.Ground.id(), 127, 0));
         g2d.drawLine(0, scene.getGroundPlane(), Settings.IMAGE_WIDTH-1, scene.getGroundPlane());
 
         List<ABObject> all_Objects = new ArrayList<>();
@@ -70,7 +71,7 @@ public class BehindTheCornerPredicateGenerator implements IPredicateGenerator {
 
             }
         }
-        boolean success = FileUtil.write(filename, String.valueOf(img.getWidth()) +
+        Path filePath = FileUtil.writeTemp(filename, String.valueOf(img.getWidth()) +
                 ',' +
                 img.getHeight() +
                 "\n" +
@@ -79,10 +80,10 @@ public class BehindTheCornerPredicateGenerator implements IPredicateGenerator {
                 normsX +
                 "\n" +
                 normsY);
-        if (!success) {
+        if (filePath == null) {
             log.error("Failed to write behind_the_corner scene representation");
         }
-        return filename;
+        return filePath.toString();
     }
 
     @Override

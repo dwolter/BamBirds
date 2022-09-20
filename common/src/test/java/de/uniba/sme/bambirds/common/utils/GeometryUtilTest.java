@@ -21,7 +21,7 @@ public class GeometryUtilTest {
 		expected.add(new Point(0, 1));
 		expected.add(b);
 
-		List<Point> actual = GeometryUtil.bresenham(a,b);
+		List<Point> actual = GeometryUtil.bresenham(a, b);
 
 		assertEquals(expected, actual);
 
@@ -37,7 +37,7 @@ public class GeometryUtilTest {
 		expected.add(new Point(1, 0));
 		expected.add(b);
 
-		List<Point> actual = GeometryUtil.bresenham(a,b);
+		List<Point> actual = GeometryUtil.bresenham(a, b);
 
 		assertEquals(expected, actual);
 	}
@@ -53,7 +53,7 @@ public class GeometryUtilTest {
 		expected.add(new Point(1, 1));
 		expected.add(b);
 
-		List<Point> actual = GeometryUtil.bresenham(a,b);
+		List<Point> actual = GeometryUtil.bresenham(a, b);
 
 		assertEquals(expected, actual);
 	}

@@ -95,8 +95,7 @@ public class ShowSeg implements Runnable {
 
 	public static BufferedImage drawRealshape(BufferedImage screenshot) {
 		// get game state
-		GameStateExtractor game = new GameStateExtractor();
-		GameState state = game.getGameState(screenshot);
+		GameState state = GameStateExtractor.getGameState(screenshot);
 		if (state != GameState.PLAYING) {
 			screenshot = VisionUtils.convert2grey(screenshot);
 			return screenshot;
@@ -120,8 +119,7 @@ public class ShowSeg implements Runnable {
 	public static BufferedImage drawMBRs(BufferedImage screenshot) {
 
 		// get game state
-		GameStateExtractor game = new GameStateExtractor();
-		GameState state = game.getGameState(screenshot);
+		GameState state = GameStateExtractor.getGameState(screenshot);
 		if (state != GameState.PLAYING) {
 			screenshot = VisionUtils.convert2grey(screenshot);
 			return screenshot;
@@ -179,8 +177,7 @@ public class ShowSeg implements Runnable {
 	public static BufferedImage drawScene(BufferedImage screenshot) {
 
 		// get game state
-		GameStateExtractor game = new GameStateExtractor();
-		GameState state = game.getGameState(screenshot);
+		GameState state = GameStateExtractor.getGameState(screenshot);
 		if (state != GameState.PLAYING) {
 			screenshot = VisionUtils.convert2grey(screenshot);
 			return screenshot;

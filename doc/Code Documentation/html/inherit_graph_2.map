@@ -1,3 +1,12 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_client_message_table.html" title=" " alt="" coords="5,5,201,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,78,107,105"/>
+<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_executed_node.html" title=" " alt="" coords="165,5,455,47"/>
+<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_object.html" title=" " alt="" coords="155,136,465,177"/>
+<area shape="rect" id="node9" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1predicates_1_1_predicate.html" title=" " alt="" coords="158,71,462,112"/>
+<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_slingshot.html" title=" " alt="" coords="551,107,862,148"/>
+<area shape="rect" id="node5" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_body.html" title=" " alt="" coords="513,173,900,199"/>
+<area shape="rect" id="node6" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_circle.html" title=" " alt="" coords="962,107,1317,148"/>
+<area shape="rect" id="node7" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_poly.html" title=" " alt="" coords="948,173,1331,199"/>
+<area shape="rect" id="node8" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_rect.html" title=" " alt="" coords="948,223,1331,250"/>
+<area shape="rect" id="node10" title=" " alt="" coords="13,143,99,170"/>
 </map>

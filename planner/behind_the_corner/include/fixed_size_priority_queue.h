@@ -15,6 +15,7 @@
 
 #ifndef FIXED_SIZE_PRIORITY_QUEUE_H_
 #define FIXED_SIZE_PRIORITY_QUEUE_H_
+
 #include <iostream>
 #include <algorithm>
 #include <vector>

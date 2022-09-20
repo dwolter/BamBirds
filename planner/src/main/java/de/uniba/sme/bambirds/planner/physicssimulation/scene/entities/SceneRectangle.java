@@ -54,8 +54,8 @@ public class SceneRectangle extends SceneEntityBase {
     public SceneRectangle(Rect rect) {
         super(rect);
 
-        width  = (float) rect.getpWidth();
-        height = (float) rect.getpLength();
+        width  = (float) rect.getPWidth();
+        height = (float) rect.getPLength();
     
     }
 
@@ -73,9 +73,9 @@ public class SceneRectangle extends SceneEntityBase {
 
     public static SceneRectangle createSceneRectangle(String globalID, int id, ABType abType, float width, float height, float positionX, float positionY ,float angle){
         Rect rect = new Rect(positionX, positionY, width,height, angle, abType);
-        rect.globalID = globalID;
-        rect.id = id;
         SceneRectangle sceneRectangle = new SceneRectangle(rect);
+        sceneRectangle.setGlobalID(globalID);
+        sceneRectangle.setId(id);
         return sceneRectangle;
     }
 

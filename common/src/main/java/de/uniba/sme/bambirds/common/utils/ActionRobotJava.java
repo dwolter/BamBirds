@@ -3,8 +3,8 @@
  ** Copyright (c) 2014,XiaoYu (Gary) Ge, Stephen Gould,Jochen Renz
  **  Sahan Abeyasinghe, Jim Keys,   Andrew Wang, Peng Zhang
  ** All rights reserved.
-**This work is licensed under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-**To view a copy of this license, visit http://www.gnu.org/licenses/
+ **This work is licensed under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ **To view a copy of this license, visit http://www.gnu.org/licenses/
  *****************************************************************************/
 package de.uniba.sme.bambirds.common.utils;
 
@@ -16,38 +16,39 @@ import de.uniba.sme.bambirds.common.utils.Settings.ServerType;
 import java.util.List;
 
 /**
- * Util class for basic functions
- *
+ * Extension of {@link ActionRobot} to be able to provide and receive Java types or Objects.
  */
 public interface ActionRobotJava extends ActionRobot {
 
 	// A java util class for the standalone version. It provides common
 	// functions an agent would use. E.g. get the screenshot
 
-	public byte[] configure(int team_id) throws ServerException;
+	ConfigureResponse configure(int teamId) throws ServerException;
 
-	public byte loadLevel(int i) throws ServerException;
+	int getNumberOfLevelsInt() throws ServerException;
 
-	public byte shootSafe(Shot shot) throws ServerException;
+	boolean loadLevel(int i) throws ServerException;
 
-	public byte shootFast(Shot shot) throws ServerException;
+	boolean shootSafe(Shot shot) throws ServerException;
 
-	public byte[] shootSequenceSafe(List<Shot> shots) throws ServerException;
+	boolean shootFast(Shot shot) throws ServerException;
 
-	public byte[] shootSequenceFast(List<Shot> shots) throws ServerException;
+	boolean[] shootSequenceSafe(List<Shot> shots) throws ServerException;
 
-	public GameState getGameState() throws ServerException;
+	boolean[] shootSequenceFast(List<Shot> shots) throws ServerException;
 
-	public int[] getBestScoresInt() throws ServerException;
+	GameState getGameState() throws ServerException;
 
-	public int[] getMyScoreInt() throws ServerException;
+	int[] getBestScoresInt() throws ServerException;
 
-	public int getCurrentLevelScoreInt() throws ServerException;
+	int[] getMyScoreInt() throws ServerException;
 
-	public int selectNextLevelInt() throws ServerException;
-	
-	public byte reportNoveltyLikelihood(float noveltyLikelihood, float nonNoveltyLikelihood, int[] novelObjectIDs, int noveltyLevel, String noveltyDescription) throws ServerException;
+	int getCurrentLevelScoreInt() throws ServerException;
 
-	public ServerType getServerType();
+	int selectNextLevelInt() throws ServerException;
+
+	boolean reportNoveltyLikelihood(float noveltyLikelihood, float nonNoveltyLikelihood, int[] novelObjectIDs, int noveltyLevel, String noveltyDescription) throws ServerException;
+
+	ServerType getServerType();
 
 }

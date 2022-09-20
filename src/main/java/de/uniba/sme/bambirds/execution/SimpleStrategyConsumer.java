@@ -1,11 +1,9 @@
 package de.uniba.sme.bambirds.execution;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.uniba.sme.bambirds.common.StrategyConsumer;
-import de.uniba.sme.bambirds.common.objects.AbstractScene;
-import de.uniba.sme.bambirds.common.objects.Node;
+import de.uniba.sme.bambirds.common.database.Node;
 import de.uniba.sme.bambirds.common.objects.Plan;
 
 public class SimpleStrategyConsumer implements StrategyConsumer {
@@ -17,13 +15,13 @@ public class SimpleStrategyConsumer implements StrategyConsumer {
 	}
 
 	@Override
-	public void post(List<Plan> newPlans) {
-		node.createChildNodesFromTargetList(newPlans);
+	public List<Node> post(List<Plan> newPlans) {
+		return node.createChildNodesFromTargetList(newPlans);
 	}
 
 	@Override
-	public void post(Plan newPlan) {
-		node.createChildNodeFromTarget(newPlan);
+	public Node post(Plan newPlan) {
+		return node.createChildNodeFromTarget(newPlan);
 	}
 
 }

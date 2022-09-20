@@ -7,11 +7,12 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.uniba.sme.bambirds.common.objects.ab.ABObject;
+public final class GeometryUtil {
 
-public class GeometryUtil {
+	private GeometryUtil() {
+	}
 
-	public static List<Point> polygonPoints(Polygon p) {
+	public static List<Point> polygonPoints(final Polygon p) {
 		List<Point> points = new ArrayList<>();
 		PathIterator pi = p.getPathIterator(null);
 		while (!pi.isDone()) {
@@ -20,7 +21,7 @@ public class GeometryUtil {
 			switch (status) {
 				case PathIterator.SEG_MOVETO:
 				case PathIterator.SEG_LINETO:
-					points.add(new Point(ABObject.round(coordinates[0]), ABObject.round(coordinates[1])));
+					points.add(new Point(MathUtil.round(coordinates[0]), MathUtil.round(coordinates[1])));
 				default:
 					break;
 			}
@@ -29,39 +30,39 @@ public class GeometryUtil {
 		return points;
 	}
 
-	public static double perpendicular(double angle) {
+	public static double perpendicular(final double angle) {
 		return angle > Math.PI / 2 ? angle - Math.PI / 2 : angle + Math.PI / 2;
 	}
 
-	public static Polygon createPolygon(double angle, double centerX, double centerY, double pwidth, double pheight) {
+	public static Polygon createPolygon(final double angle, final double centerX, final double centerY, final double pWidth, final double pHeight) {
 
-		double angle1 = angle;
-		double angle2 = perpendicular(angle1);
+		double angle2 = perpendicular(angle);
 
 		// starting point for drawing
-		double _xs, _ys;
-		_ys = centerY + Math.sin(angle) * pheight / 2 + Math.sin(Math.abs(Math.PI / 2 - angle)) * pwidth / 2;
-		if (angle < Math.PI / 2)
-			_xs = centerX + Math.cos(angle) * pheight / 2 - Math.sin(angle) * pwidth / 2;
-		else if (angle > Math.PI / 2)
-			_xs = centerX + Math.cos(angle) * pheight / 2 + Math.sin(angle) * pwidth / 2;
-		else
-			_xs = centerX - pwidth / 2;
+		double xs;
+		double ys = centerY + Math.sin(angle) * pHeight / 2 + Math.sin(Math.abs(Math.PI / 2 - angle)) * pWidth / 2;
+		if (angle < Math.PI / 2) {
+			xs = centerX + Math.cos(angle) * pHeight / 2 - Math.sin(angle) * pWidth / 2;
+		} else if (angle > Math.PI / 2) {
+			xs = centerX + Math.cos(angle) * pHeight / 2 + Math.sin(angle) * pWidth / 2;
+		} else {
+			xs = centerX - pWidth / 2;
+		}
 
 		Polygon p = new Polygon();
-		p.addPoint(ABObject.round(_xs), ABObject.round(_ys));
+		p.addPoint(MathUtil.round(xs), MathUtil.round(ys));
 
-		_xs -= Math.cos(angle1) * pheight;
-		_ys -= Math.sin(angle1) * pheight;
-		p.addPoint(ABObject.round(_xs), ABObject.round(_ys));
+		xs -= Math.cos(angle) * pHeight;
+		ys -= Math.sin(angle) * pHeight;
+		p.addPoint(MathUtil.round(xs), MathUtil.round(ys));
 
-		_xs -= Math.cos(angle2) * pwidth;
-		_ys -= Math.sin(angle2) * pwidth;
-		p.addPoint(ABObject.round(_xs), ABObject.round(_ys));
+		xs -= Math.cos(angle2) * pWidth;
+		ys -= Math.sin(angle2) * pWidth;
+		p.addPoint(MathUtil.round(xs), MathUtil.round(ys));
 
-		_xs += Math.cos(angle1) * pheight;
-		_ys += Math.sin(angle1) * pheight;
-		p.addPoint(ABObject.round(_xs), ABObject.round(_ys));
+		xs += Math.cos(angle) * pHeight;
+		ys += Math.sin(angle) * pHeight;
+		p.addPoint(MathUtil.round(xs), MathUtil.round(ys));
 
 		return p;
 
@@ -71,11 +72,11 @@ public class GeometryUtil {
 	 * Generate a list of normal vectors for a Polygon. The Vectors are saved as
 	 * Points with integers for x and y within the range [0,254] <br/>
 	 * where 0 = -127, 127 = 0 and 254 = 127
-	 * 
+	 *
 	 * @param p Polygon to create the Norm vectors for
 	 * @return List of Vectors
 	 */
-	public static List<Point> listOfNormsInt(Polygon p) {
+	public static List<Point> listOfNormsInt(final Polygon p) {
 		List<Point2D> doubleVectors = listOfNorms(p);
 		List<Point> intVectors = new ArrayList<>();
 
@@ -95,9 +96,9 @@ public class GeometryUtil {
 	 * @param p Polygon to create the Norm vectors for
 	 * @return List of Vectors
 	 */
-	public static List<Point2D> listOfNorms(Polygon p) {
+	public static List<Point2D> listOfNorms(final Polygon p) {
 		List<Point2D> vectors = new ArrayList<>();
-		boolean is_clockwise = clockwise(p);
+		boolean isClockwise = clockwise(p);
 
 		for (int i = 0; i < p.npoints; i++) {
 			int nextI = (i + 1 == p.npoints ? 0 : i + 1);
@@ -106,7 +107,7 @@ public class GeometryUtil {
 			double len = Math.hypot(dx, dy);
 			double vx = dx / len;
 			double vy = dy / len;
-			if (is_clockwise) {
+			if (isClockwise) {
 				vx = -vx;
 			} else {
 				vy = -vy;
@@ -117,12 +118,12 @@ public class GeometryUtil {
 	}
 
 	/**
-	 * Check if the Polygon Points are in clockwise order
-	 * 
+	 * Check if the Polygon Points are in clockwise order.
+	 *
 	 * @param p Polygon to check
 	 * @return True if the Polygon points are in clockwise order, otherwise False
 	 */
-	public static boolean clockwise(Polygon p) {
+	public static boolean clockwise(final Polygon p) {
 		int sum = 0;
 		for (int i = 0; i < p.npoints; i++) {
 			int nextI = (i + 1 == p.npoints ? 0 : i + 1);
@@ -131,35 +132,45 @@ public class GeometryUtil {
 		return sum < 0;
 	}
 
-	public static List<Point> bresenham(int x0, int y0, int x1, int y1) {
+	/**
+	 * generate a bresenham Line from Point (x0|y0) to Point (x1|y1).
+	 *
+	 * @param x0 x coordinate of the first point
+	 * @param y0 y coordinate of the first point
+	 * @param x1 x coordinate of the second point
+	 * @param y1 y coordinate of the second point
+	 * @return the list of points for bresenham
+	 */
+	public static List<Point> bresenham(final int x0, final int y0, final int x1, final int y1) {
 		return bresenham(new Point(x0, y0), new Point(x1, y1));
 	}
 
 	/**
-	 * generate a bresenham Line from Point a to Point b
+	 * generate a bresenham Line from Point a to Point b.
+	 *
 	 * @param a Start
 	 * @param b End
 	 * @return The list of Points on the line from a to b including a and b
 	 */
-	public static List<Point> bresenham(Point a, Point b) {
-		List<Point> line = new ArrayList<Point>();
+	public static List<Point> bresenham(final Point a, final Point b) {
+		List<Point> line = new ArrayList<>();
 		int dx = Math.abs(b.x - a.x);
 		int dy = Math.abs(b.y - a.y);
 
 		int sx = a.x < b.x ? 1 : -1;
 		int sy = a.y < b.y ? 1 : -1;
 
-		int err = dx-dy;
+		int err = dx - dy;
 		int e2;
 
 		Point current = a;
 
-		while (true)
-		{
+		while (true) {
 			line.add(current);
 
-			if (current.x == b.x && current.y == b.y)
+			if (current.x == b.x && current.y == b.y) {
 				break;
+			}
 
 			current = new Point(current);
 

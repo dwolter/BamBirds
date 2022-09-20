@@ -1,4 +1,5 @@
 <map id="de.uniba.sme.bambirds.planner.physicssimulation.scene.preprocessing.ScenePreprocessorBase" name="de.uniba.sme.bambirds.planner.physicssimulation.scene.preprocessing.ScenePreprocessorBase">
-<area shape="rect" id="node1" title=" " alt="" coords="480,5,919,47"/>
-<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1modification_1_1_i_scene_modifier.html" title=" " alt="" coords="5,5,432,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="640,39,1131,80"/>
+<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1modification_1_1_i_scene_modifier.html" title=" " alt="" coords="24,5,507,47"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,71,525,112"/>
 </map>

@@ -49,7 +49,7 @@ bird_type_impact(_, _, 2.0).
 
 impact(Bird, Object, Impact) :-
 	hasColor(Bird, C),
-	hasMaterial(Object, M, _, _, _, _),
+	(hasMaterial(Object, M, _, _, _, _); (hill(Object), M = hill)),
 	bird_type_impact(C, M, Impact),
 	!.
 

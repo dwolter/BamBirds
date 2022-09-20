@@ -1,5 +1,5 @@
 package de.uniba.sme.bambirds.common;
 
-abstract public class BamBirdModule{
-	abstract public void shutdown();
+public abstract class BamBirdModule {
+	public abstract void shutdown();
 }

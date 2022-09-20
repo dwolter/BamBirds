@@ -90,7 +90,7 @@ public class VisionSling {
 		sling = fine.getFirst();
 
 		// replace height if ratio doesnt match
-		double h = ScreenScale.slingshot.ratioH7W() * sling.width;
+		double h = ScreenScale.SLINGSHOT.ratioH7W() * sling.width;
 		if (Math.abs(sling.height - h) > 7) {
 			log.debug("previous slingshot height was " + sling.height
 					+ " now setting it to " + (int) Math.round(h));
@@ -110,7 +110,7 @@ public class VisionSling {
 	 */
 	private LinkedList<Rectangle> findSlingshot(Rectangle crop, int threshold, int minPoints, float pxPercentage) {
 
-		DBG.visualOuputEnabled = (threshold == 60);
+		DBG.visualOutputEnabled = (threshold == 60);
 		DBG.setBlack();
 
 		LinkedList<Rectangle> objList = new LinkedList<>();

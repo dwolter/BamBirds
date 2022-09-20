@@ -5,34 +5,34 @@
 :- use_module(common).
 
 
-plans_common:plan(Bird,plan{bird:Bird, shot:Shot, target_object:Target, impact_angle:ImpactAngle, strategy:"tnt", confidence:C, reasons:Pigs}) :-
-	tnt(Bird, Target, ImpactAngle, C, Pigs),
+plans_common:plan(Bird,plan{bird:Bird, shot:Shot, target_object:Target, impact_angle:ImpactAngle, strategy:"tnt", confidence:C, reasons:Reasons}) :-
+	\+ whitebird(Bird),
+	tnt(Bird, Target, UUID, C, Reasons),
 	>(C, 0.49),
-	shot_params_dict(ImpactAngle, Shot).
+	shot_params_dict(UUID, Shot, ImpactAngle).
 
 % tnt_(+Bird, -Target, -Confidence)
 % target a TNT if there are pigs immediately affected 
-tnt(Bird, Target, Angle, C, Pigs):-
-    hasMaterial(Target,tnt,_,_,_,_),
-    shot_obstacles(Target, Obstacles, Angle),
-    penetration(Bird, Obstacles, PE),
-    PE < 0.99,
-    findall(P, (pig(P), canExplode(Target, P)), ExplodedPigs),
-    belongsTo(Target, Struct),
-    findall(O, belongsTo(O, Struct), Damaged),
-    aggregate_all(count, (member(P, Damaged), pig(P)), PigsDamaged),
-    length(Damaged, NObjects),
-	explosion_clears_path(Damaged, LaterPigs),
-	union(ExplodedPigs, LaterPigs, Pigs),
-    %	format('target=~w, Pigs=~w, PigsDamaged=~w, objects damaged=~w~n', [Target,Pigs,PigsDamaged,NObjects]),
-    ((ExplodedPigs=[], PigsDamaged==0) -> 
-	 ( LaterPigs\=[] -> C is 0.8; C is 0.49)
-    ;
-     (
+tnt(Bird, Target, UUID, C, Reasons) :-
+	hasMaterial(Target,tnt,_,_,_,_),
+	shot_obstacles(Target, Obstacles, UUID),
+	penetration(Bird, Obstacles, PE),
+	PE < 0.99,
+	findall(P, (pig(P), canExplode(Target, P)), ExplodedPigs),
+	belongsTo(Target, Struct),
+	findall(O, belongsTo(O, Struct), Damaged),
+	include(pig, Damaged, AllPigsDamaged),
+	subtract(AllPigsDamaged, ExplodedPigs, PigsDamaged),
+	length(Damaged, NObjects),
+	explosion_clears_path(Damaged, AllLaterPigs),
+	append(ExplodedPigs, PigsDamaged, AllAffectedPigs),
+	subtract(AllLaterPigs, AllAffectedPigs, LaterPigs),
+	%	format('target=~w, Pigs=~w, PigsDamaged=~w, objects damaged=~w~n', [Target,Pigs,PigsDamaged,NObjects]),
+	(
 		ExplodedPigs\=[] -> C is 1.0 ;
-			    C is min(0.9, 0.5+0.05*NObjects)
-     )
-    ).
+			C is min(0.9, 0.5+0.05*NObjects)
+	),
+	merge_reasons([Target|ExplodedPigs], PigsDamaged, LaterPigs, Reasons).
 
 explosion_clears_path(Damaged, Pigs) :-
 	findall(P, 

@@ -1,5 +1,5 @@
-:- module(plans, [lookahead_plans/1, last_resort/1, exists_better_plan/2, plan_compare/3, remove_inferior_plans/3, alternative_plan/2, rate_plans/3, attacked_pigs/2]).
-:- use_module(plans/common, [plan/2, plan_last_resort/2, plan_last_resort/3]).
+:- module(plans, [lookahead_plans/1, last_resort/1, exists_better_plan/3, exists_better_plan/4, plan_compare/3, remove_inferior_plans/3, rate_plans/3, attacked_pigs/2]).
+:- use_module(plans/common, [plan/2, plan_last_resort/2, plan_last_resort/3, extract_targets_from_reasons/4, extract_all_targets_from_reasons/2]).
 %:- use_module(plans/airbomb).
 :- use_module(plans/white_bird).
 :- use_module(plans/approximate_shot).
@@ -10,6 +10,7 @@
 :- use_module(plans/domino).
 :- use_module(plans/fly_by_bomb).
 :- use_module(plans/heavy_object).
+:- use_module(plans/lr_anyobject).
 :- use_module(plans/lr_bounce).
 :- use_module(plans/lr_domino).
 :- use_module(plans/lr_rebound).
@@ -26,7 +27,7 @@
 
 print_intermediate_plan(Plan) :-
 	write('%'),
-	json_write(current_output, Plan, [width(0)]),
+	json_write(current_output, Plan, [width(0),serialize_unknown(true)]),
 	writeln(""),
 	flush_output.
 
@@ -54,17 +55,20 @@ pig_target(Target, Pigs) :-
 	canExplode(Target, P),
 	member(P, Pigs).
 
+reason_intersection(Targets, Reasons, Intersection) :-
+	extract_all_targets_from_reasons(Reasons, ReasonTargets),
+	intersection(Targets, ReasonTargets, Intersection).
 
 last_resort_pigs([],[]).
 last_resort_pigs(Pigs, LastResortPlans) :-
 	in_slingshot(Bird),
 	(setof(
 		Plan, 
-		(
+		Pig^Reasons^(
 			member(Pig, Pigs),
 			plan_last_resort(Bird, Pig, Plan),
 			get_dict(reasons, Plan, Reasons),
-			\+ intersection(Pigs, Reasons, []),
+			\+ reason_intersection(Pigs, Reasons, []),
 			print_intermediate_plan(Plan)
 		), 
 		LastResortPlans
@@ -72,7 +76,12 @@ last_resort_pigs(Pigs, LastResortPlans) :-
 
 % predicate for comparing plans, plans with high confidence
 % killing many pigs go first
-plan_compare(=, Plan, Plan).
+plan_compare(=, Plan1, Plan2) :- 
+	Plan1.target_object = Plan2.target_object,
+	Plan1.strategy = Plan2.strategy,
+	Plan1.bird = Plan2.bird,
+	Plan1.shot.uuid = Plan2.shot.uuid,
+	Plan1.shot.tap_time = Plan2.shot.tap_time, !.
 plan_compare(REL, Plan1, Plan2) :-
 	length(Plan1.reasons,Reasons1Length),
 	length(Plan2.reasons,Reasons2Length),
@@ -86,20 +95,31 @@ allPlans(SortedPlans) :-
 	predsort(plan_compare, AllPlans, SortedPlans), ! % remove duplicates
 	.
 
+
+exists_better_plan(Plan, ConfidenceDifference, OtherPlans) :- 
+	exists_better_plan(Plan, ConfidenceDifference, OtherPlans, []).
+
 %% check for existence of higher-confidence plan
-exists_better_plan(_, []) :- false.
-exists_better_plan(Plan, [PlanB | OtherPlans]) :-
-	(Plan.target_object == PlanB.target_object,
-	Plan.impact_angle == PlanB.impact_angle,
-	subset(Plan.reasons, PlanB.reasons),
-	Plan.confidence < PlanB.confidence, !) -> true;
-	exists_better_plan(Plan, OtherPlans).
+exists_better_plan(_, _, [], _) :- false.
+exists_better_plan(Plan, ConfidenceDifference, [PlanB | OtherPlans], Options) :-
+	(
+		(member(check_target(true), Options) -> Plan.target_object = PlanB.target_object; true),
+		extract_targets_from_reasons(Plan.reasons, Destroy, Affect, Free),
+		extract_targets_from_reasons(PlanB.reasons, BDestroy, BAffect, BFree),
+		append([BDestroy, BAffect, BFree], AllBTargets),
+		append([BDestroy, BAffect], BDestroyAffect),
+		subset(Free, AllBTargets),
+		subset(Affect, BDestroyAffect),
+		subset(Destroy, BDestroy),
+		PlanB.confidence > (Plan.confidence-ConfidenceDifference), !
+	) -> true;
+	exists_better_plan(Plan, ConfidenceDifference, OtherPlans, Options).
 
 
 %% drop plans for which a more confident alternative exists
 remove_inferior_plans([],_,[]).
 remove_inferior_plans([Plan | Plans], AllPlans, RestPlans) :-
-	(exists_better_plan(Plan, AllPlans) -> remove_inferior_plans(Plans, AllPlans, RestPlans) ;
+	(exists_better_plan(Plan, 0, AllPlans, [check_target(true)]) -> remove_inferior_plans(Plans, AllPlans, RestPlans) ;
 	 (remove_inferior_plans(Plans, AllPlans, RestPlans2), RestPlans=[Plan|RestPlans2])).
 
 
@@ -115,20 +135,15 @@ all_bird_plans(Bird, Plans) :-
 	); AllPlans=[]),
 	remove_inferior_plans(AllPlans, AllPlans, Plans).
 
-alternative_plan(_, []) :- false.
-alternative_plan(Plan, [OtherPlan | OPlans]) :-
-	((
-		subset(Plan.reasons, OtherPlan.reasons), 
-		OtherPlan.confidence >= (Plan.confidence-0.15)
-	) ->
-		true;
-		alternative_plan(Plan, OPlans)
-	).
-
 attacked_pigs([],[]).
 attacked_pigs([Plan | Plans], AllAttackedPigs) :-
 	attacked_pigs(Plans, AttackedPigs),
-	append(AttackedPigs, Plan.reasons, MoreAttackedPigs),
+	(Plan.confidence > 0.49 ->
+		(extract_all_targets_from_reasons(Plan.reasons,AllReasons),
+		include(pig,AllReasons,Pigs));
+		Pigs=[]
+	),
+	append(AttackedPigs, Pigs, MoreAttackedPigs),
 	list_to_set(MoreAttackedPigs, AllAttackedPigs).
 
 unattacked_pigs(Pigs, Attacked) :-
@@ -144,17 +159,30 @@ unattacked_pigs(Pigs, Attacked) :-
 rate_plans([], _, []).
 rate_plans(CurrentPlans, [], CurrentPlans).
 rate_plans([Plan | CurrentPlans], OtherPlans, [NewPlan | RatedCurrentPlans ]) :-
-	length(Plan.reasons, PLength),
-	((PLength==0;alternative_plan(Plan, OtherPlans)) -> NewConfidence is Plan.confidence+PLength*0.01 ; NewConfidence is Plan.confidence+0.5+PLength*0.01),
+	(exists_better_plan(Plan, 0.15, OtherPlans, []) -> NewConfidence is Plan.confidence ; NewConfidence is Plan.confidence + 1),
 	NewPlan = Plan.put(confidence, NewConfidence),
 	rate_plans(CurrentPlans, OtherPlans, RatedCurrentPlans).
+
+other_bird_plans(CurrentBird, CurrentPlans, Other_Plans) :-
+	setof(BC,B^(bird(B), B \= CurrentBird, hasColor(B,BC)),BCs),
+	findall(Plans, 
+		(
+			member(BC, BCs),
+			once(hasColor(Bird,BC)),
+			(hasColor(CurrentBird, BC) -> 
+				Plans=CurrentPlans;
+				all_bird_plans(Bird,Plans)
+			)
+		), 
+		BirdPlans
+	),
+	append_lists(BirdPlans, Other_Plans).
 
 lookahead_plans(LPlans) :-
 	birdOrder(_,1), % more than one bird left
 	in_slingshot(Bird),
 	all_bird_plans(Bird,Greedy_Plans),
-	findall(P, (bird(B), \+in_slingshot(B), (all_bird_plans(B,P))), BirdPlans),
-	append_lists(BirdPlans, Other_Plans),
+	other_bird_plans(Bird, Greedy_Plans, Other_Plans),
 	rate_plans(Greedy_Plans, Other_Plans, Plans),
 	attacked_pigs(Plans, PigsAttackedByPlan),
 	unattacked_pigs(Pigs, PigsAttackedByPlan),

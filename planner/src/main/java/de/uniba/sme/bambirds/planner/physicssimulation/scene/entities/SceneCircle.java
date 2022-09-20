@@ -50,7 +50,7 @@ public class SceneCircle extends SceneEntityBase {
     public SceneCircle(Circle circle) {
         super(circle);
         this.originalCircle = circle;
-        radius = (float) circle.r;
+        radius = (float) circle.getRadius();
     }
 
 
@@ -59,9 +59,9 @@ public class SceneCircle extends SceneEntityBase {
      */
     public static SceneCircle createSceneCircle(String globalID, int id, ABType abType, float radius, float positionX, float positionY){
         Circle circle = new Circle(positionX, positionY, radius, abType);
-        circle.globalID = globalID;
-        circle.id = id;
         SceneCircle sceneCircle = new SceneCircle(circle);
+        sceneCircle.setGlobalID(globalID);
+        sceneCircle.setId(id);
         return sceneCircle;
     }
     

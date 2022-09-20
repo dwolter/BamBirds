@@ -2,22 +2,21 @@ package de.uniba.sme.bambirds.planner.knowledge;
 
 import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.Rectangle;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import de.uniba.sme.bambirds.common.database.Level;
 import de.uniba.sme.bambirds.planner.physicssimulation.exceptions.PredicateGenerationException;
 import de.uniba.sme.bambirds.planner.predicates.IPredicateGenerator;
 import de.uniba.sme.bambirds.planner.predicates.Predicate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.uniba.sme.bambirds.common.objects.AbstractScene;
-import de.uniba.sme.bambirds.common.objects.Level;
+import de.uniba.sme.bambirds.common.database.AbstractScene;
 import de.uniba.sme.bambirds.common.objects.ab.ABObject;
 import de.uniba.sme.bambirds.common.objects.ab.ABShape;
 import de.uniba.sme.bambirds.common.objects.ab.ABType;
@@ -44,10 +43,11 @@ public class Knowledge implements IPredicateGenerator {
 	 * Threshold for how many pixels blocks can be apart from each other to be realted to each other
 	 */
 	private static final int RELATION_THRESHOLD = 5;
+	private static final String RELATION_IS_IN= "isIn";
 	private static final String RELATION_IS_ON = "isOn";
 	private static final String RELATION_IS_BELOW = "isBelow";
 	private static final String RELATION_IS_RIGHT = "isRight";
-	private static final String RELAITON_IS_LEFT = "isLeft";
+	private static final String RELATION_IS_LEFT = "isLeft";
 
 	// predicate templates for string formatting
 	private static final DecimalFormat doubleFormatter = new DecimalFormat("###.########");
@@ -86,7 +86,7 @@ public class Knowledge implements IPredicateGenerator {
 		List<ABObject> objects = scene.getAllObjects();
 		this.allBlocks = scene.getAllObjects();
 
-		Point2D.Double pt = level.getSlingshot().pivot;
+		Point2D.Double pt = level.getSlingshot().getPivot();
 		results.add(new Predicate("slingshotPivot", formatTwoDouble(pt.x, pt.y)));
 		results.add(new Predicate("scene_scale",
 						formatTwoDouble(scene.getSlingshot().getSceneScale(), level.getScalingFactor())));
@@ -96,69 +96,69 @@ public class Knowledge implements IPredicateGenerator {
 			boolean evaluateWhatsAbove = false;
 			boolean storeOrientation = false;
 
-			results.add(new Predicate("shape", ob.globalID, describeShape(ob)));
+			results.add(new Predicate("shape", ob.getGlobalID(), describeShape(ob)));
 			switch (ob.getType()) {
 				case Ground:
-					results.add(new Predicate("ground", ob.globalID));
+					results.add(new Predicate("ground", ob.getGlobalID()));
 					break;
 				case Hill:
-					results.add(new Predicate( "hill", ob.globalID, formatCoordinates(ob)));
+					results.add(new Predicate( "hill", ob.getGlobalID(), formatCoordinates(ob)));
 					break;
 				case Sling:
 					break;
 				case RedBird:
-					results.add(new Predicate("bird", ob.globalID));
-					results.add(new Predicate("hasColor", ob.globalID, "red"));
+					results.add(new Predicate("bird", ob.getGlobalID()));
+					results.add(new Predicate("hasColor", ob.getGlobalID(), "red"));
 					break;
 				case YellowBird:
-					results.add(new Predicate("bird", ob.globalID));
-					results.add(new Predicate("hasColor", ob.globalID, "yellow"));
+					results.add(new Predicate("bird", ob.getGlobalID()));
+					results.add(new Predicate("hasColor", ob.getGlobalID(), "yellow"));
 					break;
 				case BlueBird:
-					results.add(new Predicate("bird", ob.globalID));
-					results.add(new Predicate("hasColor", ob.globalID, "blue"));
+					results.add(new Predicate("bird", ob.getGlobalID()));
+					results.add(new Predicate("hasColor", ob.getGlobalID(), "blue"));
 					break;
 				case BlackBird:
-					results.add(new Predicate("bird", ob.globalID));
-					results.add(new Predicate("hasColor", ob.globalID, "black"));
+					results.add(new Predicate("bird", ob.getGlobalID()));
+					results.add(new Predicate("hasColor", ob.getGlobalID(), "black"));
 					break;
 				case WhiteBird:
-					results.add(new Predicate("bird", ob.globalID));
-					results.add(new Predicate("hasColor", ob.globalID, "white"));
+					results.add(new Predicate("bird", ob.getGlobalID()));
+					results.add(new Predicate("hasColor", ob.getGlobalID(), "white"));
 					break;
 				case Pig:
 					results.addAll(getRelations(ob, allBlocks));
-					results.add(new Predicate("hasMaterial", ob.globalID, "pork", formatCoordinates(ob)));
-					results.add(new Predicate("pig", ob.globalID, formatCoordinates(ob)));
+					results.add(new Predicate("hasMaterial", ob.getGlobalID(), "pork", formatCoordinates(ob)));
+					results.add(new Predicate("pig", ob.getGlobalID(), formatCoordinates(ob)));
 					evaluateWhatsAbove = true;
 					break;
 				case Ice:
 					results.addAll(getRelations(ob, allBlocks));
-					results.add(new Predicate("hasMaterial", ob.globalID, "ice", formatCoordinates(ob)));
+					results.add(new Predicate("hasMaterial", ob.getGlobalID(), "ice", formatCoordinates(ob)));
 					storeOrientation = true;
-					results.add(new Predicate("hasForm", ob.globalID, getForm(ob)));
+					results.add(new Predicate("hasForm", ob.getGlobalID(), getForm(ob)));
 					break;
 				case Wood:
 					results.addAll(getRelations(ob, allBlocks));
-					results.add(new Predicate("hasMaterial", ob.globalID, "wood", formatCoordinates(ob)));
+					results.add(new Predicate("hasMaterial", ob.getGlobalID(), "wood", formatCoordinates(ob)));
 					storeOrientation = true;
 					evaluateWhatsAbove = getForm(ob).equals("ball");
-					results.add(new Predicate("hasForm", ob.globalID, getForm(ob)));
+					results.add(new Predicate("hasForm", ob.getGlobalID(), getForm(ob)));
 					break;
 				case Stone:
 					results.addAll(getRelations(ob, allBlocks));
-					results.add(new Predicate("hasMaterial", ob.globalID, "stone", formatCoordinates(ob)));
+					results.add(new Predicate("hasMaterial", ob.getGlobalID(), "stone", formatCoordinates(ob)));
 					storeOrientation = true;
 					evaluateWhatsAbove = getForm(ob).equals("ball");
-					results.add(new Predicate("hasForm", ob.globalID, getForm(ob)));
+					results.add(new Predicate("hasForm", ob.getGlobalID(), getForm(ob)));
 					break;
 				case TNT:
 					results.addAll(getRelations(ob, allBlocks));
-					results.add(new Predicate("hasMaterial", ob.globalID, "tnt", formatCoordinates(ob)));
+					results.add(new Predicate("hasMaterial", ob.getGlobalID(), "tnt", formatCoordinates(ob)));
 					evaluateWhatsAbove = true;
 					List<ABObject> explodes = getExplodables(ob, allBlocks);
 					for (ABObject ex : explodes) {
-						results.add(new Predicate("canExplode", ob.globalID, ex.globalID));
+						results.add(new Predicate("canExplode", ob.getGlobalID(), ex.getGlobalID()));
 					}
 					break;
 				default:
@@ -171,14 +171,14 @@ public class Knowledge implements IPredicateGenerator {
 			if (evaluateWhatsAbove) {
 				List<ABObject> aboveList = whatsAbove(ob, allBlocks);
 				for (ABObject objectAbove : aboveList) {
-					results.add(new Predicate("isOver", objectAbove.globalID, ob.globalID));
+					results.add(new Predicate("isOver", objectAbove.getGlobalID(), ob.getGlobalID()));
 				}
 			}
 			if (storeOrientation) {
 				if (ob.width >= ob.height) {
-					results.add(new Predicate("hasOrientation", ob.globalID, "horizontal"));
+					results.add(new Predicate("hasOrientation", ob.getGlobalID(), "horizontal"));
 				} else {
-					results.add(new Predicate("hasOrientation", ob.globalID, "vertical"));
+					results.add(new Predicate("hasOrientation", ob.getGlobalID(), "vertical"));
 				}
 			}
 		}
@@ -193,13 +193,13 @@ public class Knowledge implements IPredicateGenerator {
 
 		// write size predicates
 		for (ABObject block : allBlocks) {
-			results.add(new Predicate("hasSize", block.globalID, getSize(block)));
+			results.add(new Predicate("hasSize", block.getGlobalID(), getSize(block)));
 		}
 		log.debug("Size Predicates checked and written.");
 
 		// write birds
 		for (int i = 0; i < birds.size(); i++) {
-			String birdID = birds.get(i).globalID;
+			String birdID = birds.get(i).getGlobalID();
 			results.add(new Predicate("birdOrder", birdID, i));
 		}
 
@@ -224,7 +224,6 @@ public class Knowledge implements IPredicateGenerator {
 		}
 
 		log.info("Looking for objects on hills.");
-		Pattern p = Pattern.compile(RELATION_IS_ON+"\\(\\w+,ground\\)\\..*\\n");
 
 		for (int i = 0; i < predicates.size(); i++) {
 			Predicate predicate = predicates.get(i);
@@ -237,7 +236,7 @@ public class Knowledge implements IPredicateGenerator {
 
 				// find ABObject with regexed globalID
 				for (ABObject x : allBlocks) {
-					if (x.globalID.equals(args.get(0))) {
+					if (x.getGlobalID().equals(args.get(0))) {
 						args.set(index, onHill(x, hills));
 						predicates.set(i, new Predicate(predicate.getPredicateName(), args));// FIXME: adding causes infinite loop
 						// TODO: WIP Slope detection
@@ -260,8 +259,8 @@ public class Knowledge implements IPredicateGenerator {
 	}
 
 	private String describeShape(ABObject ob) {
-		float area = ob.area;
-		if (ob.hollow)
+		float area = ob.getArea();
+		if (ob.isHollow())
 			area /= 2; // guess in the wild
 
 		String shape = "";
@@ -270,18 +269,18 @@ public class Knowledge implements IPredicateGenerator {
 		// to simulate dispatch
 		if (ob instanceof Rect) {
 			Rect r = (Rect) ob;
-			shape = String.format("rect, %s,%s,%s,[%s,%s,%s]", doubleFormatter.format(r.centerX),
-					doubleFormatter.format(r.centerY), doubleFormatter.format(area), doubleFormatter.format(r.getpWidth()),
-					doubleFormatter.format(r.getpLength()), doubleFormatter.format(r.angle));
+			shape = String.format("rect, %s,%s,%s,[%s,%s,%s]", doubleFormatter.format(r.getCenterX()),
+					doubleFormatter.format(r.getCenterY()), doubleFormatter.format(area), doubleFormatter.format(r.getPWidth()),
+					doubleFormatter.format(r.getPLength()), doubleFormatter.format(r.getAngle()));
 		} else if (ob instanceof Circle) {
 			Circle c = (Circle) ob;
-			shape = String.format("ball, %s,%s,%s,[%s]", doubleFormatter.format(c.centerX), doubleFormatter.format(c.centerY),
-					doubleFormatter.format(area), doubleFormatter.format(c.r));
+			shape = String.format("ball, %s,%s,%s,[%s]", doubleFormatter.format(c.getCenterX()), doubleFormatter.format(c.getCenterY()),
+					doubleFormatter.format(area), doubleFormatter.format(c.getRadius()));
 		} else if (ob instanceof Poly) {
-			Polygon p = ((Poly) ob).polygon;
+			Polygon p = ((Poly) ob).getPolygon();
 			Body b = (Body) ob;
 			shape = "poly";
-			shape = String.format("poly, %s,%s,%s,[%d", doubleFormatter.format(b.centerX), doubleFormatter.format(b.centerY),
+			shape = String.format("poly, %s,%s,%s,[%d", doubleFormatter.format(b.getCenterX()), doubleFormatter.format(b.getCenterY()),
 					doubleFormatter.format(area), p.npoints);
 			for (int i = 0; i < p.npoints; i++) {
 				shape += String.format(",[%d,%d]", p.xpoints[i], p.ypoints[i]);
@@ -289,12 +288,12 @@ public class Knowledge implements IPredicateGenerator {
 			shape += "]";
 		} else if (ob.getType() == ABType.TNT) {
 			shape = String.format("rect, %s,%s,%s,[%s,%s,%s]", doubleFormatter.format(ob.getCenterX()),
-					doubleFormatter.format(ob.getCenterY()), doubleFormatter.format(ob.area), doubleFormatter.format(ob.getWidth()),
-					doubleFormatter.format(ob.getHeight()), doubleFormatter.format(ob.angle));
+					doubleFormatter.format(ob.getCenterY()), doubleFormatter.format(ob.getArea()), doubleFormatter.format(ob.getHeight()),
+					doubleFormatter.format(ob.getWidth()), doubleFormatter.format(ob.getAngle()));
 		} else {
 			log.warn("Whoops: unhandled shape!");
 			shape = String.format("unknown, %s,%s,%s,[]", doubleFormatter.format(ob.getCenterX()),
-					doubleFormatter.format(ob.getCenterY()), doubleFormatter.format(ob.area));
+					doubleFormatter.format(ob.getCenterY()), doubleFormatter.format(ob.getArea()));
 		}
 		return shape;
 	}
@@ -302,7 +301,7 @@ public class Knowledge implements IPredicateGenerator {
 	private String getForm(ABObject ob) {
 		String shape = NONE;
 
-		switch (ob.shape) {
+		switch (ob.getShape()) {
 			case Circle:
 				shape = "ball";
 				break;
@@ -396,29 +395,22 @@ public class Knowledge implements IPredicateGenerator {
 		List<Predicate> rel = new ArrayList<>();
 		boolean onGround = true;
 		for (ABObject o1 : list) {
+			// Skip for identical objects
+			if (o2.getGlobalID().equals(o1.getGlobalID())) {
+				continue;
+			}
 			// If hasRelation returns "isOn" o2 lies on o1
-			String relation = hasRelation(o2, o1);
-			switch (relation) {
-				case RELATION_IS_ON:
-					rel.add(new Predicate(relation, o2.globalID, o1.globalID));
+			List<String> relations = hasRelations(o2, o1);
+			for (String relation : relations) {
+				rel.add(new Predicate(relation, o2.getGlobalID(), o1.getGlobalID()));
+				if (relation.equals(RELATION_IS_ON)) {
 					onGround = false;
-					break;
-				case RELATION_IS_BELOW:
-					rel.add(new Predicate(relation, o2.globalID, o1.globalID));
-					break;
-				case RELATION_IS_RIGHT:
-					rel.add(new Predicate(relation, o2.globalID, o1.globalID));
-					break;
-				case RELAITON_IS_LEFT:
-					rel.add(new Predicate(relation, o2.globalID, o1.globalID));
-					break;
-				default:
-					break;
+				}
 			}
 		}
 
 		if (onGround) {
-			rel.add(new Predicate(RELATION_IS_ON, o2.globalID, "ground"));
+			rel.add(new Predicate(RELATION_IS_ON, o2.getGlobalID(), "ground"));
 		}
 
 		return rel;
@@ -436,8 +428,8 @@ public class Knowledge implements IPredicateGenerator {
 		for (ABObject hill : hills) {
 			Poly poly = (Poly) hill;
 
-			if (poly.polygon.intersects(block.x, block.y, block.width, block.height + tolerance)) {
-				return hill.globalID;
+			if (poly.getPolygon().intersects(block.x, block.y, block.width, block.height + tolerance)) {
+				return hill.getGlobalID();
 			}
 			// //TODO: Finish layered if-clause, maybe replace by switch-case
 			// boolean collisionLeft = false;
@@ -476,33 +468,33 @@ public class Knowledge implements IPredicateGenerator {
 		return "ground";
 	}
 
-	private String hasRelation(ABObject o2, ABObject o1) {
-		String relation = NONE;
+	private List<String> hasRelations(ABObject object, ABObject otherObject) {
+		List<String> relations = new ArrayList<>();
 
-		if (o2.contains(o1) && o1.contains(o2)) {
-			return relation;
+		Area otherArea = new Area(otherObject.getPolygon());
+		if (otherArea.contains(object)) {
+			relations.add(RELATION_IS_IN);
+		} else {
+			// Note: [x=0,y=0] is the left upper corner
+			// For example: o2 is on o1 if a ${threshold} high rectangle below o2 intersects
+			// with o1
+			// (o2.y + o2.height is the *lower* edge of o2)
+			if (otherArea.intersects(object.x, object.y + object.height, object.width, RELATION_THRESHOLD)) {
+				relations.add(RELATION_IS_ON);
+			}
+			if (otherArea.intersects(object.x, object.y - RELATION_THRESHOLD, object.width, RELATION_THRESHOLD)) {
+				relations.add(RELATION_IS_BELOW);
+			}
+			if (otherArea.intersects(object.x + object.width, object.y, RELATION_THRESHOLD, object.height)) {
+				relations.add(RELATION_IS_LEFT);
+			}
+			if (otherArea.intersects(object.x - RELATION_THRESHOLD, object.y, RELATION_THRESHOLD, object.height)) {
+				relations.add(RELATION_IS_RIGHT);
+			}
+			
 		}
 
-		// Note: [x=0,y=0] is the left upper corner
-		// For example: o2 is on o1 if a ${threshold} high rectangle below o2 intersects
-		// with o1
-		// (o2.y + o2.height is the *lower* edge of o2)
-		if ((new Rectangle(o2.x, o2.y + o2.height, o2.width, RELATION_THRESHOLD).intersects(o1))) {
-			return RELATION_IS_ON;
-		}
-		if ((new Rectangle(o2.x, o2.y - RELATION_THRESHOLD, o2.width, RELATION_THRESHOLD).intersects(o1))) {
-			return RELATION_IS_BELOW;
-		}
-		if ((new Rectangle(o2.x + o2.width, o2.y, RELATION_THRESHOLD, o2.height)).intersects(o1)) {
-			return RELAITON_IS_LEFT;
-		}
-		// if ((new Rectangle(o2.x - threshold, o2.y, threshold,
-		// o2.height)).intersects(o1)) {
-		if ((new Rectangle(o1.x + o1.width, o1.y, RELATION_THRESHOLD, o1.height)).intersects(o2)) {
-			return RELATION_IS_RIGHT;
-		}
-
-		return relation;
+		return relations;
 	}
 
 	/**
@@ -569,7 +561,7 @@ public class Knowledge implements IPredicateGenerator {
 	 * @return Range of {@code block} depending on its shape
 	 */
 	private double range(ABObject block) {
-		if (block.shape == ABShape.Circle) {
+		if (block.getShape() == ABShape.Circle) {
 			return 2.0;
 		} else {
 			return 1.0;
@@ -605,7 +597,7 @@ public class Knowledge implements IPredicateGenerator {
 		List<ABObject> neighbors = new ArrayList<>();
 
 		for (ABObject x : candidates) {
-			if (!NONE.equals(hasRelation(target, x))) {
+			if (!hasRelations(target, x).isEmpty()) {
 				neighbors.add(x);
 			}
 		}
@@ -684,14 +676,14 @@ public class Knowledge implements IPredicateGenerator {
 			struct.sort(new YBottomComparator()); // Seems unnecessary but may be no way around
 			ABObject bottommostObject = struct.get(0);
 
-			predicates.add(new Predicate("isAnchorPointFor", leftmostObject.globalID, structID));
+			predicates.add(new Predicate("isAnchorPointFor", leftmostObject.getGlobalID(), structID));
 
 			if (isStructTower(leftmostObject, rightmostObject, topmostObject, bottommostObject)) {
 				predicates.add(new Predicate("isTower", structID));
 			}
 
 			for (ABObject obj : struct) {
-				predicates.add(new Predicate("belongsTo", obj.globalID, structID));
+				predicates.add(new Predicate("belongsTo", obj.getGlobalID(), structID));
 			}
 
 			// make structure collapsable.
@@ -705,7 +697,7 @@ public class Knowledge implements IPredicateGenerator {
 			// check if structure protects a pig
             for (ABObject pig : pigs) {
                 if ( !whatsAbove(pig, struct).isEmpty() ) {
-                    predicates.add(new Predicate("protects", structID, pig.globalID));
+                    predicates.add(new Predicate("protects", structID, pig.getGlobalID()));
                 }
             }
         }

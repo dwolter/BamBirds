@@ -4,10 +4,6 @@ import java.util.*;
 
 import de.uniba.sme.bambirds.planner.predicates.IPredicateGenerator;
 import de.uniba.sme.bambirds.planner.predicates.Predicate;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-    
-
 import de.uniba.sme.bambirds.planner.physicssimulation.debugging.VisualSimulationDebugger;
 import de.uniba.sme.bambirds.planner.physicssimulation.exceptions.NoStableSceneException;
 import de.uniba.sme.bambirds.planner.physicssimulation.exceptions.PredicateGenerationException;
@@ -18,6 +14,8 @@ import de.uniba.sme.bambirds.planner.physicssimulation.physics.modification.stab
 import de.uniba.sme.bambirds.planner.physicssimulation.scene.Scene;
 import de.uniba.sme.bambirds.planner.physicssimulation.scene.entities.SceneEntityBase;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**Generates Predicates in Form of supports(A,B) > meaning that the absence of the block-object with the globalID "A" in its current position leads to a significant change of the position and/or angle of the block-object with the globalID "B". */
 public class SupportPredicateGenerator implements IPredicateGenerator {
@@ -58,7 +56,7 @@ public class SupportPredicateGenerator implements IPredicateGenerator {
         executor = SimulationExecutor.getInstance();
 
         // TODO: Maybe filter relevant blocks to reduce number of simulations
-        for (SceneEntityBase entity : scene.getAllBlocks()) {
+        for (SceneEntityBase entity : scene.getAllDestroyableObjects()) {
             blockIDs.add(entity.getGlobalID());
         }
     }
@@ -136,7 +134,7 @@ public class SupportPredicateGenerator implements IPredicateGenerator {
     //**perform some logic to extract knowledge based on the generated scene-data */
     private void evaluate(Scene finalScene, String blockID) {
 
-        for (SceneEntityBase entity : finalScene.getAllBlocks()) {
+        for (SceneEntityBase entity : finalScene.getAllDestroyableObjects()) {
             SceneEntityBase before = stableScene.getAllEntitiesMap().get(entity.getId());
             if (hasMoved(before, entity)) {
                 Predicate predicate = createSupportsPredicate(blockID, entity.getGlobalID());

@@ -1,0 +1,1052 @@
+{
+  "slingshot": {
+    "_sceneScale": 73.0,
+    "pivot": {
+      "x": 131.08,
+      "y": 335.72
+    },
+    "id": 1,
+    "globalID": "sling",
+    "type": "Sling",
+    "area": 0,
+    "shape": "Rect",
+    "angle": 0.0,
+    "hollow": false,
+    "shotList": [],
+    "x": 121,
+    "y": 326,
+    "width": 18,
+    "height": 55
+  },
+  "scalingFactor": 1.005,
+  "pigs": [
+    {
+      "r": 6.25,
+      "centerX": 238.5,
+      "centerY": 352.0,
+      "id": 2,
+      "globalID": "pig0",
+      "type": "Pig",
+      "area": 122,
+      "shape": "Circle",
+      "angle": 0.0,
+      "hollow": false,
+      "shotList": [
+        {
+          "impactAngle": -13,
+          "targetPoint": {
+            "x": 239.0,
+            "y": 352.0
+          },
+          "hittable": false,
+          "parabola": [
+            -8.309947060032268E-4,
+            -0.06206079061202215
+          ],
+          "actualAngle": -0.06198129765860099,
+          "x": 131,
+          "y": 335,
+          "dx": -999,
+          "dy": -8,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -79,
+          "targetPoint": {
+            "x": 239.0,
+            "y": 352.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.04671688481681553,
+            4.8393803322541915
+          ],
+          "actualAngle": 1.3670262731937544,
+          "x": 131,
+          "y": 335,
+          "dx": -132,
+          "dy": 991,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        }
+      ],
+      "x": 234,
+      "y": 348,
+      "width": 9,
+      "height": 9
+    }
+  ],
+  "birds": [
+    {
+      "r": 4.5,
+      "centerX": 131.0,
+      "centerY": 331.0,
+      "id": 3,
+      "globalID": "redbird0",
+      "type": "RedBird",
+      "area": 63,
+      "shape": "Circle",
+      "angle": 0.0,
+      "hollow": false,
+      "shotList": [],
+      "x": 128,
+      "y": 328,
+      "width": 6,
+      "height": 6
+    }
+  ],
+  "hills": [
+    {
+      "polygon": {
+        "npoints": 10,
+        "xpoints": [
+          180,
+          181,
+          209,
+          210,
+          267,
+          266,
+          233,
+          234,
+          295,
+          294,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ypoints": [
+          296,
+          352,
+          353,
+          323,
+          324,
+          358,
+          359,
+          384,
+          383,
+          295,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "bounds": {
+          "x": 180,
+          "y": 295,
+          "width": 115,
+          "height": 89
+        }
+      },
+      "centerX": 238.0,
+      "centerY": 339.0,
+      "id": 4,
+      "globalID": "hill0",
+      "type": "Hill",
+      "area": 10235,
+      "shape": "Poly",
+      "angle": 0.0,
+      "hollow": false,
+      "shotList": [
+        {
+          "impactAngle": 36,
+          "targetPoint": {
+            "x": 180.0,
+            "y": 296.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.001607885551379008,
+            0.8898142601448963
+          ],
+          "actualAngle": 0.7271590347467607,
+          "x": 131,
+          "y": 335,
+          "dx": -719,
+          "dy": 695,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -77,
+          "targetPoint": {
+            "x": 180.0,
+            "y": 296.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.11067778451748639,
+            6.170821013727094
+          ],
+          "actualAngle": 1.4101399622449868,
+          "x": 131,
+          "y": 335,
+          "dx": -86,
+          "dy": 996,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": 10,
+          "targetPoint": {
+            "x": 180.5,
+            "y": 324.0
+          },
+          "hittable": false,
+          "parabola": [
+            -9.296901765543146E-4,
+            0.28264849587040536
+          ],
+          "actualAngle": 0.2754629598818309,
+          "x": 131,
+          "y": 335,
+          "dx": -946,
+          "dy": 321,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -80,
+          "targetPoint": {
+            "x": 180.5,
+            "y": 324.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.1270389255912647,
+            6.451380856939498
+          ],
+          "actualAngle": 1.4170145823670515,
+          "x": 131,
+          "y": 335,
+          "dx": -80,
+          "dy": 996,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -20,
+          "targetPoint": {
+            "x": 181.0,
+            "y": 352.0
+          },
+          "hittable": false,
+          "parabola": [
+            -8.692297239339078E-4,
+            -0.28316039471767573
+          ],
+          "actualAngle": -0.27593692496208905,
+          "x": 131,
+          "y": 335,
+          "dx": -975,
+          "dy": -221,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -82,
+          "targetPoint": {
+            "x": 181.0,
+            "y": 352.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.1424105581995974,
+            6.7034154649009015
+          ],
+          "actualAngle": 1.422710696182476,
+          "x": 131,
+          "y": 335,
+          "dx": -77,
+          "dy": 997,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -16,
+          "targetPoint": {
+            "x": 209.0,
+            "y": 353.0
+          },
+          "hittable": false,
+          "parabola": [
+            -8.380425670907054E-4,
+            -0.1571133727983317
+          ],
+          "actualAngle": -0.15583942746058344,
+          "x": 131,
+          "y": 335,
+          "dx": -994,
+          "dy": -102,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -80,
+          "targetPoint": {
+            "x": 209.0,
+            "y": 353.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.07376869907985426,
+            5.467873619037582
+          ],
+          "actualAngle": 1.38990893731434,
+          "x": 131,
+          "y": 335,
+          "dx": -104,
+          "dy": 994,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": 5,
+          "targetPoint": {
+            "x": 210.0,
+            "y": 323.0
+          },
+          "hittable": false,
+          "parabola": [
+            -9.024787952835284E-4,
+            0.231692750701046
+          ],
+          "actualAngle": 0.22767549554848748,
+          "x": 131,
+          "y": 335,
+          "dx": -960,
+          "dy": 276,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -78,
+          "targetPoint": {
+            "x": 210.0,
+            "y": 323.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.06581745312273592,
+            5.297191296634704
+          ],
+          "actualAngle": 1.3842128234989155,
+          "x": 131,
+          "y": 335,
+          "dx": -110,
+          "dy": 993,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": 0,
+          "targetPoint": {
+            "x": 238.5,
+            "y": 323.5
+          },
+          "hittable": false,
+          "parabola": [
+            -8.916082741379354E-4,
+            0.20858549514935779
+          ],
+          "actualAngle": 0.20563704957362777,
+          "x": 131,
+          "y": 335,
+          "dx": -966,
+          "dy": 255,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -77,
+          "targetPoint": {
+            "x": 238.5,
+            "y": 323.5
+          },
+          "hittable": false,
+          "parabola": [
+            -0.043721830827124136,
+            4.75913717530476
+          ],
+          "actualAngle": 1.3636871719916088,
+          "x": 131,
+          "y": 335,
+          "dx": -136,
+          "dy": 990,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -2,
+          "targetPoint": {
+            "x": 267.0,
+            "y": 324.0
+          },
+          "hittable": false,
+          "parabola": [
+            -8.90475652695041E-4,
+            0.20606033796786613
+          ],
+          "actualAngle": 0.20321595871086862,
+          "x": 131,
+          "y": 335,
+          "dx": -967,
+          "dy": 253,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -77,
+          "targetPoint": {
+            "x": 267.0,
+            "y": 324.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.03220160031372482,
+            4.417380133497714
+          ],
+          "actualAngle": 1.3481701722875208,
+          "x": 131,
+          "y": 335,
+          "dx": -160,
+          "dy": 987,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -15,
+          "targetPoint": {
+            "x": 266.0,
+            "y": 358.0
+          },
+          "hittable": false,
+          "parabola": [
+            -8.310589175131449E-4,
+            -0.054119671678812
+          ],
+          "actualAngle": -0.0540669266035539,
+          "x": 131,
+          "y": 335,
+          "dx": -999,
+          "dy": 0,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -78,
+          "targetPoint": {
+            "x": 266.0,
+            "y": 358.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.034983289357802726,
+            4.505654424032053
+          ],
+          "actualAngle": 1.352393153219646,
+          "x": 131,
+          "y": 335,
+          "dx": -153,
+          "dy": 988,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -17,
+          "targetPoint": {
+            "x": 233.0,
+            "y": 359.0
+          },
+          "hittable": false,
+          "parabola": [
+            -8.362226783501622E-4,
+            -0.14403169166403249
+          ],
+          "actualAngle": -0.1430479226816229,
+          "x": 131,
+          "y": 335,
+          "dx": -996,
+          "dy": -89,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -79,
+          "targetPoint": {
+            "x": 233.0,
+            "y": 359.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.05150991650875253,
+            4.962211275086489
+          ],
+          "actualAngle": 1.3719367161380862,
+          "x": 131,
+          "y": 335,
+          "dx": -125,
+          "dy": 992,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -29,
+          "targetPoint": {
+            "x": 234.0,
+            "y": 384.0
+          },
+          "hittable": false,
+          "parabola": [
+            -9.080093836539054E-4,
+            -0.37657608386493663
+          ],
+          "actualAngle": -0.36015172593354383,
+          "x": 131,
+          "y": 335,
+          "dx": -952,
+          "dy": -303,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -80,
+          "targetPoint": {
+            "x": 234.0,
+            "y": 384.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.05388131362908587,
+            5.020746020807911
+          ],
+          "actualAngle": 1.3741955198924787,
+          "x": 131,
+          "y": 335,
+          "dx": -122,
+          "dy": 992,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -26,
+          "targetPoint": {
+            "x": 254.33333333333334,
+            "y": 383.6666666666667
+          },
+          "hittable": false,
+          "parabola": [
+            -8.691552700690592E-4,
+            -0.28294414031268333
+          ],
+          "actualAngle": -0.2757367113862673,
+          "x": 131,
+          "y": 335,
+          "dx": -975,
+          "dy": -221,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -79,
+          "targetPoint": {
+            "x": 254.33333333333334,
+            "y": 383.6666666666667
+          },
+          "hittable": false,
+          "parabola": [
+            -0.04180875271002642,
+            4.706285910872984
+          ],
+          "actualAngle": 1.3614283682372164,
+          "x": 131,
+          "y": 335,
+          "dx": -140,
+          "dy": 990,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -24,
+          "targetPoint": {
+            "x": 274.6666666666667,
+            "y": 383.3333333333333
+          },
+          "hittable": false,
+          "parabola": [
+            -8.48363117508856E-4,
+            -0.21099273220313836
+          ],
+          "actualAngle": -0.20794280596821546,
+          "x": 131,
+          "y": 335,
+          "dx": -988,
+          "dy": -154,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -79,
+          "targetPoint": {
+            "x": 274.6666666666667,
+            "y": 383.3333333333333
+          },
+          "hittable": false,
+          "parabola": [
+            -0.03378948625963814,
+            4.468297027542007
+          ],
+          "actualAngle": 1.3506253937596866,
+          "x": 131,
+          "y": 335,
+          "dx": -156,
+          "dy": 987,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -23,
+          "targetPoint": {
+            "x": 295.0,
+            "y": 383.0
+          },
+          "hittable": false,
+          "parabola": [
+            -8.373742761062121E-4,
+            -0.1525298643845834
+          ],
+          "actualAngle": -0.15136321965809826,
+          "x": 131,
+          "y": 335,
+          "dx": -995,
+          "dy": -97,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -78,
+          "targetPoint": {
+            "x": 295.0,
+            "y": 383.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.028158110672157743,
+            4.280513534032334
+          ],
+          "actualAngle": 1.3412955521654562,
+          "x": 131,
+          "y": 335,
+          "dx": -171,
+          "dy": 985,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -16,
+          "targetPoint": {
+            "x": 294.75,
+            "y": 361.0
+          },
+          "hittable": false,
+          "parabola": [
+            -8.325250804853872E-4,
+            -0.019547431420684224
+          ],
+          "actualAngle": -0.019544942286618076,
+          "x": 131,
+          "y": 335,
+          "dx": -999,
+          "dy": 34,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -77,
+          "targetPoint": {
+            "x": 294.75,
+            "y": 361.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.027155379056097516,
+            4.244743473434518
+          ],
+          "actualAngle": 1.3394295838466102,
+          "x": 131,
+          "y": 335,
+          "dx": -174,
+          "dy": 984,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -9,
+          "targetPoint": {
+            "x": 294.5,
+            "y": 339.0
+          },
+          "hittable": false,
+          "parabola": [
+            -8.57966948033525E-4,
+            0.11874846104353032
+          ],
+          "actualAngle": 0.11819497132360465,
+          "x": 131,
+          "y": 335,
+          "dx": -985,
+          "dy": 170,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -77,
+          "targetPoint": {
+            "x": 294.5,
+            "y": 339.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.026140459407253718,
+            4.207697869506921
+          ],
+          "actualAngle": 1.3374654066688776,
+          "x": 131,
+          "y": 335,
+          "dx": -178,
+          "dy": 983,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -2,
+          "targetPoint": {
+            "x": 294.25,
+            "y": 317.0
+          },
+          "hittable": false,
+          "parabola": [
+            -9.187510491467588E-4,
+            0.26315320462118114
+          ],
+          "actualAngle": 0.2573193286143322,
+          "x": 131,
+          "y": 335,
+          "dx": -952,
+          "dy": 304,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -76,
+          "targetPoint": {
+            "x": 294.25,
+            "y": 317.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.025117809134220813,
+            4.169453341219465
+          ],
+          "actualAngle": 1.3354030206322582,
+          "x": 131,
+          "y": 335,
+          "dx": -181,
+          "dy": 983,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": 4,
+          "targetPoint": {
+            "x": 294.0,
+            "y": 295.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.0010211610439388023,
+            0.4146560001032256
+          ],
+          "actualAngle": 0.3930766668415648,
+          "x": 131,
+          "y": 335,
+          "dx": -903,
+          "dy": 428,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -74,
+          "targetPoint": {
+            "x": 294.0,
+            "y": 295.0
+          },
+          "hittable": false,
+          "parabola": [
+            -0.024046172129382943,
+            4.128314100822134
+          ],
+          "actualAngle": 1.3331442168778658,
+          "x": 131,
+          "y": 335,
+          "dx": -185,
+          "dy": 982,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": 8,
+          "targetPoint": {
+            "x": 271.2,
+            "y": 295.2
+          },
+          "hittable": false,
+          "parabola": [
+            -0.0010362399544823085,
+            0.4329381278267641
+          ],
+          "actualAngle": 0.4085750541769236,
+          "x": 131,
+          "y": 335,
+          "dx": -896,
+          "dy": 442,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -75,
+          "targetPoint": {
+            "x": 271.2,
+            "y": 295.2
+          },
+          "hittable": false,
+          "parabola": [
+            -0.028977266856215454,
+            4.309159234168552
+          ],
+          "actualAngle": 1.342768685048756,
+          "x": 131,
+          "y": 335,
+          "dx": -169,
+          "dy": 985,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": 12,
+          "targetPoint": {
+            "x": 248.4,
+            "y": 295.4
+          },
+          "hittable": false,
+          "parabola": [
+            -0.0010664022079333812,
+            0.4675442720961225
+          ],
+          "actualAngle": 0.43734757879853114,
+          "x": 131,
+          "y": 335,
+          "dx": -883,
+          "dy": 467,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -75,
+          "targetPoint": {
+            "x": 248.4,
+            "y": 295.4
+          },
+          "hittable": false,
+          "parabola": [
+            -0.036151202729189084,
+            4.541486971503096
+          ],
+          "actualAngle": 1.3540627038207187,
+          "x": 131,
+          "y": 335,
+          "dx": -151,
+          "dy": 988,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": 17,
+          "targetPoint": {
+            "x": 225.60000000000002,
+            "y": 295.6
+          },
+          "hittable": false,
+          "parabola": [
+            -0.0011260640841385772,
+            0.5298397168753123
+          ],
+          "actualAngle": 0.4872334379995075,
+          "x": 131,
+          "y": 335,
+          "dx": -860,
+          "dy": 510,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -76,
+          "targetPoint": {
+            "x": 225.60000000000002,
+            "y": 295.6
+          },
+          "hittable": false,
+          "parabola": [
+            -0.0473593125500212,
+            4.856223920403336
+          ],
+          "actualAngle": 1.3677137352059607,
+          "x": 131,
+          "y": 335,
+          "dx": -131,
+          "dy": 991,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": 24,
+          "targetPoint": {
+            "x": 202.8,
+            "y": 295.8
+          },
+          "hittable": false,
+          "parabola": [
+            -0.001255602192719978,
+            0.6457725495939245
+          ],
+          "actualAngle": 0.5733976319388623,
+          "x": 131,
+          "y": 335,
+          "dx": -814,
+          "dy": 580,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        },
+        {
+          "impactAngle": -76,
+          "targetPoint": {
+            "x": 202.8,
+            "y": 295.8
+          },
+          "hittable": false,
+          "parabola": [
+            -0.06725580961956702,
+            5.32876569312071
+          ],
+          "actualAngle": 1.3852931209466686,
+          "x": 131,
+          "y": 335,
+          "dx": -109,
+          "dy": 993,
+          "t_shot": 0,
+          "t_tap": 0,
+          "timeOfFlight": 0,
+          "velocity": 0.0
+        }
+      ],
+      "x": 180,
+      "y": 295,
+      "width": 115,
+      "height": 89
+    }
+  ],
+  "blocks": [],
+  "tnts": [],
+  "groundPlaneY": 384
+}

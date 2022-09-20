@@ -3,8 +3,6 @@ package de.uniba.sme.bambirds.planner.physicssimulation.scene;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.awt.image.BufferedImage;
-import java.awt.geom.Point2D;
 
 import de.uniba.sme.bambirds.common.database.ScreenScale;
 import de.uniba.sme.bambirds.common.objects.ab.ABObject;
@@ -14,7 +12,7 @@ import de.uniba.sme.bambirds.common.objects.ab.shape.Circle;
 
 import java.io.Serializable;
 
-import de.uniba.sme.bambirds.common.objects.AbstractScene;
+import de.uniba.sme.bambirds.common.database.AbstractScene;
 import de.uniba.sme.bambirds.planner.physicssimulation.scene.entities.properties.EntityPropertiesLUT;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -81,7 +79,7 @@ public class SerializableScene  implements Serializable {
 	protected void generateIDsPerList(List<ABObject> list) {
 		int counter = 0;
 		for (ABObject obj : list)
-			obj.globalID = obj.getType().toString().toLowerCase() + counter++;
+			obj.setGlobalID(obj.getType().toString().toLowerCase() + counter++);
 	}
 
 	public Slingshot getSlingshot() {
@@ -188,7 +186,7 @@ public class SerializableScene  implements Serializable {
 		for (ABObject b : birds) {
 			if (!(b instanceof Circle))
 				continue;
-			sum += ScreenScale.birds[b.type.id()].radius / ((Circle) b).r;
+			sum += ScreenScale.BIRDS[b.getType().id()].getRadius() / ((Circle) b).getRadius();
 			count++;
 		}
 		return sum / count;
@@ -203,7 +201,7 @@ public class SerializableScene  implements Serializable {
 	 */
 	public ABObject findObjectWithID(String id) {
 		for (ABObject o : _allObjects)
-			if (o.globalID.equals(id))
+			if (o.getGlobalID().equals(id))
 				return o;
 		return null;
 	}

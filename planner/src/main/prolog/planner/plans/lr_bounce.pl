@@ -1,14 +1,17 @@
-:- module(plans_lr_bounce, [bounce_last_resort/6, plans_common:plan_last_resort/2, plans_common:plan_last_resort/3]).
+:- module(plans_lr_bounce, [bounce_last_resort/5, plans_common:plan_last_resort/2, plans_common:plan_last_resort/3]).
 :- use_module(planner(ab/objects)).
 :- use_module(planner(geometric)).
 :- use_module(planner(shot)).
 :- use_module(common).
 :- use_module(planner(data)).
 
-plans_common:plan_last_resort(Bird, plan{bird:Bird, shot:Shot, target_object:Target, impact_angle:ImpactAngle, strategy:"simpleBounceLR", confidence:C, reasons:Pigs}) :-
-	bounce_last_resort(Bird, Target, ImpactAngle, C, Pigs, Shot).
-plans_common:plan_last_resort(Bird, Target, plan{bird:Bird, shot:Shot, target_object:FirstHit, impact_angle:ImpactAngle, strategy:"simpleBounceLR", confidence:C, reasons:[Target]}) :-
-	bounce_last_resort(Bird, FirstHit, ImpactAngle, C, [Target], Shot).
+plans_common:plan_last_resort(Bird, plan{bird:Bird, shot:Shot, target_object:Target, impact_angle:ImpactAngle, strategy:"simpleBounceLR", confidence:C, reasons:Reasons}) :-
+	bounce_last_resort(Bird, Target, C, Reasons, UUID),
+	shot_params_dict(UUID, Shot, ImpactAngle).
+plans_common:plan_last_resort(Bird, Target, plan{bird:Bird, shot:Shot, target_object:FirstHit, impact_angle:ImpactAngle, strategy:"simpleBounceLR", confidence:C, reasons:Reasons}) :-
+	bounce_last_resort(Bird, FirstHit, C, Reasons, UUID),
+	member(destroy(Target), Reasons),
+	shot_params_dict(UUID, Shot, ImpactAngle).
 
 %%%
 %%% last resort: make bird bounce onto target
@@ -88,7 +91,7 @@ can_bounce_off(OX, OY, TX, TY, Para_A, Para_B, DIR, Conf) :-
 	DA is (abs(180.0*acos(MX/ML*cos(DIR)+MY/ML*sin(DIR))/pi)),
 %    writeln([SDY,SL,TDX,TDY,TL,MX,MY, DA]),
 	((abs(90-DA) < 10, TL<50) ->
- Conf is 1.0 ; Conf is 0.51),
+ Conf is 0.9 ; Conf is 0.51),
 	abs(90-DA) < 30.
 %    writeln([DIR, OX, OY, TX, TY, DA]).
 
@@ -96,7 +99,7 @@ can_bounce_off(OX, OY, TX, TY, Para_A, Para_B, DIR, Conf) :-
 % we can bounce onto the target if there's a straight line to a reflection point
 % on a hill target. For such lines we need to check that the reflection point is
 % hittable
-bounce_last_resort(Bird, Object, ShotAngle, Conf, [Target], shot{sling_x:X0_INT, sling_y:Y0_INT, drag_x:RX, drag_y:RY, target_x:OX, target_y:OY, tap_time:TAP_INT}) :-
+bounce_last_resort(Bird, Object, Conf, [destroy(Target)], UUID) :-
 	hasColor(Bird, C),
 	member(C, [red,blue,yellow]), 
 	is_goal(Target, _),
@@ -112,16 +115,11 @@ bounce_last_resort(Bird, Object, ShotAngle, Conf, [Target], shot{sling_x:X0_INT,
 %		OYY is -0.05*OY,
 %   writeln([OXX, OYY]),
 	hill(Object),
-	shots_at_point(Bird, OX, OY, Shots),
-	member([_,_,A_RAD, Para_A, Para_B, Obstacles,TAP,RX,RY], Shots), % find shot...
+	shots_at_point(Bird, Object, OX, OY, Shots),
+	member([UUID, Obstacles], Shots), % find shot...
 %    writeln(['obstacles', A_RAD, Obstacles]),
 	( Obstacles=[] ; (Obstacles=[[Object,BX, BY] | _],
 				((BX-OX)^2 + (BY-OY)^2) < 8 % close-by, rounding errors
 			 )),              % without obstacles
-	can_bounce_off(OX, OY, X, Y, Para_A, Para_B, DIR, Conf),
-%    writeln([Para_A, Para_B]),
-	slingshotPivot(X0,Y0),
-	X0_INT is round(X0),
-	Y0_INT is round(Y0),
-	TAP_INT is round(TAP),
-	ShotAngle is round(180.0*(A_RAD / pi)).
+	parabola(Target, UUID, _, _, Para_A, Para_B),
+	can_bounce_off(OX, OY, X, Y, Para_A, Para_B, DIR, Conf).

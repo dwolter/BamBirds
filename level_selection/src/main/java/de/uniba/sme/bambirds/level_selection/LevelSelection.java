@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import de.uniba.sme.bambirds.common.database.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,8 +15,6 @@ import de.uniba.sme.bambirds.common.utils.Settings;
 import de.uniba.sme.bambirds.level_selection.Action.Strategy;
 import de.uniba.sme.bambirds.level_selection.Prediction.ClassifierType;
 import de.uniba.sme.bambirds.level_selection.Prediction.RegressorType;
-import de.uniba.sme.bambirds.common.objects.Level;
-import de.uniba.sme.bambirds.common.objects.Level.State;
 
 public class LevelSelection {
 	private static final Logger log = LogManager.getLogger(LevelSelection.class);
@@ -62,7 +61,7 @@ public class LevelSelection {
 
 		// Currently best performing pair of Cassifier and Regressor is Decision Tree
 		// and Linear Model
-		ClassifierType classifierType = ClassifierType.DECISION_TREE;
+		ClassifierType classifierType = ClassifierType.RANDOM_FOREST;
 		RegressorType regressorType = RegressorType.LINEAR_MODEL;
 		this.prediction = new Prediction(numberOfLevels, classifierType, regressorType);
 		this.decision = new Decision(true);
@@ -139,7 +138,7 @@ public class LevelSelection {
 
 			Map<Integer, Integer> maxScores = new HashMap<>();
 			Map<Integer, Long> costs = new HashMap<>();
-			Map<Integer, State> levelStates = new HashMap<>();
+			Map<Integer, Level.State> levelStates = new HashMap<>();
 
 			for (Integer levelId : playedLevels) {
 				Level level = levelStorage.getLevelById(levelId);

@@ -1,10 +1,7 @@
 package de.uniba.sme.bambirds.vision;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.uniba.sme.bambirds.common.exceptions.SceneInitialisationException;
-import de.uniba.sme.bambirds.common.objects.AbstractScene;
+import de.uniba.sme.bambirds.common.database.AbstractScene;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 

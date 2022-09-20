@@ -90,8 +90,10 @@ poly_parabola_intersection(P0, [_, P2 | PREST], X0, Y0, DXMAX, A, B, HX) :-
 %%
 %%
 
+filter_greater_than(Xs, X0, FilteredXs) :-
+	findall(X, (member(X, Xs), X > X0), FilteredXs).
 
-parabola_crosses_shape(rect, CX, CY, [W,H,Angle], X0, Y0, DXMAX, A, B, HITX) :-
+parabola_crosses_shape(rect, CX, CY, [W,H,Angle], X0, Y0, DXMAX, A, B, MinHitX) :-
 	%% width (W) is in Y direction @ ANGLE=0
 	%% length (H) is in X direction @ ANGLE=0
 	%% NB: rotation is clock-wise!
@@ -101,19 +103,41 @@ parabola_crosses_shape(rect, CX, CY, [W,H,Angle], X0, Y0, DXMAX, A, B, HITX) :-
 	YR is (0.5*W),
 	rot_shift(Angle, CX, CY, [[-XR,-YR], [-XR,YR], [XR,YR], [XR,-YR]], POINTS),
 	POINTS = [P1 | _],
-	findall(HX, poly_parabola_intersection(P1, POINTS, X0, Y0, DXMAX, A, B, HX), HITXS),
-	min_list(HITXS, HITX).
+	findall(HX, poly_parabola_intersection(P1, POINTS, X0, Y0, DXMAX, A, B, HX), HitsX),
+	filter_greater_than(HitsX, X0, ValidHitsX),
+	min_list(ValidHitsX, MinHitX).
 
-parabola_crosses_shape(ball, CX, CY, [R], X0, Y0, _, A, B, HX) :- % FIXME: add true shape test
-	XStart is CX-X0-R,
-	XEnd is CX-X0+R,
-	YStart is Y0 - A*XStart*XStart - B*XStart,
-	YEnd is Y0 - A*XEnd*XEnd - B*XEnd,
-	line_crosses_shape(ball, CX, CY, [R], XStart, YStart, XEnd, YEnd, HX, _).
+parabola_crosses_shape(ball, CX, CY, [R], X0, Y0, DXMAX, A, B, HX) :-
+	XStart is CX-R,
+	XEnd is CX+R,
+	DXStart is XStart-X0,
+	DXStart < DXMAX,
+	DXEnd is XEnd-X0,
+	YStart is Y0 - (A*DXStart*DXStart + B*DXStart),
+	YEnd is Y0 - (A*DXEnd*DXEnd + B*DXEnd),
+	line_crosses_shape(ball, CX, CY, [R], XStart, YStart, XEnd, YEnd, PossibleHX, _),
+	ActualHitY is Y0 + (A*PossibleHX*PossibleHX + B*PossibleHX),
+	(
+		(ActualHitY >= (CY - R) , ActualHitY =< (CY + R)) -> 
+		HX = PossibleHX;
+		(
+			% Because the line intersection is quite bad with very steep parabolas, we need to redo the calculactions
+			XBetterStart is PossibleHX - 3,
+			XBetterEnd is PossibleHX + 3,
+			DXBetterStart is XBetterStart-X0,
+			DXBetterEnd is XBetterEnd-X0,
+			YBetterStart is Y0 - (A*DXBetterStart*DXBetterStart + B*DXBetterStart),
+			YBetterEnd is Y0 - (A*DXBetterEnd*DXBetterEnd + B*DXBetterEnd),
+			line_crosses_shape(ball, CX, CY, [R], XBetterStart, YBetterStart, XBetterEnd, YBetterEnd, HX, _)
+		)
+	),
+	(HX-X0) < DXMAX.
 
-parabola_crosses_shape(poly, _, _, [_ | [P1 | POINTS]], X0, Y0, DXMAX, A, B, HX) :-
-	findall(HX, poly_parabola_intersection(P1, [P1 | POINTS], X0, Y0, DXMAX, A, B, HX), HXS),
-	min_list(HXS, HX).
+parabola_crosses_shape(poly, _, _, [_ | [P1 | POINTS]], X0, Y0, DXMAX, A, B, MinHitX) :-
+	findall(HX, poly_parabola_intersection(P1, [P1 | POINTS], X0, Y0, DXMAX, A, B, HX), HitsX),
+	filter_greater_than(HitsX, X0, ValidHitsX),
+	min_list(ValidHitsX, MinHitX).
+
 parabola_crosses_shape(unknown, CX, _, _, _, _, _, _, _, CX). 
 
 
@@ -144,16 +168,16 @@ line_crosses_shape(ball, CX, CY, [R], LX1, LY1, LX2, LY2, HITX, HITY) :-
 	A is (LX2 - LX1)^2 + (LY2 - LY1)^2,
 	B is 2*(LX2 - LX1)*(LX1 - CX) + 2*(LY2-LY1)*(LY1-CY),
 	C is (LX1 - CX)^2 + (LY1 - CY)^2 - R^2,
-	ROOTTERM is B^2-4*A*C,
+	ROOTTERM is (B^2)-(4*A*C),
 	ROOTTERM >= 0,
 	T1 is (sqrt(ROOTTERM) - B) / (2*A),
 	T2 is (sqrt(ROOTTERM) + B) / (2*A),
 	member(T, [T1,T2]),
-	T>=0,
-	T=<1,
+	T=<0,
+	T>=(-1),
 	!,
-	HITX is (LX2-LX1)*T + LX1,
-	HITY is (LY2-LY1)*T + LY1.
+	HITX is (LX2-LX1)*(-T) + LX1,
+	HITY is (LY2-LY1)*(-T) + LY1.
 
 line_crosses_shape(poly, _, _, [_ | [P1 | POINTS]], LX1,LY1,LX2,LY2, HITX, HITY) :-
 	poly_line_intersection(P1, [P1 | POINTS], LX1, LY1, LX2, LY2, HITX, HITY).

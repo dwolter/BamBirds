@@ -1,5 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1execution_1_1_shot_executor_1_1_shot_executor_callback.html" title=" " alt="" coords="5,5,240,47"/>
-<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1_meta.html" title=" " alt="" coords="288,46,479,73"/>
-<area shape="rect" id="node3" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1execution_1_1_shot_executor_1_1_strategy_callback.html" title=" " alt="" coords="12,71,233,112"/>
+<area shape="rect" id="node1" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1proxy_1_1_proxy_message.html" title=" " alt="" coords="5,104,296,145"/>
+<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1proxy_1_1message_1_1_proxy_click_message.html" title=" " alt="" coords="344,5,697,47"/>
+<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1proxy_1_1message_1_1_proxy_drag_message.html" title=" " alt="" coords="344,71,697,112"/>
+<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1proxy_1_1message_1_1_proxy_mouse_wheel_message.html" title=" " alt="" coords="344,136,697,177"/>
+<area shape="rect" id="node5" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1proxy_1_1message_1_1_proxy_screenshot_message.html" title=" " alt="" coords="344,201,697,243"/>
 </map>

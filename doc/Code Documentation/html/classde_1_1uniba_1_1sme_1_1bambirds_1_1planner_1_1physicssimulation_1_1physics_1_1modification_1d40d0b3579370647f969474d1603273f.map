@@ -1,5 +1,7 @@
 <map id="de.uniba.sme.bambirds.planner.physicssimulation.physics.modification.tracking.CollisionTracker" name="de.uniba.sme.bambirds.planner.physicssimulation.physics.modification.tracking.CollisionTracker">
-<area shape="rect" id="node1" title=" " alt="" coords="512,35,999,76"/>
-<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_1_1_i_world_modifier.html" title=" " alt="" coords="5,5,443,47"/>
-<area shape="rect" id="node3" title=" " alt="" coords="193,71,255,98"/>
+<area shape="rect" id="node1" title=" " alt="" coords="724,89,1275,131"/>
+<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_1_1_i_world_modifier.html" title=" " alt="" coords="36,5,529,47"/>
+<area shape="rect" id="node3" title=" " alt="" coords="249,71,316,98"/>
+<area shape="rect" id="node4" title=" " alt="" coords="211,122,355,149"/>
+<area shape="rect" id="node5" title=" " alt="" coords="5,173,560,244"/>
 </map>

@@ -1,24 +1,15 @@
 <map id="de.uniba.sme.bambirds.vision.Vision" name="de.uniba.sme.bambirds.vision.Vision">
-<area shape="rect" id="node1" title=" " alt="" coords="1915,486,2112,527"/>
-<area shape="rect" id="node2" title=" " alt="" coords="622,209,726,236"/>
-<area shape="rect" id="node6" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_sling.html" title=" " alt="" coords="1335,363,1532,405"/>
-<area shape="rect" id="node7" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_visual_debugger.html" title=" " alt="" coords="957,305,1199,346"/>
-<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_m_b_r.html" title=" " alt="" coords="1604,486,1801,527"/>
-<area shape="rect" id="node4" title=" " alt="" coords="299,397,360,424"/>
-<area shape="rect" id="node8" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame.html" title=" " alt="" coords="553,261,795,302"/>
-<area shape="rect" id="node19" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_object.html" title=" " alt="" coords="939,735,1217,777"/>
-<area shape="rect" id="node5" title=" " alt="" coords="634,493,714,520"/>
-<area shape="rect" id="node16" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_real_shape.html" title=" " alt="" coords="1335,670,1532,711"/>
-<area shape="rect" id="node9" title=" " alt="" coords="26,5,91,32"/>
-<area shape="rect" id="node10" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html" title=" " alt="" coords="208,142,451,183"/>
-<area shape="rect" id="node11" title=" " alt="" coords="28,107,89,133"/>
-<area shape="rect" id="node12" title=" " alt="" coords="13,157,104,184"/>
-<area shape="rect" id="node13" title=" " alt="" coords="5,208,112,235"/>
-<area shape="rect" id="node14" title=" " alt="" coords="6,56,111,83"/>
-<area shape="rect" id="node15" title=" " alt="" coords="30,260,87,287"/>
-<area shape="rect" id="node17" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1real_1_1_image_segmenter.html" title=" " alt="" coords="967,670,1189,711"/>
-<area shape="rect" id="node18" title=" " alt="" coords="648,672,700,699"/>
-<area shape="rect" id="node20" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_type.html" title=" " alt="" coords="535,786,813,827"/>
-<area shape="rect" id="node21" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_shape.html" title=" " alt="" coords="535,851,813,893"/>
-<area shape="rect" id="node22" title=" " alt="" coords="1052,801,1104,828"/>
+<area shape="rect" id="node1" title=" " alt="" coords="1472,129,1695,170"/>
+<area shape="rect" id="node2" title=" " alt="" coords="138,5,257,32"/>
+<area shape="rect" id="node6" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_sling.html" title=" " alt="" coords="631,129,854,170"/>
+<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_m_b_r.html" title=" " alt="" coords="1088,129,1311,170"/>
+<area shape="rect" id="node4" title=" " alt="" coords="164,101,231,128"/>
+<area shape="rect" id="node11" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_object.html" title=" " alt="" coords="587,309,898,350"/>
+<area shape="rect" id="node5" title=" " alt="" coords="154,264,241,291"/>
+<area shape="rect" id="node7" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_real_shape.html" title=" " alt="" coords="1088,407,1311,449"/>
+<area shape="rect" id="node8" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1real_1_1_image_segmenter.html" title=" " alt="" coords="617,581,868,622"/>
+<area shape="rect" id="node9" title=" " alt="" coords="5,487,389,529"/>
+<area shape="rect" id="node10" title=" " alt="" coords="568,515,917,557"/>
+<area shape="rect" id="node12" title=" " alt="" coords="529,646,956,687"/>
+<area shape="rect" id="node13" title=" " alt="" coords="715,257,770,284"/>
 </map>

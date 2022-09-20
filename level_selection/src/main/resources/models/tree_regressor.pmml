@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
+<PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
 	<Header>
-		<Application name="JPMML-SkLearn" version="1.5.31"/>
-		<Timestamp>2020-03-04T17:00:05Z</Timestamp>
+		<Application name="JPMML-SkLearn library" version="1.7.10"/>
+		<Timestamp>2022-07-22T01:05:27Z</Timestamp>
 	</Header>
 	<MiningBuildTask>
-		<Extension>PMMLPipeline(steps=[('regressor', DecisionTreeRegressor(ccp_alpha=0.0, criterion='friedman_mse', max_depth=5,
-                      max_features=None, max_leaf_nodes=None,
-                      min_impurity_decrease=0.0, min_impurity_split=None,
-                      min_samples_leaf=1, min_samples_split=2,
-                      min_weight_fraction_leaf=0.0, presort='deprecated',
-                      random_state=None, splitter='best'))])</Extension>
+		<Extension name="repr">PMMLPipeline(steps=[('regressor', DecisionTreeRegressor(criterion='friedman_mse', max_depth=5))])</Extension>
 	</MiningBuildTask>
 	<DataDictionary>
 		<DataField name="num_score" optype="continuous" dataType="double"/>
@@ -24,38 +19,34 @@
 		<DataField name="num_times_played" optype="continuous" dataType="float"/>
 		<DataField name="numerical_strategies" optype="continuous" dataType="float"/>
 	</DataDictionary>
-	<TransformationDictionary/>
-	<TreeModel functionName="regression" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
+	<TreeModel functionName="regression" algorithmName="sklearn.tree._classes.DecisionTreeRegressor" missingValueStrategy="nullPrediction" noTrueChildStrategy="returnLastPrediction">
 		<MiningSchema>
 			<MiningField name="num_score" usageType="target"/>
 			<MiningField name="num_destroyable_objects"/>
-			<MiningField name="num_pigs"/>
-			<MiningField name="num_generated_shots"/>
-			<MiningField name="num_line_segments_hills"/>
-			<MiningField name="max_score"/>
 			<MiningField name="num_birds"/>
+			<MiningField name="max_score"/>
+			<MiningField name="num_generated_shots"/>
+			<MiningField name="num_times_played"/>
 			<MiningField name="numerical_strategies"/>
 			<MiningField name="num_strategies"/>
-			<MiningField name="num_times_played"/>
+			<MiningField name="num_pigs"/>
+			<MiningField name="num_line_segments_hills"/>
 		</MiningSchema>
 		<LocalTransformations>
 			<DerivedField name="double(num_destroyable_objects)" optype="continuous" dataType="double">
 				<FieldRef field="num_destroyable_objects"/>
 			</DerivedField>
-			<DerivedField name="double(num_pigs)" optype="continuous" dataType="double">
-				<FieldRef field="num_pigs"/>
-			</DerivedField>
-			<DerivedField name="double(num_generated_shots)" optype="continuous" dataType="double">
-				<FieldRef field="num_generated_shots"/>
-			</DerivedField>
-			<DerivedField name="double(num_line_segments_hills)" optype="continuous" dataType="double">
-				<FieldRef field="num_line_segments_hills"/>
+			<DerivedField name="double(num_birds)" optype="continuous" dataType="double">
+				<FieldRef field="num_birds"/>
 			</DerivedField>
 			<DerivedField name="double(max_score)" optype="continuous" dataType="double">
 				<FieldRef field="max_score"/>
 			</DerivedField>
-			<DerivedField name="double(num_birds)" optype="continuous" dataType="double">
-				<FieldRef field="num_birds"/>
+			<DerivedField name="double(num_generated_shots)" optype="continuous" dataType="double">
+				<FieldRef field="num_generated_shots"/>
+			</DerivedField>
+			<DerivedField name="double(num_times_played)" optype="continuous" dataType="double">
+				<FieldRef field="num_times_played"/>
 			</DerivedField>
 			<DerivedField name="double(numerical_strategies)" optype="continuous" dataType="double">
 				<FieldRef field="numerical_strategies"/>
@@ -63,101 +54,104 @@
 			<DerivedField name="double(num_strategies)" optype="continuous" dataType="double">
 				<FieldRef field="num_strategies"/>
 			</DerivedField>
-			<DerivedField name="double(num_times_played)" optype="continuous" dataType="double">
-				<FieldRef field="num_times_played"/>
+			<DerivedField name="double(num_pigs)" optype="continuous" dataType="double">
+				<FieldRef field="num_pigs"/>
+			</DerivedField>
+			<DerivedField name="double(num_line_segments_hills)" optype="continuous" dataType="double">
+				<FieldRef field="num_line_segments_hills"/>
 			</DerivedField>
 		</LocalTransformations>
-		<Node score="118820.0">
+		<Node score="155390.0">
 			<True/>
-			<Node score="48936.0">
-				<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="33.5"/>
-				<Node score="34250.0">
-					<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="14.5"/>
-					<Node score="19271.666666666668">
-						<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="3.5"/>
-						<Node score="7938.148148148148">
-							<SimplePredicate field="double(num_generated_shots)" operator="lessOrEqual" value="18.0"/>
-							<Node score="5040.0">
-								<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="2.5"/>
+			<Node score="78470.0">
+				<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="35.5"/>
+				<Node score="22460.0">
+					<SimplePredicate field="double(num_birds)" operator="lessOrEqual" value="2.5"/>
+					<Node score="7694.666666666667">
+						<SimplePredicate field="double(num_birds)" operator="lessOrEqual" value="1.5"/>
+						<Node score="13830.0">
+							<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="8410.0"/>
+							<Node score="6348.604651162791">
+								<SimplePredicate field="double(num_generated_shots)" operator="lessOrEqual" value="36.0"/>
 							</Node>
 						</Node>
-						<Node score="13244.421052631578">
-							<SimplePredicate field="double(num_generated_shots)" operator="lessOrEqual" value="60.0"/>
+						<Node score="11106.25">
+							<SimplePredicate field="double(num_times_played)" operator="lessOrEqual" value="3.5"/>
 						</Node>
 					</Node>
-					<Node score="23086.25">
-						<SimplePredicate field="double(num_line_segments_hills)" operator="lessOrEqual" value="13.0"/>
-						<Node score="27355.0">
-							<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="11100.0"/>
+					<Node score="16660.0">
+						<SimplePredicate field="double(num_generated_shots)" operator="lessOrEqual" value="19.0"/>
+						<Node score="8870.0">
+							<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="4.5"/>
 						</Node>
 					</Node>
+					<Node score="26672.0">
+						<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="10.0"/>
+					</Node>
 				</Node>
-				<Node score="57715.0">
-					<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="6.5"/>
-					<Node score="6640.0">
-						<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="38410.0"/>
-						<Node score="31109.6">
-							<SimplePredicate field="double(num_generated_shots)" operator="lessOrEqual" value="204.0"/>
+				<Node score="63720.0">
+					<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="53615.0"/>
+					<Node score="33195.53571428572">
+						<SimplePredicate field="double(numerical_strategies)" operator="lessOrEqual" value="32.5"/>
+						<Node score="19009.23076923077">
+							<SimplePredicate field="double(num_strategies)" operator="lessOrEqual" value="3.0"/>
 						</Node>
 					</Node>
-					<Node score="41502.77777777778">
-						<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="55765.0"/>
+					<Node score="40387.97101449275">
+						<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="7.0"/>
 					</Node>
 				</Node>
-				<Node score="78426.66666666667">
-					<SimplePredicate field="double(num_birds)" operator="lessOrEqual" value="4.5"/>
-					<Node score="65652.5">
-						<SimplePredicate field="double(num_line_segments_hills)" operator="lessOrEqual" value="13.5"/>
+				<Node score="58055.882352941175">
+					<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="8.5"/>
+					<Node score="48823.333333333336">
+						<SimplePredicate field="double(num_times_played)" operator="lessOrEqual" value="1.5"/>
 					</Node>
 				</Node>
-				<Node score="59140.0">
-					<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="29385.0"/>
+				<Node score="65640.0">
+					<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="26.5"/>
 				</Node>
 			</Node>
-			<Node score="98558.75">
-				<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="75785.0"/>
-				<Node score="66903.75">
-					<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="46.5"/>
-					<Node score="45998.970588235294">
-						<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="52390.0"/>
-						<Node score="25547.5">
-							<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="1.5"/>
-						</Node>
-					</Node>
-					<Node score="55228.333333333336">
-						<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="65680.0"/>
-					</Node>
-				</Node>
-				<Node score="57230.17857142857">
+			<Node score="164000.0">
+				<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="85325.0"/>
+				<Node score="83309.41176470589">
 					<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="77.5"/>
-					<Node score="67998.26086956522">
-						<SimplePredicate field="double(numerical_strategies)" operator="lessOrEqual" value="37.5"/>
+					<Node score="60677.8431372549">
+						<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="4.5"/>
+						<Node score="44754.339622641506">
+							<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="47.5"/>
+						</Node>
+					</Node>
+					<Node score="63941.083333333336">
+						<SimplePredicate field="double(num_strategies)" operator="lessOrEqual" value="123.0"/>
 					</Node>
 				</Node>
-				<Node score="81165.0">
-					<SimplePredicate field="double(num_strategies)" operator="lessOrEqual" value="21.0"/>
-				</Node>
-			</Node>
-			<Node score="89135.0">
-				<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="101800.0"/>
-				<Node score="83475.33333333333">
-					<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="7.5"/>
-					<Node score="71675.0">
-						<SimplePredicate field="double(num_generated_shots)" operator="lessOrEqual" value="297.0"/>
+				<Node score="65200.0">
+					<SimplePredicate field="double(num_strategies)" operator="lessOrEqual" value="330.0"/>
+					<Node score="105435.0">
+						<SimplePredicate field="double(num_line_segments_hills)" operator="lessOrEqual" value="43.0"/>
 					</Node>
 				</Node>
-				<Node score="93235.55555555556">
-					<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="92345.0"/>
+			</Node>
+			<Node score="83001.66666666667">
+				<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="111850.0"/>
+				<Node score="107914.0">
+					<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="62.0"/>
+					<Node score="94049.28571428571">
+						<SimplePredicate field="double(num_destroyable_objects)" operator="lessOrEqual" value="56.0"/>
+					</Node>
+				</Node>
+				<Node score="94622.5">
+					<SimplePredicate field="double(numerical_strategies)" operator="lessOrEqual" value="93.5"/>
 				</Node>
 			</Node>
-			<Node score="110535.0">
-				<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="104690.0"/>
-				<Node score="96922.5">
-					<SimplePredicate field="double(num_times_played)" operator="lessOrEqual" value="3.5"/>
+			<Node score="122120.0">
+				<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="7.5"/>
+				<Node score="112275.0">
+					<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="6.0"/>
 				</Node>
 			</Node>
-			<Node score="109227.5">
-				<SimplePredicate field="double(max_score)" operator="lessOrEqual" value="120485.0"/>
+			<Node score="161850.0">
+				<SimplePredicate field="double(num_pigs)" operator="lessOrEqual" value="11.5"/>
 			</Node>
 		</Node>
 	</TreeModel>

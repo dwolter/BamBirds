@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.concurrent.Semaphore;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,27 +34,39 @@ import org.apache.logging.log4j.Logger;
  * messages into java objects.
  */
 public class ABActionRobot implements ActionRobot {
-	private static final Logger log = LogManager.getLogger(ABActionRobot.class);
-	Socket requestSocket;
-	OutputStream out;
-	InputStream in;
-	String message;
+	private static final Logger LOG = LogManager.getLogger(ABActionRobot.class);
 
-	public ABActionRobot(String... ip) throws ServerException {
-		String _ip = "localhost";
-		if (ip.length > 0) {
-			_ip = ip[0];
+	private static final int RECEIVE_BUFFER_SIZE = 100000;
+	private static final String DEFAULT_IP = "localhost";
+	private static final int DEFAULT_PORT = 2004;
+	private static final int SCREENSHOT_BYTE_COUNT = 3;
+	private static final int SCREENSHOT_BUFFER_CHUNK_SIZE = 3;
+
+	private Socket requestSocket;
+	private OutputStream out;
+	private InputStream in;
+
+	private final Semaphore token = new Semaphore(1, true);
+
+	public ABActionRobot(final String... args) throws ServerException {
+		String ip = DEFAULT_IP;
+		if (args.length > 0) {
+			ip = args[0];
+		}
+		int port = DEFAULT_PORT;
+		if (args.length > 1) {
+			port = Integer.parseInt(args[1]);
 		}
 		try {
 			// 1. creating a socket to connect to the server
-			requestSocket = new Socket(_ip, 2004);
-			requestSocket.setReceiveBufferSize(100000);
-			log.info("Connected to " + _ip + " in port 2004");
+			requestSocket = new Socket(ip, port);
+			requestSocket.setReceiveBufferSize(RECEIVE_BUFFER_SIZE);
+			LOG.info("Connected to " + ip + " in port 2004");
 			out = requestSocket.getOutputStream();
 			out.flush();
 			in = requestSocket.getInputStream();
 		} catch (UnknownHostException unknownHost) {
-			log.error("You are trying to connect to an unknown host!");
+			LOG.error("You are trying to connect to an unknown host!");
 		} catch (IOException ioException) {
 			close();
 			throw new ServerException(Reason.INVALID_RESPONSE, ioException);
@@ -61,40 +74,44 @@ public class ABActionRobot implements ActionRobot {
 	}
 
 	@Override
-	public byte simpleMessage(byte msg) throws ServerException {
+	public byte simpleMessage(final byte msg) throws ServerException {
 		return simpleMessage(msg, 1)[0];
 	}
 
 	@Override
-	public byte[] simpleMessage(byte msg, int responseLength) throws ServerException {
+	public byte[] simpleMessage(final byte msg, final int responseLength) throws ServerException {
 		return simpleMessage(new byte[] { msg }, responseLength);
 	}
 
 	@Override
-	public byte simpleMessage(byte[] msg) throws ServerException {
+	public byte simpleMessage(final byte[] msg) throws ServerException {
 		return simpleMessage(msg, 1)[0];
 	}
 
 	@Override
-	public byte[] simpleMessage(byte[] msg, int responseLength) throws ServerException {
-		log.trace("Sending message {}", msg);
+	public byte[] simpleMessage(final byte[] msg, final int responseLength) throws ServerException {
 		try {
+			token.acquire();
+			LOG.trace("Sending message {}", msg);
 			out.write(msg);
 			out.flush();
 			byte[] response = new byte[responseLength];
-			log.trace("Received message {}", response);
-			if (in.read(response) == -1)
+			LOG.trace("Received message {}", response);
+			if (in.read(response) == -1) {
 				throw new ServerException(ServerException.Reason.INVALID_RESPONSE);
+			}
 			if (response[0] == -1) {
 				throw new ServerException(ServerException.Reason.SHUTDOWN);
 			}
 			return response;
-		} catch (SocketException e) {
+		} catch (SocketException | InterruptedException e) {
 			// TODO: handle exception
 			throw new ServerException(Reason.INVALID_RESPONSE, e);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			token.release();
 		}
 		return new byte[responseLength];
 	}
@@ -103,63 +120,72 @@ public class ABActionRobot implements ActionRobot {
 	public BufferedImage doScreenShot() throws ServerException {
 		BufferedImage bfImage = null;
 		try {
+			token.acquire();
 			// 2. get Input and Output streams
 			byte[] doScreenShot = ClientMessageEncoder.encodeDoScreenShot();
+			LOG.trace("client executes command: screen shot");
 			out.write(doScreenShot);
 			out.flush();
-			// CustomLogger.info("client executes command: screen shot");
 
 			// Read the message head : 4-byte width and 4-byte height, respectively
-			byte[] bytewidth = new byte[4];
-			byte[] byteheight = new byte[4];
+			byte[] byteWidth = new byte[Integer.BYTES];
+			byte[] byteHeight = new byte[Integer.BYTES];
 			int width, height;
-			if (in.read(bytewidth) == -1) {
+			if (in.read(byteWidth) == -1) {
 				throw new ServerException(ServerException.Reason.INVALID_RESPONSE);
 			}
-			width = ByteUtil.bytesToInt(bytewidth);
+			width = ByteUtil.bytesToInt(byteWidth);
 			if (width == -1) {
 				throw new ServerException(ServerException.Reason.SHUTDOWN);
 			}
-			if (in.read(byteheight) == -1) {
+			if (in.read(byteHeight) == -1) {
 				throw new ServerException(ServerException.Reason.INVALID_RESPONSE);
 			}
-			height = ByteUtil.bytesToInt(byteheight);
+			height = ByteUtil.bytesToInt(byteHeight);
+			LOG.trace("message head read");
 
 			// initialize total bytes of the screenshot message
 			// not include the head
-			int totalBytes = width * height * 3;
+			int totalBytes = width * height * SCREENSHOT_BYTE_COUNT;
 
 			// read the raw RGB data
 			byte[] bytebuffer;
 			// CustomLogger.info(width + " " + height);
-			byte[] imgbyte = new byte[totalBytes];
+			byte[] imgBytes = new byte[totalBytes];
 			int hasReadBytes = 0;
 			while (hasReadBytes < totalBytes) {
-				bytebuffer = new byte[2048];
+				bytebuffer = new byte[SCREENSHOT_BUFFER_CHUNK_SIZE];
 				int nBytes = in.read(bytebuffer);
-				if (nBytes != -1)
-					System.arraycopy(bytebuffer, 0, imgbyte, hasReadBytes, nBytes);
-				else
+				if (nBytes != -1) {
+					System.arraycopy(bytebuffer, 0, imgBytes, hasReadBytes, nBytes);
+				} else {
 					break;
+				}
 				hasReadBytes += nBytes;
 			}
+			LOG.trace("all bytes received");
 
 			// set RGB data using BufferedImage
 			bfImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
-					int R = imgbyte[(y * width + x) * 3] & 0xff;
-					int G = imgbyte[(y * width + x) * 3 + 1] & 0xff;
-					int B = imgbyte[(y * width + x) * 3 + 2] & 0xff;
-					Color color = new Color(R, G, B);
+					int r = imgBytes[(y * width + x) * SCREENSHOT_BYTE_COUNT] & 0xff;
+					int g = imgBytes[(y * width + x) * SCREENSHOT_BYTE_COUNT + 1] & 0xff;
+					int b = imgBytes[(y * width + x) * SCREENSHOT_BYTE_COUNT + 2] & 0xff;
+					Color color = new Color(r, g, b);
 					int rgb;
 					rgb = color.getRGB();
 					bfImage.setRGB(x, y, rgb);
 				}
 			}
+			LOG.trace("image created");
 
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
+		} catch (InterruptedException e) {
+			throw new ServerException(Reason.INVALID_RESPONSE, e);
+		} finally {
+			token.release();
 		}
 		return bfImage;
 
@@ -184,8 +210,8 @@ public class ABActionRobot implements ActionRobot {
 
 	// register team id
 	@Override
-	public byte[] configure(byte[] team_id) throws ServerException {
-		return simpleMessage(ClientMessageEncoder.configure(team_id), 4);
+	public byte[] configure(byte[] teamId) throws ServerException {
+		return simpleMessage(ClientMessageEncoder.configure(teamId), 4);
 	}
 
 	// load a certain level
@@ -205,9 +231,9 @@ public class ABActionRobot implements ActionRobot {
 	public byte shoot(byte[] fx, byte[] fy, byte[] dx, byte[] dy, byte[] t1, byte[] t2, boolean polar)
 			throws ServerException {
 		if (polar)
-			return simpleMessage(ClientMessageEncoder.pshoot(fx, fy, dx, dy, t1, t2));
+			return simpleMessage(ClientMessageEncoder.pShoot(fx, fy, dx, dy, t1, t2));
 		else
-			return simpleMessage(ClientMessageEncoder.cshoot(fx, fy, dx, dy, t1, t2));
+			return simpleMessage(ClientMessageEncoder.cShoot(fx, fy, dx, dy, t1, t2));
 	}
 
 	// send a shot message to execute a shot in the fast mode
@@ -215,9 +241,9 @@ public class ABActionRobot implements ActionRobot {
 	public byte shootFast(byte[] fx, byte[] fy, byte[] dx, byte[] dy, byte[] t1, byte[] t2, boolean polar)
 			throws ServerException {
 		if (polar)
-			return simpleMessage(ClientMessageEncoder.pFastshoot(fx, fy, dx, dy, t1, t2));
+			return simpleMessage(ClientMessageEncoder.pFastShoot(fx, fy, dx, dy, t1, t2));
 		else
-			return simpleMessage(ClientMessageEncoder.cFastshoot(fx, fy, dx, dy, t1, t2));
+			return simpleMessage(ClientMessageEncoder.cFastShoot(fx, fy, dx, dy, t1, t2));
 	}
 
 	/**
@@ -228,10 +254,10 @@ public class ABActionRobot implements ActionRobot {
 	@Override
 	public byte[] shootSequence(byte[]... shots) throws ServerException {
 
-		byte[] msg = ClientMessageEncoder.mergeArray(new byte[] { ClientMessageTable.shootSeq.get() },
+		byte[] msg = ClientMessageEncoder.mergeArrays(new byte[] { ClientMessageTable.shootSeq.get() },
 				new byte[] { (byte) shots.length });
 		for (byte[] shot : shots) {
-			msg = ClientMessageEncoder.mergeArray(msg, new byte[] { ClientMessageTable.cshoot.get() }, shot);
+			msg = ClientMessageEncoder.mergeArrays(msg, new byte[] { ClientMessageTable.cShoot.get() }, shot);
 		}
 
 		return simpleMessage(msg,shots.length);
@@ -240,10 +266,10 @@ public class ABActionRobot implements ActionRobot {
 	@Override
 	public byte[] shootSequenceFast(byte[]... shots) throws ServerException {
 
-		byte[] msg = ClientMessageEncoder.mergeArray(new byte[] { ClientMessageTable.shootSeqFast.get() },
+		byte[] msg = ClientMessageEncoder.mergeArrays(new byte[] { ClientMessageTable.shootSeqFast.get() },
 				new byte[] { (byte) shots.length });
 		for (byte[] shot : shots) {
-			msg = ClientMessageEncoder.mergeArray(msg, new byte[] { ClientMessageTable.cshoot.get() }, shot);
+			msg = ClientMessageEncoder.mergeArrays(msg, new byte[] { ClientMessageTable.cShoot.get() }, shot);
 		}
 
 		return simpleMessage(msg,shots.length);

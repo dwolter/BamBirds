@@ -1,0 +1,21 @@
+**/build
+**/bin
+**/__pycache__
+**/.env
+**/debug
+.vscode
+.idea
+.gradle
+.gitlab
+sim_scenes
+logs
+scripts
+game/Levels
+game/angrybirds-chrome
+doc
+!doc/Team Descriptions
+data
+evaluation
+\?
+situation*
+scene-representation*

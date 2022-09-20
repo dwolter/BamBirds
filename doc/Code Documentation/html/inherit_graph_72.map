@@ -1,3 +1,10 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_prediction_1_1_classifier_type.html" title=" " alt="" coords="5,5,233,47"/>
+<area shape="rect" id="node1" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_model.html" title=" " alt="" coords="5,136,216,177"/>
+<area shape="rect" id="node2" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_classifier_model.html" title=" " alt="" coords="266,71,505,112"/>
+<area shape="rect" id="node5" href="$interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_regressor_model.html" title=" " alt="" coords="264,168,507,209"/>
+<area shape="rect" id="node3" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_decision_tree_classifier_model.html" title=" " alt="" coords="562,5,883,47"/>
+<area shape="rect" id="node4" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_random_forest_classifier_model.html" title=" " alt="" coords="557,71,889,112"/>
+<area shape="rect" id="node6" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_decision_tree_regressor_model.html" title=" " alt="" coords="560,136,885,177"/>
+<area shape="rect" id="node7" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_linear_regressor_model.html" title=" " alt="" coords="581,201,864,243"/>
+<area shape="rect" id="node8" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_random_forest_regressor_model.html" title=" " alt="" coords="555,267,891,308"/>
 </map>

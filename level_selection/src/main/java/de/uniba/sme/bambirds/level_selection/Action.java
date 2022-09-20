@@ -3,6 +3,7 @@ package de.uniba.sme.bambirds.level_selection;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.uniba.sme.bambirds.common.database.Level;
 import de.uniba.sme.bambirds.common.utils.SelectionAlgorithms;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,7 +12,6 @@ import java.util.Random;
 import java.util.Set;
 
 import de.uniba.sme.bambirds.common.database.LevelStorage;
-import de.uniba.sme.bambirds.common.objects.Level;
 import de.uniba.sme.bambirds.common.utils.Settings;
 
 /**

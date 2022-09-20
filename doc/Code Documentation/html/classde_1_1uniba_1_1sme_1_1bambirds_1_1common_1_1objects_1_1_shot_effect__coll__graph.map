@@ -1,0 +1,10 @@
+<map id="de.uniba.sme.bambirds.common.objects.ShotEffect" name="de.uniba.sme.bambirds.common.objects.ShotEffect">
+<area shape="rect" id="node1" title=" " alt="" coords="812,142,1103,183"/>
+<area shape="rect" id="node2" href="$classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_object.html" title=" " alt="" coords="408,99,719,141"/>
+<area shape="rect" id="node3" title=" " alt="" coords="117,5,204,32"/>
+<area shape="rect" id="node4" title=" " alt="" coords="65,56,256,83"/>
+<area shape="rect" id="node5" title=" " alt="" coords="127,107,194,133"/>
+<area shape="rect" id="node6" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_type.html" title=" " alt="" coords="5,158,316,199"/>
+<area shape="rect" id="node7" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_shape.html" title=" " alt="" coords="5,223,316,265"/>
+<area shape="rect" id="node8" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_shot_effect_1_1_effect_type.html" title=" " alt="" coords="418,165,709,206"/>
+</map>

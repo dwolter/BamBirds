@@ -1,21 +1,41 @@
 /*****************************************************************************
-** ANGRYBIRDS AI AGENT FRAMEWORK
-** Copyright (c) 2014,XiaoYu (Gary) Ge, Stephen Gould,Jochen Renz
-**  Sahan Abeyasinghe, Jim Keys,   Andrew Wang, Peng Zhang
-** All rights reserved.
-**This work is licensed under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-**To view a copy of this license, visit http://www.gnu.org/licenses/
-*****************************************************************************/
+ ** ANGRYBIRDS AI AGENT FRAMEWORK
+ ** Copyright (c) 2014,XiaoYu (Gary) Ge, Stephen Gould,Jochen Renz
+ **  Sahan Abeyasinghe, Jim Keys,   Andrew Wang, Peng Zhang
+ ** All rights reserved.
+ **This work is licensed under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ **To view a copy of this license, visit http://www.gnu.org/licenses/
+ *****************************************************************************/
 package de.uniba.sme.bambirds.common.utils;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
-import java.awt.event.*;
+import javax.imageio.ImageIO;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JToolTip;
+import javax.swing.Popup;
+import javax.swing.PopupFactory;
+import javax.swing.SwingUtilities;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
@@ -26,17 +46,15 @@ import java.util.concurrent.TimeUnit;
 public class ImageSegFrame {
 	private static final Logger log = LogManager.getLogger(ImageSegFrame.class);
 	private static int _saveCount = 0;
-	public static String saveFileDir = "";
-	public static volatile boolean recordScreenshot = false;
-	public static volatile boolean saveAndExit = false;
+	public static final String saveFileDir = "";
 	private static volatile boolean paused = false;
 
-	public class ImagePanel extends JPanel implements KeyListener, MouseListener, ActionListener {
+	public static class ImagePanel extends JPanel implements KeyListener, MouseListener, ActionListener {
 		/**
-		* 
-		*/
+		 *
+		 */
 		private static final long serialVersionUID = -1162922707389749340L;
-		protected JFrame _parent;
+		protected final JFrame _parent;
 		protected Image _img = null;
 		protected Popup _tip = null;
 		protected int[][] _meta = null;
@@ -162,7 +180,6 @@ public class ImageSegFrame {
 			// check if usercode is waiting for a keypress
 			if (bWaitingForKey) {
 				bWaitingForKey = false;
-				return;
 			}
 		}
 
@@ -224,33 +241,32 @@ public class ImageSegFrame {
 			}
 		}
 
-		@Override public void actionPerformed(ActionEvent actionEvent) {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
 			switch (actionEvent.getActionCommand()) {
-			case "close":
-				close();
-				break;
-			case "highlight":
-				toggleHighlight();
-				break;
-			case "save":
-				saveHighlights();
-			case "save_no_highlights":
-				saveImage();
-				break;
-			default:
-				break;
+				case "close":
+					close();
+					break;
+				case "highlight":
+					toggleHighlight();
+					break;
+				case "save":
+					saveHighlights();
+				case "save_no_highlights":
+					saveImage();
+					break;
+				default:
+					break;
 			}
 		}
 	}
 
-	protected JFrame frame;
-	protected ImagePanel panel;
+	protected final JFrame frame;
+	protected final ImagePanel panel;
 	protected Image img;
 	protected int[][] meta;
-	protected String name;
+	protected final String name;
 	protected volatile boolean refresh = false;
-	private int bound_x = -1;
-	private int bound_y = -1;
 
 	public JFrame getFrame() {
 		return frame;
@@ -267,16 +283,16 @@ public class ImageSegFrame {
 		frame.getContentPane().add(panel);
 
 		JMenu commands = new JMenu("Commands");
-		JMenuItem close = new JMenuItem("close",KeyEvent.VK_C);
+		JMenuItem close = new JMenuItem("close", KeyEvent.VK_C);
 		close.setActionCommand("close");
 		close.addActionListener(panel);
-		JMenuItem highlight = new JMenuItem("highlight",KeyEvent.VK_H);
+		JMenuItem highlight = new JMenuItem("highlight", KeyEvent.VK_H);
 		highlight.setActionCommand("highlight");
 		highlight.addActionListener(panel);
-		JMenuItem save = new JMenuItem("save current image",KeyEvent.VK_D);
+		JMenuItem save = new JMenuItem("save current image", KeyEvent.VK_D);
 		save.setActionCommand("save");
 		save.addActionListener(panel);
-		JMenuItem saveNoHighlight = new JMenuItem("save current image (no highlights)",KeyEvent.VK_S);
+		JMenuItem saveNoHighlight = new JMenuItem("save current image (no highlights)", KeyEvent.VK_S);
 		saveNoHighlight.setActionCommand("save_no_highlights");
 		saveNoHighlight.addActionListener(panel);
 		JCheckBoxMenuItem pause = new JCheckBoxMenuItem("pause agent");
@@ -362,7 +378,7 @@ public class ImageSegFrame {
 		while (panel.bWaitingForKey) {
 			try {
 				Thread.sleep(100);
-			} catch (InterruptedException e) {
+			} catch (InterruptedException ignored) {
 			}
 		}
 	}

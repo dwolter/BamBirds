@@ -1,23 +1,28 @@
 package de.uniba.sme.bambirds;
 
+import de.uniba.sme.bambirds.common.database.Level;
 import de.uniba.sme.bambirds.common.objects.Shot;
 import de.uniba.sme.bambirds.common.objects.GameState;
-import de.uniba.sme.bambirds.common.objects.Level;
 import de.uniba.sme.bambirds.vision.GameStateExtractor;
 import de.uniba.sme.bambirds.vision.Vision;
 import de.uniba.sme.bambirds.vision.VisionHelper;
 import de.uniba.sme.bambirds.client.Client;
 import de.uniba.sme.bambirds.common.Strategy;
 import de.uniba.sme.bambirds.common.database.LevelStorage;
+import de.uniba.sme.bambirds.common.database.Node;
+import de.uniba.sme.bambirds.common.exceptions.InvalidParabolaException;
+import de.uniba.sme.bambirds.common.exceptions.MissingSlingshotException;
+import de.uniba.sme.bambirds.common.exceptions.MissingTrajectoryPointsException;
 import de.uniba.sme.bambirds.common.exceptions.SceneInitialisationException;
 import de.uniba.sme.bambirds.common.exceptions.ServerException;
-import de.uniba.sme.bambirds.common.objects.Plan;
 import de.uniba.sme.bambirds.level_selection.LevelSelection;
 import de.uniba.sme.bambirds.execution.ShotExecutor;
 import de.uniba.sme.bambirds.common.utils.ImageUtil;
 import de.uniba.sme.bambirds.common.utils.Settings;
 import de.uniba.sme.bambirds.planner.PrologPlanParser;
 import de.uniba.sme.bambirds.planner.PrologPlanner;
+import de.uniba.sme.bambirds.feedback.FeedbackManager;
+import de.uniba.sme.bambirds.feedback.ShotInformationController;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -31,22 +36,27 @@ public class Meta implements ShotExecutor.ShotExecutorCallback, ShotExecutor.Str
 	static public boolean EVALUATE_SHOTS = true;
 
 	private LevelSelection levelSelector;
-	private GameStateExtractor extractor;
 	private ShotExecutor shotExecutor = null;
+	private ShotInformationController shotInformation;
 
 	// state machine and shot evaluation
 	private boolean levelInitialized = false;
 	private Level currentLevel = null;
 	private int previousScore = 0;
 	private int lastPigCount = 0;
-	private Shot lastShot = null;
-	public Plan lastPlan = null;
+	private Node lastNode = null;
 	public String lastShotDescriptor = "";
 	public boolean isPlaying = true;
 
+	//Feedback
+	private FeedbackManager feedbackManager;
+
 	public Meta(LevelSelection levelSelector) {
 		this.levelSelector = levelSelector;
-		this.extractor = new GameStateExtractor();
+
+		this.shotInformation = new ShotInformationController();
+		this.feedbackManager = new FeedbackManager(shotInformation);;
+
 	}
 
 	/**
@@ -106,8 +116,9 @@ public class Meta implements ShotExecutor.ShotExecutorCallback, ShotExecutor.Str
 		if (shotExecutor != null){
 			shotExecutor.shutdown();
 		}
-		shotExecutor = new ShotExecutor(currentLevel, this, this);
+		shotExecutor = new ShotExecutor(currentLevel, this, this, feedbackManager, shotInformation);
 		previousScore = currentLevel.getBestScore();
+		lastNode = null;
 
 		try {
 			Thread.sleep(100);
@@ -119,15 +130,15 @@ public class Meta implements ShotExecutor.ShotExecutorCallback, ShotExecutor.Str
 	 * @return Returns true if Meta has just initialised or {@code shotCount > 10}
 	 */
 	private boolean shouldStartNextLevel() {
-		if (!levelInitialized)
+		if (!levelInitialized) {
 			return true; // game has just started or crashed
-
-		if (shotExecutor.currentShot > 10) { // if vision fails and agent keeps clicking somewhere on the screen
+		}
+		if (shotExecutor.currentShot > 10 && currentLevel.numFailedShots > 0) { // if vision fails and agent keeps clicking somewhere on the screen
 			currentLevel.setDangerous(true);
 			log.warn("Number of executed Shots exceeded max shots");
 			currentLevel.finishLevel(GameState.LOST, 0);
 			currentLevel.ditchInitialScene();
-			LevelStorage.getInstance().addLeveltoStorage(currentLevel);
+			LevelStorage.getInstance().addLevelToStorage(currentLevel);
 			return true;
 		}
 		return false;
@@ -137,10 +148,11 @@ public class Meta implements ShotExecutor.ShotExecutorCallback, ShotExecutor.Str
 
 		BufferedImage scr;
 
-		while (Client.get().getState() != -1 && isPlaying) { // terminate if signal byte -1 received, means competition is
-																													// over
+		while (Client.get().getState() != -1 && isPlaying) { // terminate if signal byte -1 received, means competition
+																// is
+																// over
 			GameState state = Client.get().getGameState(); // one of: UNKNOWN, MAIN_MENU, EPISODE_MENU, LEVEL_SELECTION,
-																											// LOADING, PLAYING, WON, LOST
+															// LOADING, PLAYING, WON, LOST
 			log.debug("Current GameState is " + state);
 			scr = null; // forget previous screenshot
 			switch (state) {
@@ -152,7 +164,7 @@ public class Meta implements ShotExecutor.ShotExecutorCallback, ShotExecutor.Str
 
 					if (currentLevel.safetyMeasuresEnabled()) {
 						log.info("Waiting till Scene is really stable because safety measures are enabled");
-						ShotExecutor.waitTillSceneIsStableNoListener(currentLevel);
+						ShotExecutor.waitTillSceneIsStableNoListener(null);
 					}
 					try {
 						scr = Client.get().doScreenShot();
@@ -162,7 +174,7 @@ public class Meta implements ShotExecutor.ShotExecutorCallback, ShotExecutor.Str
 							currentLevel.ditchInitialScene();
 							log.error("OUCH: shot planning or shooting failed, trying another level");
 							currentLevel.finishLevel(GameState.LOST, 0);
-							LevelStorage.getInstance().addLeveltoStorage(currentLevel);
+							LevelStorage.getInstance().addLevelToStorage(currentLevel);
 							selectNextLevel();
 						}
 					} catch (NullPointerException e) {
@@ -170,7 +182,7 @@ public class Meta implements ShotExecutor.ShotExecutorCallback, ShotExecutor.Str
 						currentLevel.ditchInitialScene();
 						log.error(" OUCH: Got a NullPointerException while playing, trying another level", e);
 						currentLevel.finishLevel(GameState.LOST, 0);
-						LevelStorage.getInstance().addLeveltoStorage(currentLevel);
+						LevelStorage.getInstance().addLevelToStorage(currentLevel);
 						selectNextLevel();
 					}
 					break;
@@ -178,7 +190,7 @@ public class Meta implements ShotExecutor.ShotExecutorCallback, ShotExecutor.Str
 				// at end of level record
 				case LOST:
 					if (levelInitialized)
-						currentLevel.numOfBirdsConfident = currentLevel.numOfBirds == currentLevel.executedShots.size();
+						currentLevel.numOfBirdsConfident = currentLevel.numOfBirds == currentLevel.executedNodes.size();
 					// and also everything for WON ...
 				case WON:
 					if (levelInitialized) {
@@ -188,7 +200,7 @@ public class Meta implements ShotExecutor.ShotExecutorCallback, ShotExecutor.Str
 							if (Settings.SERVER_TYPE == Settings.ServerType.SCIENCE_BIRDS) {
 								endScore = Client.get().getCurrentLevelScoreInt();
 							} else {
-								endScore = extractor.getScoreEndGame(scr);
+								endScore = GameStateExtractor.getScoreEndGame(scr);
 							}
 						}
 
@@ -204,7 +216,7 @@ public class Meta implements ShotExecutor.ShotExecutorCallback, ShotExecutor.Str
 						log.debug("Remaining Time " + this.levelSelector.getRemainingTime() + ", current Iteration "
 								+ this.levelSelector.getCurrentIteration());
 
-						LevelStorage.getInstance().addLeveltoStorage(currentLevel);
+						LevelStorage.getInstance().addLevelToStorage(currentLevel);
 					}
 					selectNextLevel();
 					break;
@@ -239,16 +251,16 @@ public class Meta implements ShotExecutor.ShotExecutorCallback, ShotExecutor.Str
 
 	/**
 	 * Calculate score difference to previous screen
-	 * 
+	 *
 	 * @param img Reusing screenshot from other analysis
 	 */
 	private void evaluatePreviousShot(BufferedImage img) throws ServerException {
 		int newScore = 0;
-		if (!shotExecutor.isFirstShot()) { // record score of previous shot
+		if (lastNode != null) { // record score of previous shot
 			newScore = Settings.SERVER_TYPE == Settings.ServerType.SCIENCE_BIRDS ?
 					Client.get().getCurrentLevelScoreInt()
-					: this.extractor.getScoreInGame(img);
-			currentLevel.addExecutedShot(lastShot, lastPlan, newScore - previousScore); // record score ...
+					: GameStateExtractor.getScoreInGame(img);
+			currentLevel.addExecutedNode(lastNode); // record score ...
 			// Reset FailedShots if a score was achieved
 			if (newScore - previousScore > 0)
 				currentLevel.numFailedShots = 0;
@@ -322,41 +334,49 @@ public class Meta implements ShotExecutor.ShotExecutorCallback, ShotExecutor.Str
 	 * Just before execution
 	 */
 	@Override
-	public void shotSelected(Shot proposedShot, Plan plan, boolean demoShot) {
+	public void nodeSelected(Node node, boolean demoShot) {
 		if (EVALUATE_SHOTS) {
-			lastPlan = plan; // null in case of demo shot
-			if (demoShot)
-				lastShotDescriptor = currentLevel.currentScene + " Ta:(naive)";
-			else
-				lastShotDescriptor = currentLevel.currentScene + " Ta:(" + lastPlan + ")";
+			lastNode = node; // null in case of demo shot
+			lastShotDescriptor = currentLevel.currentScene + " Ta:(" + node.getPlan() + ")";
 		}
 	}
 
 	/**
 	 * Evaluated predicted parabola with actual and update decision tree
-	 * 
+	 *
 	 * @throws ServerException
 	 */
 	@Override
 	public void shotDelivered(Shot shot) throws ServerException {
-		lastShot = shot;
 		BufferedImage img = Client.get().doScreenShot();
 
 		// Step 1: Evaluate parabola (bird has just landed or is lying on the ground
 		// already)
 		// Evaluate trajectory after shot only for unaltered parabolas
 		Point releasePoint = new Point(shot.getDragX(), shot.getDragY());
-		double newScale = VisionHelper.calculateScalingFactor(img, currentLevel, releasePoint, shot.getTapTime());
-		double currentScale = currentLevel.getScalingFactor();
-		// FIXME: check if slingshot detection failed for first level, otherwise any
-		// call to this level will fail
-		currentLevel.setSlingshotAndScaling(null, newScale);
-
-		// Update Nodes because of scaling factor change
-		// Otherwise all shots would miss
-		if (Math.abs(currentLevel.getScalingFactor()-currentScale) > 1e-3) {
-			currentLevel.tree.adaptNodesToNewScalingFactor(currentScale, currentLevel.getScalingFactor());
+		double newScale;
+		try {
+			newScale = VisionHelper.calculateScalingFactor(img, currentLevel, releasePoint, shot.getTapTime());
+			setShotInformationData();
+			double currentScale = currentLevel.getScalingFactor();
+			
+			// FIXME: check if slingshot detection failed for first level, otherwise any
+			// call to this level will fail
+			currentLevel.setSlingshotAndScaling(null, newScale);
+			// Update Nodes because of scaling factor change
+			// Otherwise all shots would miss
+			if (Math.abs(currentLevel.getScalingFactor()-currentScale) > 1e-3) {
+				currentLevel.tree.adaptNodesToNewScalingFactor(currentScale, currentLevel.getScalingFactor());
+			}
+		} catch (MissingTrajectoryPointsException e) {
+			log.error("Shot was probably not executed",e);
+		} catch (InvalidParabolaException e) {
+			// TODO Auto-generated catch block
+			log.error("Shot was probably not executed",e);
+		} catch (MissingSlingshotException e) {
+			log.error("Slingshot missing",e);
 		}
+
 
 		// Step 2: Set decision tree image
 		// compare current scene with scene of node we should currently be in
@@ -366,8 +386,19 @@ public class Meta implements ShotExecutor.ShotExecutorCallback, ShotExecutor.Str
 	}
 
 	/**
+		sets data gained from VisionHelper to ShotInformation
+	*/
+
+	private void setShotInformationData(){
+			shotInformation.setActualTapPoint(VisionHelper.getSavedEstTapPoint());
+			shotInformation.setActualVelocity(VisionHelper.getSavedVelocity());
+			shotInformation.setActualOrigin(VisionHelper.getSavedOrigin());
+			shotInformation.setShotAngle(VisionHelper.getSavedTheta());
+	}
+
+	/**
 	 * Will be called after everything has come to a still (max 16s)
-	 * 
+	 *
 	 * @param moving Hard limit exceeded
 	 * @throws ServerException
 	 */
@@ -375,23 +406,30 @@ public class Meta implements ShotExecutor.ShotExecutorCallback, ShotExecutor.Str
 	public void shotDeliveredSceneStable(BufferedImage img, boolean moving, boolean noBirds, boolean noPigs)
 			throws ServerException {
 
-		if ((Settings.SERVER_TYPE == Settings.ServerType.SCIENCE_BIRDS && Client.get().getGameState() != GameState.LOST)
-				|| (Settings.SERVER_TYPE == Settings.ServerType.ANGRY_BIRDS && extractor.getGameState(img) != GameState.LOST)) {
+		if (Client.get().getGameState() != GameState.LOST) {
 
 			// update current score of level every time scene is stable
 			this.currentLevel.currentScore = Settings.SERVER_TYPE == Settings.ServerType.SCIENCE_BIRDS ?
 					Client.get().getCurrentLevelScoreInt()
-					: this.extractor.getScoreInGame(img);
+					: GameStateExtractor.getScoreInGame(img);
 		}
 
-		if (noBirds || noPigs)
+		if (Settings.FEEDBACK_ENABLED) {
+			feedbackManager.startFeedback();
+		}
+
+		if (noBirds || noPigs) {
+			// seems like we won the level, wait for server to record
 			waitForLevelEnd();
-		// seems like we won the level, wait for server to record
-		else if ((Settings.SERVER_TYPE == Settings.ServerType.SCIENCE_BIRDS && Client.get().getGameState() != GameState.PLAYING)
-				|| (Settings.SERVER_TYPE == Settings.ServerType.ANGRY_BIRDS && extractor.getGameState(img) != GameState.PLAYING))
-			try {
-				Thread.sleep(100);
-			} catch (Exception ignored) {
-			}
+		}
 	}
+
+	public FeedbackManager getFeedbackManager() {
+		return feedbackManager;
+	}
+
+	public void setFeedbackManager(FeedbackManager feedbackManager) {
+		this.feedbackManager = feedbackManager;
+	}
+
 }

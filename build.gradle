@@ -21,23 +21,23 @@ allprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
     group = 'de.uniba.sme.bambirds'
+    version = release_version
     repositories {
         // Use jcenter for resolving dependencies.
         // You can declare any Maven/Ivy/file repository here.
-        jcenter()
         mavenCentral()
     }
 
     dependencies {
-        implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.0'
-        implementation 'org.apache.commons:commons-lang3:3.9'
+        implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.0'
+        implementation 'org.apache.commons:commons-lang3:3.12.0'
 
         // Use JUnit test framework
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
-        testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.2'
-        testImplementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
-        testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver:3.141.59'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+        testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
+        testImplementation 'org.seleniumhq.selenium:selenium-java:4.1.2'
+        testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.1.2'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     }
 
     test {
@@ -48,7 +48,7 @@ allprojects {
     jacocoTestReport {
         dependsOn test // tests are required to run before generating the report
         reports {
-            csv.enabled true
+            csv.required = true
         }
     }
 
@@ -60,14 +60,14 @@ allprojects {
 
     jar {
         manifest {
-            attributes 'Main-Class': 'de.uniba.sme.bambirds.BamBirds', 'Implementation-Version': version
+            attributes 'Main-Class': 'de.uniba.sme.bambirds.BamBirds', 'Implementation-Version': release_version
         }
     }
 }
 
 dependencies {
     // This dependency is used by the application.
-    implementation 'com.google.guava:guava:28.1-jre'
+    implementation 'com.google.guava:guava:31.0.1-jre'
 
     implementation project(':common')
     implementation project(':vision')
@@ -75,7 +75,8 @@ dependencies {
     implementation project(':level_selection')
     implementation project(path: ':planner', configuration: 'default')
     implementation project(path: ':planner', configuration: 'prolog')
-    
+    implementation project(':feedback')
+
 }
 
 startScripts {
@@ -83,20 +84,20 @@ startScripts {
     doLast {
         def unixScriptFile    = file getUnixScript()
         def windowsScriptfile = file getWindowsScript()
-        unixScriptFile.text  = unixScriptFile.text.replace('APP_NAME=', '# Set logfile to the production default\nBAMBIRDS_OPTS="$BAMBIRDS_OPTS -Dlog4j2.configurationFile=$APP_HOME/conf/log4j2.properties"\n\nAPP_NAME=')
-        windowsScriptfile.text = windowsScriptfile.text.replace('set APP_HOME=%DIRNAME%..', 'set APP_HOME=%DIRNAME%..\n\n@rem Set logfile to the production default\nset BAMBIRDS_OPTS=%BAMBIRDS_OPTS% -Dlog4j2.configurationFile="%APP_HOME%/conf/log4j2.properties"')
+        unixScriptFile.text  = unixScriptFile.text.replace('APP_NAME=', 'export APP_HOME\n\n# Set logfile to the production default\nBAMBIRDS_OPTS="$BAMBIRDS_OPTS -Dlog4j2.configurationFile=$APP_HOME/config/log4j2.properties"\n\nAPP_NAME=')
+        windowsScriptfile.text = windowsScriptfile.text.replace('set APP_HOME=%DIRNAME%..', 'set APP_HOME=%DIRNAME%..\n\n@rem Set logfile to the production default\nset BAMBIRDS_OPTS=%BAMBIRDS_OPTS% -Dlog4j2.configurationFile="%APP_HOME%/config/log4j2.properties"')
     }
 }
 
 application {
     // Define the main class for the application.
-    mainClassName = 'de.uniba.sme.bambirds.BamBirds'
+    mainClass = 'de.uniba.sme.bambirds.BamBirds'
 }
 
 distributions {
     main {
         contents {
-            from 'doc/Team Descriptions/team_description_2021.md'
+            from 'doc/Team Descriptions/team_description_2022.md'
         }
     }
 }
@@ -117,12 +118,20 @@ project(':planner') {
     dependencies {
         implementation project(':common')
         implementation project(path: ':planner:behind_the_corner', configuration: 'prolog')
+        testImplementation project(':vision')
     }
 }
 
 project(':level_selection') {
     dependencies {
         implementation project(':common')
+    }
+}
+
+project(':feedback') {
+    dependencies {
+        implementation project(':common')
+        implementation project(':vision')
     }
 }
 
@@ -133,5 +142,6 @@ project(':debugging') {
         implementation project(':client')
         implementation project(':planner')
         implementation project(':level_selection')
+        implementation project(':feedback')
     }
 }

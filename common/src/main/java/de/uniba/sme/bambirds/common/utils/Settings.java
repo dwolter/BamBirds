@@ -1,19 +1,5 @@
 package de.uniba.sme.bambirds.common.utils;
 
-import static de.uniba.sme.bambirds.common.objects.ab.ABType.*;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.TimeUnit;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -25,13 +11,34 @@ import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.Console;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
+import javax.print.DocFlavor.STRING;
+
+import static de.uniba.sme.bambirds.common.objects.ab.ABType.BlackBird;
+import static de.uniba.sme.bambirds.common.objects.ab.ABType.BlueBird;
+import static de.uniba.sme.bambirds.common.objects.ab.ABType.RedBird;
+import static de.uniba.sme.bambirds.common.objects.ab.ABType.WhiteBird;
+import static de.uniba.sme.bambirds.common.objects.ab.ABType.YellowBird;
+
 /**
  * Stores settings for the BamBirds Agent.
- * 
+ * <p>
  * Can load configurations from cli-arguments and config.properties
- * 
- * @author Felix Haase
  *
+ * @author Felix Haase
  */
 public class Settings {
 	private static final Logger log = LogManager.getLogger(Settings.class);
@@ -41,7 +48,7 @@ public class Settings {
 	public static int TEAM_ID = 1;
 
 	/**
-	 * Path to swi-prolog executable. By default it is used from PATH
+	 * Path to swi-prolog executable. By default, it is used from PATH
 	 */
 	public static String PATH_TO_SWIPL = "swipl";
 
@@ -50,8 +57,11 @@ public class Settings {
 	public static final TimeUnit STRATEGY_TIMEOUT_UNIT = TimeUnit.MILLISECONDS;
 	public static final boolean STRATEGY_ASYNC = true;
 	public static final long STRATEGY_ASNYC_TIMEOUT = 60000;
-
-	public static double NODE_SELECTION_EPSILON = 0.2;
+	
+	// hyperparameter further filtering available nodes, removes nodes not at least 'X' percent of the highest evaluated confidence
+	public static double SHOTSELECTION_PERCENTAGE_OF_MAX_SCORE = 0.5;
+	// hyperparameter tuning exploration vs exploitation, exponentiates then renormalises the weights for a probability distribution
+	public static double SHOTSELECTION_EXPONENT = 5;
 
 	// Image specifications
 	public static final int IMAGE_HEIGHT = 480;
@@ -73,7 +83,7 @@ public class Settings {
 
 		private final byte mode;
 
-		private GameMode(int i) {
+		GameMode(int i) {
 			mode = (byte) i;
 		}
 
@@ -88,14 +98,14 @@ public class Settings {
 
 		public static GameMode fromString(String gameMode) {
 			switch (gameMode) {
-			case "TRAIN":
-				return GameMode.TRAINING;
-			case "DEMO":
-				return GameMode.DEMO;
-			case "COMPETITION":
-				return GameMode.COMPETITION;
-			default:
-				throw new IllegalArgumentException("Unknown GameMode");
+				case "TRAIN":
+					return GameMode.TRAINING;
+				case "DEMO":
+					return GameMode.DEMO;
+				case "COMPETITION":
+					return GameMode.COMPETITION;
+				default:
+					throw new IllegalArgumentException("Unknown GameMode");
 			}
 		}
 	}
@@ -110,31 +120,37 @@ public class Settings {
 	public static int ROUNDS = -1;
 
 	public static boolean VISUAL_DEBUG_ENABLED = false;
-	public static boolean USE_NEW_SLING_DETECTION = true;
+	public static final boolean USE_NEW_SLING_DETECTION = true;
 	public static boolean EXPORT_LEVEL_STATS = false; // for testing
 	public static boolean DISABLE_LEVEL_SELECTION = false; // for testing
 	public static boolean LEVEL_SELECTION_FIRST_ROUND_ITERATIVE = false; // for testing
 
+	public static boolean FEEDBACK_ENABLED = false; // the feedback component is not yet ready enough as it has too many false positives
+
 	// Parameters for Parabola Calculations
 	public static double[] lowAngleChange;
 	public static double[] lowAngleVelocity;
-	public static double[] highAngleBegin = new double[10];
-	public static double[][] highAngleChange = new double[10][3];
-	public static double[][] highAngleVelocity = new double[10][3];
-	public static double[] yellowBirdVelocity = new double[] { -0.2339, 0.3093, 3.7051 };
+	public static final double[] highAngleBegin = new double[10];
+	public static final double[][] highAngleChange = new double[10][3];
+	public static final double[][] highAngleVelocity = new double[10][3];
+	public static final double[] yellowBirdVelocity = new double[]{-0.2339, 0.3093, 3.7051};
 	// yellowBirdVelocity: -0.4315 * Math.pow(x, 3) - 0.4029 * x * x + 0.3315 * x +
 	// 3.7126; // more accurate, necessary?
 
 	public static final Map<String, Integer> STRATEGY_WEIGHTS;
 
 	public static final String PROLOG_FILE_EXTENSION = ".pl";
-	public static String PLANNER_START = Paths.get("planner/start.pl")
-			.toAbsolutePath().normalize().toString();
-	public static String PLANNER_EXECUTABLE = null;
-	public static String PLANNER_LIB_DIR = null;
+	public static Path PLANNER_START = null;
+	public static Path PLANNER_EXECUTABLE = null;
+	public static Path PLANNER_LIB_DIR = null;
+
+	public static Path APP_HOME = null;
+	public static Path TEMP_DIR = null;
+	public static Path DEBUG_DIR = null;
+	public static Path CONFIG_DIR = null;
 
 	static {
-		Hashtable<String, Integer> tmp = new Hashtable<String, Integer>(6);
+		Hashtable<String, Integer> tmp = new Hashtable<>(6);
 		// all the known strategies with the weights used in our decision tree in python
 		tmp.put("bunker", 1);
 		tmp.put("domino", 2);
@@ -145,47 +161,47 @@ public class Settings {
 		STRATEGY_WEIGHTS = Collections.unmodifiableMap(tmp);
 
 		if (USE_NEW_SLING_DETECTION) {
-			lowAngleChange = new double[] { -0.0230, -7.871e-4, 0.0540 };
-			lowAngleVelocity = new double[] { 0.0473, -0.1756, 2.8654 };
-			highAngleBegin[BlueBird.id] = Math.toRadians(77.226);
-			highAngleBegin[RedBird.id] = Math.toRadians(74.476);
-			highAngleBegin[YellowBird.id] = Math.toRadians(75.032);
-			highAngleBegin[BlackBird.id] = Math.toRadians(72.777);
-			highAngleBegin[WhiteBird.id] = Math.toRadians(69.365);
-			highAngleChange[BlueBird.id] = new double[] { -6.2164, 17.7277, -12.5889 };
-			highAngleChange[RedBird.id] = new double[] { -6.8544, 19.1149, -13.2502 };
-			highAngleChange[YellowBird.id] = new double[] { -7.1737, 20.0922, -13.9949 };
-			highAngleChange[BlackBird.id] = new double[] { -10.4124, 28.4201, -19.2827 };
-			highAngleChange[WhiteBird.id] = new double[] { -11.8720, 31.2441, -20.4036 };
-			highAngleVelocity[BlueBird.id] = new double[] { 39.1345, -119.2619, 92.3808 };
-			highAngleVelocity[RedBird.id] = new double[] { 42.1667, -124.9211, 93.8631 };
-			highAngleVelocity[YellowBird.id] = new double[] { 43.7502, -130.3646, 98.4179 };
-			highAngleVelocity[BlackBird.id] = new double[] { 65.4336, -186.8649, 134.5157 };
-			highAngleVelocity[WhiteBird.id] = new double[] { 73.2264, -199.8274, 137.3380 };
+			lowAngleChange = new double[]{-0.0230, -7.871e-4, 0.0540};
+			lowAngleVelocity = new double[]{0.0473, -0.1756, 2.8654};
+			highAngleBegin[BlueBird.id()] = Math.toRadians(77.226);
+			highAngleBegin[RedBird.id()] = Math.toRadians(74.476);
+			highAngleBegin[YellowBird.id()] = Math.toRadians(75.032);
+			highAngleBegin[BlackBird.id()] = Math.toRadians(72.777);
+			highAngleBegin[WhiteBird.id()] = Math.toRadians(69.365);
+			highAngleChange[BlueBird.id()] = new double[]{-6.2164, 17.7277, -12.5889};
+			highAngleChange[RedBird.id()] = new double[]{-6.8544, 19.1149, -13.2502};
+			highAngleChange[YellowBird.id()] = new double[]{-7.1737, 20.0922, -13.9949};
+			highAngleChange[BlackBird.id()] = new double[]{-10.4124, 28.4201, -19.2827};
+			highAngleChange[WhiteBird.id()] = new double[]{-11.8720, 31.2441, -20.4036};
+			highAngleVelocity[BlueBird.id()] = new double[]{39.1345, -119.2619, 92.3808};
+			highAngleVelocity[RedBird.id()] = new double[]{42.1667, -124.9211, 93.8631};
+			highAngleVelocity[YellowBird.id()] = new double[]{43.7502, -130.3646, 98.4179};
+			highAngleVelocity[BlackBird.id()] = new double[]{65.4336, -186.8649, 134.5157};
+			highAngleVelocity[WhiteBird.id()] = new double[]{73.2264, -199.8274, 137.3380};
 		} else {
-			lowAngleChange = new double[] { -0.0204, -0.0045, 0.0549 };
-			lowAngleVelocity = new double[] { 0.0406, -0.1640, 2.8615 };
-			highAngleBegin[BlueBird.id] = Math.toRadians(77.2834);
-			highAngleBegin[RedBird.id] = Math.toRadians(74.5361);
-			highAngleBegin[YellowBird.id] = Math.toRadians(75.0575);
-			highAngleBegin[BlackBird.id] = Math.toRadians(72.8029);
-			highAngleBegin[WhiteBird.id] = Math.toRadians(69.4597);
-			highAngleChange[BlueBird.id] = new double[] { -6.7165, 19.1056, -13.5384 };
-			highAngleChange[RedBird.id] = new double[] { -6.6978, 18.7235, -13.0074 };
-			highAngleChange[YellowBird.id] = new double[] { -6.9560, 19.5175, -13.6161 };
-			highAngleChange[BlackBird.id] = new double[] { -11.4143, 31.0365, -20.9903 };
-			highAngleChange[WhiteBird.id] = new double[] { -13.6359, 35.7343, -23.2604 };
-			highAngleVelocity[BlueBird.id] = new double[] { 42.8185, -129.3400, 99.2806 };
-			highAngleVelocity[RedBird.id] = new double[] { 36.6116, -110.3012, 84.2551 };
-			highAngleVelocity[YellowBird.id] = new double[] { 41.4429, -124.2663, 94.3941 };
-			highAngleVelocity[BlackBird.id] = new double[] { 76.0678, -214.6207, 152.6222 };
-			highAngleVelocity[WhiteBird.id] = new double[] { 78.4918, -213.2718, 145.9202 };
+			lowAngleChange = new double[]{-0.0204, -0.0045, 0.0549};
+			lowAngleVelocity = new double[]{0.0406, -0.1640, 2.8615};
+			highAngleBegin[BlueBird.id()] = Math.toRadians(77.2834);
+			highAngleBegin[RedBird.id()] = Math.toRadians(74.5361);
+			highAngleBegin[YellowBird.id()] = Math.toRadians(75.0575);
+			highAngleBegin[BlackBird.id()] = Math.toRadians(72.8029);
+			highAngleBegin[WhiteBird.id()] = Math.toRadians(69.4597);
+			highAngleChange[BlueBird.id()] = new double[]{-6.7165, 19.1056, -13.5384};
+			highAngleChange[RedBird.id()] = new double[]{-6.6978, 18.7235, -13.0074};
+			highAngleChange[YellowBird.id()] = new double[]{-6.9560, 19.5175, -13.6161};
+			highAngleChange[BlackBird.id()] = new double[]{-11.4143, 31.0365, -20.9903};
+			highAngleChange[WhiteBird.id()] = new double[]{-13.6359, 35.7343, -23.2604};
+			highAngleVelocity[BlueBird.id()] = new double[]{42.8185, -129.3400, 99.2806};
+			highAngleVelocity[RedBird.id()] = new double[]{36.6116, -110.3012, 84.2551};
+			highAngleVelocity[YellowBird.id()] = new double[]{41.4429, -124.2663, 94.3941};
+			highAngleVelocity[BlackBird.id()] = new double[]{76.0678, -214.6207, 152.6222};
+			highAngleVelocity[WhiteBird.id()] = new double[]{78.4918, -213.2718, 145.9202};
 		}
 	}
 
 	/**
 	 * Load settings from properties file and cli
-	 * 
+	 *
 	 * @param args Commandline arguments
 	 */
 	public static void load(String... args) {
@@ -256,12 +272,12 @@ public class Settings {
 		options.addOption(exportLevelStats);
 
 		Option disableSimComponent = Option.builder().longOpt("disable-sim")
-		.desc("Disables simulation component").build();
+				.desc("Disables simulation component").build();
 		options.addOption(disableSimComponent);
 
 		Option simDebug = Option.builder().longOpt("sim-debug")
-		.desc("Disables simulation component").build();
-		options.addOption(disableSimComponent);
+				.desc("Disables simulation component").build();
+		options.addOption(simDebug);
 
 		Option nodeSelectionEpsilon = Option.builder().longOpt("node-selection-epsilon").hasArg()
 				.desc("Epsilon value that determines the probability for weighted random selection of a Node").build();
@@ -269,12 +285,35 @@ public class Settings {
 
 		// --------------
 
-		File propertiesFile = new File("config.properties");
+		Map<String, String> env = System.getenv();
+
+		if (env.containsKey("APP_HOME") && !env.get("APP_HOME").endsWith("gradle")) {
+			Settings.APP_HOME = Paths.get(env.get("APP_HOME"));
+		} else {
+			Settings.APP_HOME = Paths.get(System.getProperty("user.dir"));
+		}
+
+		Settings.TEMP_DIR =  Settings.APP_HOME.resolve("tmp");
+		Settings.DEBUG_DIR =  Settings.APP_HOME.resolve("debug");
+		Settings.CONFIG_DIR =  Settings.APP_HOME.resolve("config");
+		if (!Settings.TEMP_DIR.toFile().exists()) {
+			Settings.TEMP_DIR.toFile().mkdirs();
+		}
+		if (!Settings.DEBUG_DIR.toFile().exists()) {
+			Settings.DEBUG_DIR.toFile().mkdirs();
+		}
+		if (!Settings.CONFIG_DIR.toFile().exists()) {
+			Settings.CONFIG_DIR.toFile().mkdirs();
+		}
+
+		Settings.PLANNER_START = Settings.APP_HOME.resolve(Paths.get("planner","start.pl"));
+
+
+		File propertiesFile = Settings.CONFIG_DIR.resolve("config.properties").toFile();
 
 		if (!propertiesFile.isFile()) {
 			try {
-				propertiesFile.createNewFile();
-				if (propertiesFile.canWrite()) {
+				if (propertiesFile.createNewFile() && propertiesFile.canWrite()) {
 					// Create properties file with default values
 					try (OutputStream output = new FileOutputStream(propertiesFile)) {
 
@@ -298,7 +337,6 @@ public class Settings {
 						prop.setProperty("SIMULATION_COMPONENT_ENABLED", Boolean.toString(Settings.SIMULATION_COMPONENT_ENABLED));
 						prop.setProperty("SIMULATION_DEBUG_MODE", Boolean.toString(Settings.SIM_DEBUG_MODE));
 
-						prop.setProperty("NODE_SELECTION_EPSILON", Double.toString(Settings.NODE_SELECTION_EPSILON));
 						// save properties to project root folder
 						prop.store(output, null);
 
@@ -343,12 +381,16 @@ public class Settings {
 
 			if (cli.hasOption("host")) {
 				Settings.SERVER_HOST = cli.getOptionValue("host", Settings.SERVER_HOST);
+			} else if (env.containsKey("SERVER_HOST")) {
+				Settings.SERVER_HOST = env.getOrDefault("SERVER_HOST", Settings.SERVER_HOST);
 			} else if (appSettings.containsKey("HOST")) {
 				Settings.SERVER_HOST = (String) appSettings.get("HOST");
 			}
 
 			if (cli.hasOption("team")) {
 				Settings.TEAM_ID = Integer.parseInt(cli.getOptionValue("team", Integer.toString(Settings.TEAM_ID)));
+			} else if (env.containsKey("TEAM_ID")) {
+				Settings.TEAM_ID = Integer.parseInt(env.getOrDefault("TEAM_ID", Integer.toString(Settings.TEAM_ID)));
 			} else if (appSettings.containsKey("TEAM_ID")) {
 				Settings.TEAM_ID = Integer.parseInt((String) appSettings.get("TEAM_ID"));
 			}
@@ -396,6 +438,12 @@ public class Settings {
 
 			if (cli.hasOption("science-birds") || cli.hasOption("angry-birds")) {
 				Settings.SERVER_TYPE = cli.hasOption("science-birds") ? ServerType.SCIENCE_BIRDS : ServerType.ANGRY_BIRDS;
+			} else if (env.containsKey("SERVER_TYPE")) {
+				String type = env.getOrDefault("SERVER_TYPE", ServerType.ANGRY_BIRDS.toString());
+				if (type.equals(ServerType.ANGRY_BIRDS.toString()))
+					Settings.SERVER_TYPE = ServerType.ANGRY_BIRDS;
+				else
+					Settings.SERVER_TYPE = ServerType.SCIENCE_BIRDS;
 			} else if (appSettings.containsKey("SERVER_TYPE")) {
 				String type = (String) appSettings.get("SERVER_TYPE");
 				if (type.equals(ServerType.ANGRY_BIRDS.toString()))
@@ -440,13 +488,6 @@ public class Settings {
 			} else if (appSettings.containsKey("SIMULATION_DEBUG_MODE")) {
 				Settings.SIM_DEBUG_MODE = Boolean.parseBoolean((String) appSettings.get("SIMULATION_DEBUG_MODE"));
 			}
-
-			if (cli.hasOption("node-selection-epsilon")) {
-				Settings.NODE_SELECTION_EPSILON = Double.parseDouble(cli.getOptionValue("node-selection-epsilon", Double.toString(Settings.NODE_SELECTION_EPSILON)));
-			} else if (appSettings.containsKey("NODE_SELECTION_EPSILON")) {
-				Settings.NODE_SELECTION_EPSILON = Double.parseDouble((String) appSettings.get("NODE_SELECTION_EPSILON"));
-			}
-			log.debug(Settings.NODE_SELECTION_EPSILON);
 
 
 		} catch (ParseException e) {

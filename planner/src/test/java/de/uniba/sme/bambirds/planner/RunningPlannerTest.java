@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D.Double;
@@ -26,6 +27,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import de.uniba.sme.bambirds.common.StrategyConsumer;
+import de.uniba.sme.bambirds.common.database.Node;
 import de.uniba.sme.bambirds.common.utils.SWIConnector;
 import de.uniba.sme.bambirds.common.utils.Settings;
 import de.uniba.sme.bambirds.common.utils.ShotHelper;
@@ -76,13 +78,15 @@ public class RunningPlannerTest {
 		StrategyConsumer consumer = new StrategyConsumer() {
 
 			@Override
-			public void post(Plan newTarget) {
+			public Node post(Plan newTarget) {
 				intermediatePlans.add(newTarget);
+				return new Node(newTarget);
 			}
 
 			@Override
-			public void post(List<Plan> newTargets) {
+			public List<Node> post(List<Plan> newTargets) {
 				finalPlans.addAll(newTargets);
+				return newTargets.stream().map(Node::new).collect(Collectors.toList());
 			}
 		};
 
@@ -108,13 +112,15 @@ public class RunningPlannerTest {
 		StrategyConsumer consumer = new StrategyConsumer() {
 
 			@Override
-			public void post(Plan newTarget) {
+			public Node post(Plan newTarget) {
 				plans.add(newTarget);
+				return new Node(newTarget);
 			}
 
 			@Override
-			public void post(List<Plan> newTargets) {
+			public List<Node> post(List<Plan> newTargets) {
 				plans.addAll(newTargets);
+				return newTargets.stream().map(Node::new).collect(Collectors.toList());
 			}
 		};
 

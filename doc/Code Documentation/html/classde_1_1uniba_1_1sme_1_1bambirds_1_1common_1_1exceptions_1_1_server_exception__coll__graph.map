@@ -1,5 +1,5 @@
 <map id="de.uniba.sme.bambirds.common.exceptions.ServerException" name="de.uniba.sme.bambirds.common.exceptions.ServerException">
-<area shape="rect" id="node1" title=" " alt="" coords="7,109,289,151"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,13,85,39"/>
-<area shape="rect" id="node3" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_server_exception_1_1_reason.html" title=" " alt="" coords="109,5,392,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,109,320,151"/>
+<area shape="rect" id="node2" title=" " alt="" coords="7,13,94,39"/>
+<area shape="rect" id="node3" href="$enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_server_exception_1_1_reason.html" title=" " alt="" coords="119,5,433,47"/>
 </map>

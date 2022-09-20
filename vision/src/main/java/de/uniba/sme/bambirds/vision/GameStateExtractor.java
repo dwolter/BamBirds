@@ -59,35 +59,39 @@ public class GameStateExtractor {
 		}
 	}
 
-	// create a game state extractor and load subimages
-	public GameStateExtractor() {
+	static {
 		try {
 			log.debug("loading images");
-			_mainmenu = ImageIO.read(getClass().getResource("/images/mainmenu.png"));
-			_episodemenu = ImageIO.read(getClass().getResource("/images/episodemenu.png"));
-			_levelselection = ImageIO.read(getClass().getResource("/images/levelselection.png"));
-			_loading = ImageIO.read(getClass().getResource("/images/loading.png"));
-			_loading2 = ImageIO.read(getClass().getResource("/images/loading2.png"));
-			_gamewon1 = ImageIO.read(getClass().getResource("/images/gamewon1.png"));
-			_gamewon2 = ImageIO.read(getClass().getResource("/images/gamewon2.png"));
-			_gamelost = ImageIO.read(getClass().getResource("/images/gamelost.png"));
-			_endGame0 = ImageIO.read(getClass().getResource("/images/0endScreen.png"));
-			_endGame1 = ImageIO.read(getClass().getResource("/images/1endScreen.png"));
-			_endGame2 = ImageIO.read(getClass().getResource("/images/2endScreen.png"));
-			_endGame3 = ImageIO.read(getClass().getResource("/images/3endScreen.png"));
-			_endGame4 = ImageIO.read(getClass().getResource("/images/4endScreen.png"));
-			_endGame5 = ImageIO.read(getClass().getResource("/images/5endScreen.png"));
-			_endGame6 = ImageIO.read(getClass().getResource("/images/6endScreen.png"));
-			_endGame7 = ImageIO.read(getClass().getResource("/images/7endScreen.png"));
-			_endGame8 = ImageIO.read(getClass().getResource("/images/8endScreen.png"));
-			_endGame9 = ImageIO.read(getClass().getResource("/images/9endScreen.png"));
+			_mainmenu = ImageIO.read(GameStateExtractor.class.getResource("/images/mainmenu.png"));
+			_episodemenu = ImageIO.read(GameStateExtractor.class.getResource("/images/episodemenu.png"));
+			_levelselection = ImageIO.read(GameStateExtractor.class.getResource("/images/levelselection.png"));
+			_loading = ImageIO.read(GameStateExtractor.class.getResource("/images/loading.png"));
+			_loading2 = ImageIO.read(GameStateExtractor.class.getResource("/images/loading2.png"));
+			_gamewon1 = ImageIO.read(GameStateExtractor.class.getResource("/images/gamewon1.png"));
+			_gamewon2 = ImageIO.read(GameStateExtractor.class.getResource("/images/gamewon2.png"));
+			_gamelost = ImageIO.read(GameStateExtractor.class.getResource("/images/gamelost.png"));
+			_endGame0 = ImageIO.read(GameStateExtractor.class.getResource("/images/0endScreen.png"));
+			_endGame1 = ImageIO.read(GameStateExtractor.class.getResource("/images/1endScreen.png"));
+			_endGame2 = ImageIO.read(GameStateExtractor.class.getResource("/images/2endScreen.png"));
+			_endGame3 = ImageIO.read(GameStateExtractor.class.getResource("/images/3endScreen.png"));
+			_endGame4 = ImageIO.read(GameStateExtractor.class.getResource("/images/4endScreen.png"));
+			_endGame5 = ImageIO.read(GameStateExtractor.class.getResource("/images/5endScreen.png"));
+			_endGame6 = ImageIO.read(GameStateExtractor.class.getResource("/images/6endScreen.png"));
+			_endGame7 = ImageIO.read(GameStateExtractor.class.getResource("/images/7endScreen.png"));
+			_endGame8 = ImageIO.read(GameStateExtractor.class.getResource("/images/8endScreen.png"));
+			_endGame9 = ImageIO.read(GameStateExtractor.class.getResource("/images/9endScreen.png"));
 		} catch (IOException e) {
 			log.error("failed to load resources",e);
 		}
 		log.debug("finished loading images");
 	}
 
-	public GameState getGameState(BufferedImage screenshot) {
+	// create a game state extractor and load subimages
+	private GameStateExtractor() {
+
+	}
+
+	public static GameState getGameState(BufferedImage screenshot) {
 
 		// pixel colour deviation threshold for valid detection
 		final int avgColourThreshold = 5;
@@ -123,7 +127,7 @@ public class GameStateExtractor {
 		return GameState.PLAYING;
 	}
 
-	public int getScoreInGame(BufferedImage screenshot) {
+	public static int getScoreInGame(BufferedImage screenshot) {
 		// crop score image
 		BufferedImage scoreImage = screenshot.getSubimage(632, 21, 200, 32);
 
@@ -181,7 +185,6 @@ public class GameStateExtractor {
 		 * null) { _debug = new ShowDebuggingImage("score", scoreImage); } else {
 		 * _debug.refresh(scoreImage); }
 		 */
-
 		return score;
 	}
 
@@ -203,7 +206,7 @@ public class GameStateExtractor {
 		return numberImage.getSubimage(number[0].x, number[0].y, number[0].width, number[0].height);
 	}
 
-	public int getScoreEndGame(BufferedImage screenshot) {
+	public static int getScoreEndGame(BufferedImage screenshot) {
 		// crop score image
 		BufferedImage scoreImage = screenshot.getSubimage(370, 265, 100, 32);
 	
@@ -281,7 +284,7 @@ public class GameStateExtractor {
 		return score;
 	}
 	
-	public int getPixelDifference(BufferedImage letter, BufferedImage template) {
+	public static int getPixelDifference(BufferedImage letter, BufferedImage template) {
 	    // resize the template image
 	    int height = letter.getHeight();
 	    int width = (int) ((double) height / template.getHeight() * template.getWidth());

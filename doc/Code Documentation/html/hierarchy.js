@@ -1,14 +1,11 @@
 var hierarchy =
 [
     [ "de.uniba.sme.bambirds.common.objects.ab.ABShape", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_shape.html", null ],
-    [ "de.uniba.sme.bambirds.common.objects.AbstractScene", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_abstract_scene.html", [
+    [ "de.uniba.sme.bambirds.common.database.AbstractScene", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_abstract_scene.html", [
       [ "de.uniba.sme.bambirds.vision.Scene", "classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_scene.html", null ]
     ] ],
     [ "de.uniba.sme.bambirds.common.objects.ab.ABType", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_type.html", null ],
     [ "de.uniba.sme.bambirds.level_selection.Action", "classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_action.html", null ],
-    [ "ActionListener", null, [
-      [ "de.uniba.sme.bambirds.common.utils.ImageSegFrame.ImagePanel", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html", null ]
-    ] ],
     [ "de.uniba.sme.bambirds.common.utils.ActionRobot", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_action_robot.html", [
       [ "de.uniba.sme.bambirds.client.ABActionRobot", "classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_a_b_action_robot.html", [
         [ "de.uniba.sme.bambirds.client.ABActionRobotJava", "classde_1_1uniba_1_1sme_1_1bambirds_1_1client_1_1_a_b_action_robot_java.html", [
@@ -23,6 +20,7 @@ var hierarchy =
       [ "de.uniba.sme.bambirds.BamBirds", "classde_1_1uniba_1_1sme_1_1bambirds_1_1_bam_birds.html", null ],
       [ "de.uniba.sme.bambirds.execution.ShotExecutor", "classde_1_1uniba_1_1sme_1_1bambirds_1_1execution_1_1_shot_executor.html", null ]
     ] ],
+    [ "de.uniba.sme.bambirds.common.gson.BamBirdsGson", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1gson_1_1_bam_birds_gson.html", null ],
     [ "de.uniba.sme.bambirds.debugging.BamBirdsShell", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_bam_birds_shell.html", null ],
     [ "de.uniba.sme.bambirds.common.utils.ByteUtil", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_byte_util.html", null ],
     [ "de.uniba.sme.bambirds.level_selection.Prediction.ClassifierType", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_prediction_1_1_classifier_type.html", null ],
@@ -35,21 +33,37 @@ var hierarchy =
     [ "de.uniba.sme.bambirds.planner.physicssimulation.physics.modification.tracking.CollisionInfo", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1modification_1_1tracking_1_1_collision_info.html", null ],
     [ "de.uniba.sme.bambirds.common.objects.ab.Colors", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_colors.html", null ],
     [ "Comparable", null, [
+      [ "de.uniba.sme.bambirds.common.objects.ExecutedNode", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_executed_node.html", null ],
+      [ "de.uniba.sme.bambirds.common.objects.ab.ABObject", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_object.html", [
+        [ "de.uniba.sme.bambirds.common.objects.ab.Slingshot", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_slingshot.html", null ],
+        [ "de.uniba.sme.bambirds.common.objects.ab.shape.Body", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_body.html", [
+          [ "de.uniba.sme.bambirds.common.objects.ab.shape.Circle", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_circle.html", null ],
+          [ "de.uniba.sme.bambirds.common.objects.ab.shape.Poly", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_poly.html", null ],
+          [ "de.uniba.sme.bambirds.common.objects.ab.shape.Rect", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_rect.html", null ]
+        ] ]
+      ] ],
       [ "de.uniba.sme.bambirds.planner.predicates.Predicate", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1predicates_1_1_predicate.html", null ]
     ] ],
     [ "java.util.Comparator", null, [
       [ "de.uniba.sme.bambirds.vision.GameStateExtractor.RectLeftOf", "classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_game_state_extractor_1_1_rect_left_of.html", null ]
     ] ],
+    [ "de.uniba.sme.bambirds.common.utils.ConfigureResponse", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_configure_response.html", null ],
     [ "de.uniba.sme.bambirds.common.objects.ab.ConnectedComponent", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_connected_component.html", null ],
     [ "de.uniba.sme.bambirds.level_selection.Decision", "classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_decision.html", null ],
-    [ "de.uniba.sme.bambirds.common.objects.DecisionTree", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_decision_tree.html", null ],
+    [ "de.uniba.sme.bambirds.common.database.DecisionTree", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_decision_tree.html", null ],
     [ "de.uniba.sme.bambirds.planner.physicssimulation.sceneunderstanding.SceneDistanceMetrics.DistanceMetric", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1sceneunderstanding_1_1_scef7df56d9d16634e61a62364d085406f5.html", null ],
+    [ "de.uniba.sme.bambirds.planner.shot.EffectCalculator", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_effect_calculator.html", null ],
+    [ "de.uniba.sme.bambirds.common.objects.ShotEffect.EffectType", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_shot_effect_1_1_effect_type.html", null ],
     [ "de.uniba.sme.bambirds.level_selection.ErrorCalculation", "classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_error_calculation.html", null ],
     [ "de.uniba.sme.bambirds.planner.physicssimulation.sceneunderstanding.EvaluationResult", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1sceneunderstanding_1_1_evaluation_result.html", null ],
     [ "de.uniba.sme.bambirds.planner.shot.ShotEvaluation.EvaluationResult", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_shot_evaluation_1_1_evaluation_result.html", null ],
     [ "Exception", null, [
+      [ "de.uniba.sme.bambirds.common.exceptions.InvalidParabolaException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_invalid_parabola_exception.html", null ],
+      [ "de.uniba.sme.bambirds.common.exceptions.MissingSlingshotException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_missing_slingshot_exception.html", null ],
+      [ "de.uniba.sme.bambirds.common.exceptions.MissingTrajectoryPointsException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_missing_trajectory_points_exception.html", null ],
       [ "de.uniba.sme.bambirds.common.exceptions.SceneInitialisationException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_scene_initialisation_exception.html", null ],
       [ "de.uniba.sme.bambirds.common.exceptions.ServerException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_server_exception.html", null ],
+      [ "de.uniba.sme.bambirds.common.exceptions.ShotRejectedByServerException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1exceptions_1_1_shot_rejected_by_server_exception.html", null ],
       [ "de.uniba.sme.bambirds.planner.physicssimulation.exceptions.ModificationException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1exceptions_1_1_modification_exception.html", null ],
       [ "de.uniba.sme.bambirds.planner.physicssimulation.exceptions.NoStableSceneException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1exceptions_1_1_no_stable_scene_exception.html", null ],
       [ "de.uniba.sme.bambirds.planner.physicssimulation.exceptions.PredicateGenerationException", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1exceptions_1_1_predicate_generation_exception.html", null ],
@@ -105,23 +119,18 @@ var hierarchy =
     ] ],
     [ "de.uniba.sme.bambirds.planner.physicssimulation.debugging.JBox2DDebugMain", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1debugging_1_1_j_box2_d_debug_main.html", null ],
     [ "de.uniba.sme.bambirds.planner.physicssimulation.debugging.JBox2DDebugNoGUIWorldTest", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1debugging_1_1_j_box2_d_debug_no_g_u_i_world_test.html", null ],
-    [ "JPanel", null, [
-      [ "de.uniba.sme.bambirds.common.utils.ImageSegFrame.ImagePanel", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html", null ]
-    ] ],
-    [ "JsonDeserializer", null, [
-      [ "de.uniba.sme.bambirds.common.gson.JsonDeserializerWithRequired< T >", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1gson_1_1_json_deserializer_with_required.html", null ]
-    ] ],
     [ "de.uniba.sme.bambirds.common.gson.JsonRequired", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1gson_1_1_json_required.html", null ],
-    [ "KeyListener", null, [
-      [ "de.uniba.sme.bambirds.common.utils.ImageSegFrame.ImagePanel", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html", null ]
-    ] ],
-    [ "de.uniba.sme.bambirds.common.objects.Level", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_level.html", null ],
+    [ "de.uniba.sme.bambirds.common.database.Level", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_level.html", null ],
     [ "prediction.simulate.Level", "classprediction_1_1simulate_1_1_level.html", null ],
     [ "de.uniba.sme.bambirds.level_selection.LevelSelection", "classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_level_selection.html", null ],
     [ "de.uniba.sme.bambirds.debugging.commands.LevelSelectionCommands", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1commands_1_1_level_selection_commands.html", null ],
     [ "de.uniba.sme.bambirds.common.database.LevelStorage", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_level_storage.html", null ],
     [ "de.uniba.sme.bambirds.common.objects.ab.LineSegment", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_line_segment.html", null ],
     [ "de.uniba.sme.bambirds.common.utils.MathUtil", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_math_util.html", null ],
+    [ "de.uniba.sme.bambirds.planner.shot.MetaShotSelection", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_meta_shot_selection.html", [
+      [ "de.uniba.sme.bambirds.planner.shot.FeedbackShotSelection", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_feedback_shot_selection.html", null ],
+      [ "de.uniba.sme.bambirds.planner.shot.ShotSelection", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_shot_selection.html", null ]
+    ] ],
     [ "de.uniba.sme.bambirds.level_selection.model.Model", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_model.html", [
       [ "de.uniba.sme.bambirds.level_selection.model.ClassifierModel", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_classifier_model.html", [
         [ "de.uniba.sme.bambirds.level_selection.model.DecisionTreeClassifierModel", "classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1model_1_1_decision_tree_classifier_model.html", null ],
@@ -137,10 +146,8 @@ var hierarchy =
     [ "de.uniba.sme.bambirds.planner.physicssimulation.sceneunderstanding.modificationtree.ModificationTree", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1sceneunderstanding_1_1mod9331b5c618ff70e2a4ed25c45125b791.html", null ],
     [ "de.uniba.sme.bambirds.planner.physicssimulation.sceneunderstanding.modificationtree.ModificationTreeNode", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1sceneunderstanding_1_1mod252ae22b24c1cf97f96f742bddf960dc.html", null ],
     [ "de.uniba.sme.bambirds.planner.physicssimulation.sceneunderstanding.propertymodification.PropertyModifier.MODIFIER_TYPE", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1sceneunderstanding_1_1prop1554e9bfd2c50c3a9b0a480b030bfd25.html", null ],
-    [ "MouseListener", null, [
-      [ "de.uniba.sme.bambirds.common.utils.ImageSegFrame.ImagePanel", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html", null ]
-    ] ],
-    [ "de.uniba.sme.bambirds.common.objects.Node", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_node.html", null ],
+    [ "sciencebirds.feature_extraction.NaiveBayes.NaiveBayes", "classsciencebirds_1_1feature__extraction_1_1_naive_bayes_1_1_naive_bayes.html", null ],
+    [ "de.uniba.sme.bambirds.common.database.Node", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_node.html", null ],
     [ "object", null, [
       [ "rebound.search.Node", "classrebound_1_1search_1_1_node.html", null ],
       [ "rebound.state.State", "classrebound_1_1state_1_1_state.html", null ]
@@ -151,6 +158,8 @@ var hierarchy =
     [ "de.uniba.sme.bambirds.common.PlanParser", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1_plan_parser.html", [
       [ "de.uniba.sme.bambirds.planner.PrologPlanParser", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1_prolog_plan_parser.html", null ]
     ] ],
+    [ "sciencebirds.polygon_operations.Intersect.Point", "classsciencebirds_1_1polygon__operations_1_1_intersect_1_1_point.html", null ],
+    [ "sciencebirds.polygon_operations.Polygon.Polygon", "classsciencebirds_1_1polygon__operations_1_1_polygon_1_1_polygon.html", null ],
     [ "de.uniba.sme.bambirds.planner.predicates.PredicateGeneratorManager", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1predicates_1_1_predicate_generator_manager.html", null ],
     [ "de.uniba.sme.bambirds.level_selection.Prediction", "classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_prediction.html", null ],
     [ "de.uniba.sme.bambirds.level_selection.PredictionTuple< T extends Number, E extends Number >", "classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_prediction_tuple.html", null ],
@@ -183,15 +192,13 @@ var hierarchy =
     ] ],
     [ "de.uniba.sme.bambirds.level_selection.Prediction.RegressorType", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_prediction_1_1_regressor_type.html", null ],
     [ "de.uniba.sme.bambirds.planner.knowledge.Relation", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1knowledge_1_1_relation.html", null ],
+    [ "de.uniba.sme.bambirds.common.utils.ConfigureResponse.RoundType", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_configure_response_1_1_round_type.html", null ],
     [ "Runnable", null, [
-      [ "de.uniba.sme.bambirds.common.utils.Connector", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_connector.html", [
-        [ "de.uniba.sme.bambirds.common.utils.PythonConnector", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_python_connector.html", null ],
-        [ "de.uniba.sme.bambirds.common.utils.SWIConnector", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_s_w_i_connector.html", null ]
-      ] ],
       [ "de.uniba.sme.bambirds.debugging.ShowSeg", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_show_seg.html", null ],
       [ "de.uniba.sme.bambirds.planner.physicssimulation.physics.Simulation", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1_simulation.html", null ]
     ] ],
     [ "de.uniba.sme.bambirds.vision.SaveScreenshots", "classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_save_screenshots.html", null ],
+    [ "de.uniba.sme.bambirds.planner.shot.SceneDifference", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_scene_difference.html", null ],
     [ "de.uniba.sme.bambirds.planner.physicssimulation.sceneunderstanding.SceneDistanceMetrics", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1sceneunderstanding_1_1_scene_distance_metrics.html", null ],
     [ "de.uniba.sme.bambirds.planner.physicssimulation.scene.entities.SceneEntity", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1entities_1_1_scene_entity.html", [
       [ "de.uniba.sme.bambirds.planner.physicssimulation.scene.entities.SceneEntityBase", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1entities_1_1_scene_entity_base.html", [
@@ -210,20 +217,19 @@ var hierarchy =
     [ "de.uniba.sme.bambirds.common.utils.SelectionAlgorithms", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_selection_algorithms.html", null ],
     [ "de.uniba.sme.bambirds.common.utils.Settings.ServerType", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_settings_1_1_server_type.html", null ],
     [ "de.uniba.sme.bambirds.common.utils.Settings", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_settings.html", null ],
+    [ "de.uniba.sme.bambirds.common.objects.ShotEffect", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_shot_effect.html", null ],
     [ "de.uniba.sme.bambirds.planner.shot.ShotEvaluation", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_shot_evaluation.html", null ],
-    [ "de.uniba.sme.bambirds.planner.shot.ShotSelection.ShotEvaluation", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_shot_selection_1_1_shot_evaluation.html", null ],
     [ "de.uniba.sme.bambirds.execution.ShotExecutor.ShotExecutorCallback", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1execution_1_1_shot_executor_1_1_shot_executor_callback.html", [
       [ "de.uniba.sme.bambirds.Meta", "classde_1_1uniba_1_1sme_1_1bambirds_1_1_meta.html", null ]
     ] ],
     [ "de.uniba.sme.bambirds.common.utils.ShotHelper", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_shot_helper.html", null ],
     [ "de.uniba.sme.bambirds.common.objects.ShotParabola", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_shot_parabola.html", null ],
     [ "de.uniba.sme.bambirds.planner.shot.ShotPlanner", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_shot_planner.html", null ],
-    [ "de.uniba.sme.bambirds.planner.shot.ShotSelection", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_shot_selection.html", null ],
     [ "de.uniba.sme.bambirds.planner.physicssimulation.physics.SimulationExecutor", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1_simulation_executor.html", null ],
     [ "de.uniba.sme.bambirds.planner.physicssimulation.physics.SimulationSettings", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1physics_1_1_simulation_settings.html", null ],
     [ "de.uniba.sme.bambirds.planner.physicssimulation.SimulationUtils", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1_simulation_utils.html", null ],
     [ "de.uniba.sme.bambirds.common.utils.SrcFileCopy", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_src_file_copy.html", null ],
-    [ "de.uniba.sme.bambirds.common.objects.Level.State", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_level_1_1_state.html", null ],
+    [ "de.uniba.sme.bambirds.common.database.Level.State", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1database_1_1_level_1_1_state.html", null ],
     [ "de.uniba.sme.bambirds.planner.physicssimulation.sceneunderstanding.utils.StepwisePropertyManipulator", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1sceneunderstanding_1_1utia88728af09e588e1153ddd9eb9e082a4.html", null ],
     [ "de.uniba.sme.bambirds.common.Strategy", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1_strategy.html", [
       [ "de.uniba.sme.bambirds.planner.PrologPlanner", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1_prolog_planner.html", null ]
@@ -237,6 +243,7 @@ var hierarchy =
     ] ],
     [ "de.uniba.sme.bambirds.common.utils.SystemUtil", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_system_util.html", null ],
     [ "de.uniba.sme.bambirds.common.objects.ThinkerType", "enumde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_thinker_type.html", null ],
+    [ "de.uniba.sme.bambirds.common.objects.Timer", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_timer.html", null ],
     [ "de.uniba.sme.bambirds.planner.shot.TrajectoryPlanner", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1shot_1_1_trajectory_planner.html", null ],
     [ "de.uniba.sme.bambirds.common.objects.Triplet< S extends Shot, P extends Plan, N extends Number >", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_triplet.html", null ],
     [ "de.uniba.sme.bambirds.debugging.Values", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_values.html", null ],
@@ -249,6 +256,10 @@ var hierarchy =
     [ "de.uniba.sme.bambirds.vision.VisionUtils", "classde_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_utils.html", null ],
     [ "de.uniba.sme.bambirds.common.utils.VisualDebugger", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_visual_debugger.html", null ],
     [ "de.uniba.sme.bambirds.planner.physicssimulation.debugging.VisualSimulationDebugger", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1debugging_1_1_visual_simulation_debugger.html", null ],
+    [ "sciencebirds.watershed.vision_watershed.Watershed", "classsciencebirds_1_1watershed_1_1vision__watershed_1_1_watershed.html", null ],
+    [ "ActionListener", null, [
+      [ "de.uniba.sme.bambirds.common.utils.ImageSegFrame.ImagePanel", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html", null ]
+    ] ],
     [ "Callable", null, [
       [ "de.uniba.sme.bambirds.planner.predicates.IPredicateGenerator", "interfacede_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1predicates_1_1_i_predicate_generator.html", [
         [ "de.uniba.sme.bambirds.planner.behind_the_corner.BehindTheCornerPredicateGenerator", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1behind__the__corner_1_1_behind_the_corner_predicate_generator.html", null ],
@@ -281,15 +292,20 @@ var hierarchy =
     [ "Future", null, [
       [ "de.uniba.sme.bambirds.common.utils.SimpleFuture< V >", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_simple_future.html", null ]
     ] ],
+    [ "JPanel", null, [
+      [ "de.uniba.sme.bambirds.common.utils.ImageSegFrame.ImagePanel", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html", null ]
+    ] ],
+    [ "JsonDeserializer", null, [
+      [ "de.uniba.sme.bambirds.common.gson.JsonDeserializerWithRequired< T >", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1gson_1_1_json_deserializer_with_required.html", null ]
+    ] ],
+    [ "KeyListener", null, [
+      [ "de.uniba.sme.bambirds.common.utils.ImageSegFrame.ImagePanel", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html", null ]
+    ] ],
+    [ "MouseListener", null, [
+      [ "de.uniba.sme.bambirds.common.utils.ImageSegFrame.ImagePanel", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1utils_1_1_image_seg_frame_1_1_image_panel.html", null ]
+    ] ],
     [ "Rectangle", null, [
-      [ "de.uniba.sme.bambirds.common.objects.ab.ABObject", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_object.html", [
-        [ "de.uniba.sme.bambirds.common.objects.ab.Slingshot", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_slingshot.html", null ],
-        [ "de.uniba.sme.bambirds.common.objects.ab.shape.Body", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_body.html", [
-          [ "de.uniba.sme.bambirds.common.objects.ab.shape.Circle", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_circle.html", null ],
-          [ "de.uniba.sme.bambirds.common.objects.ab.shape.Poly", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_poly.html", null ],
-          [ "de.uniba.sme.bambirds.common.objects.ab.shape.Rect", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1shape_1_1_rect.html", null ]
-        ] ]
-      ] ]
+      [ "de.uniba.sme.bambirds.common.objects.ab.ABObject", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1ab_1_1_a_b_object.html", null ]
     ] ],
     [ "Serializable", null, [
       [ "de.uniba.sme.bambirds.common.objects.Shot", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1objects_1_1_shot.html", null ],
@@ -324,6 +340,9 @@ var hierarchy =
     [ "TestbedTest", null, [
       [ "de.uniba.sme.bambirds.planner.physicssimulation.debugging.JBox2DDebugPlaygroundWorld_01", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1debugging_1_1_j_box2_d_debug_playground_world__01.html", null ],
       [ "de.uniba.sme.bambirds.planner.physicssimulation.debugging.JBox2DDebugTestbedWorld", "classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1debugging_1_1_j_box2_d_debug_testbed_world.html", null ]
+    ] ],
+    [ "TypeAdapter", null, [
+      [ "de.uniba.sme.bambirds.common.gson.PolygonTypeAdapter", "classde_1_1uniba_1_1sme_1_1bambirds_1_1common_1_1gson_1_1_polygon_type_adapter.html", null ]
     ] ],
     [ "WebSocketServer", null, [
       [ "de.uniba.sme.bambirds.debugging.proxy.Proxy", "classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1proxy_1_1_proxy.html", null ]

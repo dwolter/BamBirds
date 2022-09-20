@@ -25,7 +25,7 @@
 var NAVTREE =
 [
   [ "BamBirds", "index.html", [
-    [ "BamBirds", "md__c___users_haase__documents_uni__bam_birds_1_src_main_dist__r_e_a_d_m_e.html", null ],
+    [ "BamBirds", "md__home_felix__documents_uni_sme_proj_bambirds_bambirds_opensource_src_main_dist__r_e_a_d_m_e.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
@@ -42,9 +42,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"classde_1_1uniba_1_1sme_1_1bambirds_1_1level__selection_1_1_level_selection.html",
-"classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1preprocessing_1_1_custom_pre_processor.html",
-"interfacede_1_1uniba_1_1sme_1_1bambirds_1_1vision_1_1_vision_helper_1_1_h_s_v_filter.html#af0104281badc85e830a442e6ae1336df"
+"classde_1_1uniba_1_1sme_1_1bambirds_1_1debugging_1_1_parabola_tester.html#aa627b62ddd62a0e40d391781f452ead4",
+"classde_1_1uniba_1_1sme_1_1bambirds_1_1planner_1_1physicssimulation_1_1scene_1_1entities_1_1properties_1_1_red_bird_proerties.html",
+"functions_func_a.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
