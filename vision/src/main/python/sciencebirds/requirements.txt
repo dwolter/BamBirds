@@ -3,7 +3,7 @@ decorator==4.4.2
 FlattenList==0.1.4
 imageio==2.8.0
 imutils==0.5.3
-joblib==0.16.0
+joblib==1.2.0
 kiwisolver==1.2.0
 matplotlib==3.2.1
 networkx==2.4
